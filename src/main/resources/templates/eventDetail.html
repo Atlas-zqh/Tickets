@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>活动详情</title>
+
+    <link href="../static/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <link href="../static/css/fixed-footer.css" type="text/css" rel="stylesheet">
+
+    <script src="../static/js/html5shiv.min.js"></script>
+    <script src="../static/js/respond.min.js"></script>
+
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">Tickets</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <!--<li><a href="#">首页</span></a></li>-->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">地区<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="events.html">全国</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="events.html">南京</a></li>
+                        <li><a href="events.html">杭州</a></li>
+                        <li><a href="events.html">上海</a></li>
+                        <li><a href="events.html">广州</a></li>
+                        <li><a href="events.html">成都</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="events.html">其他</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">我的 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">登录</a></li>
+                        <li><a href="#">个人简介</a></li>
+                        <li><a href="#">我的票夹</a></li>
+                        <li><a href="#">我的订单</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">注销</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="margin-top: 3%">
+    <div class="row">
+        <div class="col-xs-4 col-sm-4">
+            <img src="../static/img/0204979cd6aee12.jpg" class="img-rounded img-responsive">
+        </div>
+        <div class="col-xs-8 col-sm-8">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <h2 class="col-sm-12">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h2>
+                </div>
+                <div style="margin-top: 5%">
+                    <div class="form-group">
+                        <label class="col-sm-2" style="font-size: larger">开始时间</label>
+                        <div class="col-sm-10">
+                            <p style="font-size: larger">03月17日 周六 19:30</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2" style="font-size: larger">结束时间</label>
+                        <div class="col-sm-10">
+                            <p style="font-size: larger">03月17日 周六 22:00</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2" style="font-size: larger">地址</label>
+                        <div class="col-sm-10">
+                            <p style="font-size: larger">南京 南京太阳宫 江苏省南京市太平门阳光路3号</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2" style="font-size: larger">类型</label>
+                        <div class="col-sm-10">
+                            <p style="font-size: larger">演唱会</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2" style="font-size: larger">活动状态</label>
+                        <div class="col-sm-10">
+                            <p style="font-size: larger">有座</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-left:0;margin-top: 8%">
+                        <button type="button" class="btn btn-info">购票</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div style="font-size: larger;padding-top: 4%;">
+        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true" style="color: #116e8a"></span>
+        <span class="active" style="color: #349dbd">活动须知</span>
+    </div>
+
+    <div style="margin-top: 2%;margin-right: 5%;font-size: initial">
+        购买须知：预售票：该项目目前为预售状态；预售票品最终数量视主办方及场馆情况而定，正式开票后商家将根据用户付款先后顺序依次配票。 入场时间：演出前30-60分钟<br>
+        限购：每单限购6张 儿童入场提示：1.2米以下儿童谢绝入场（儿童项目除外），1.2米以上儿童需持票入场。 禁止携带物品：食品、饮料、相机、充电宝、打火机等
+    </div>
+</div>
+
+<div class="container" style="padding-bottom: 0.5%">
+    <div style="font-size: larger;padding-top: 4%;">
+        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true" style="color: #116e8a"></span>
+        <span class="active" style="color: #349dbd">活动详情</span>
+    </div>
+
+    <div style="margin-top: 2%;margin-right: 5%;font-size: initial">
+        她是一个很普通的女孩<br>
+        也是一个独具个性和音乐辨识度的歌手<br>
+        她做起歌来感觉总比别人慢半拍<br>
+        但每首歌曲都能让人听见自己内心的声音<br>
+        老狼曾夸赞她是“精灵般唱将”<br>
+        虽然个子小巧<br>
+        却总能在舞台爆发出非凡的音乐力量<br>
+        她，就是热爱山川大海和音乐<br>
+        简单而真挚的实力创作歌手——徐佳莹<br>
+        <br>
+        3月17日 19：30<br>
+        【南京太阳宫】<br>
+        听精灵唱将拉拉<br>
+        为你演唱内心的声音<br>
+        <br>
+        艺人简介<br>
+        2008年，徐佳莹在第三届《超级星光大道》获得冠军名次，从而正式踏入歌坛。<br>
+        这个节目使得她的原创歌曲《身骑白马》在两岸走红。那时候，内陆沿海的长江三角地区，街头巷尾的店铺都用音响循环着这个台北女孩的“我身骑白马走三关，我改换素衣回中原”。<br>
+        但却鲜少有人知道，这个台北女孩到底是谁，又长什么模样。<br>
+        <br>
+        直到2016年，她被邀请至《我是歌手》的舞台，凭借自己的另一首原创歌曲《失落沙洲》夺得淘汰赛的第一名，人们才知道：原来这个好像始终憋着一股劲儿的女孩，就是那个《身骑白马》的徐佳莹。<br>
+        徐佳莹的真性情不仅展现在她的歌曲和综艺节目中，在自己演唱会上更是发挥的淋漓尽致。她时常在演唱会上做出一些自己都未曾预想过举动，比如演唱歌曲时，为了表达情绪泄洪而爆发出的嘶吼；还有和台下粉丝突然的互动。她说：来到我的演唱会，感觉就是自己人。<br>
+        <br>
+        因为是自己人，所以想要把最真、最好的徐佳莹呈现给你们。<br>
+        <br>
+        3月17日 19：30<br>
+        【南京太阳宫】<br>
+        去做徐佳莹的自己人<br>
+    </div>
+</div>
+
+<footer class="panel-footer">
+    <div class="container" style="text-align: center">
+        © 2018 | Created by <a href="https://atlas-zqh.github.io/">Keenan</a>. All rights reserved. | Content by <a href="http://www.douban.com/location/">豆瓣同城</a>
+    </div>
+</footer>
+</body>
+</html>
