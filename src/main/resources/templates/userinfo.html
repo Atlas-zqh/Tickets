@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>个人资料</title>
+
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/fixed-footer.css" type="text/css" rel="stylesheet">
+    <link href="../static/css/text-hidden.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/owl.carousel.css">
+    <link rel="stylesheet" href="../static/css/owl.theme.default.css">
+
+    <script src="../static/js/html5shiv.min.js"></script>
+    <script src="../static/js/respond.min.js"></script>
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/owl.carousel.js"></script>
+
+    <!-- echarts -->
+    <script src="../static/js/echarts.min.js"></script>
+    <script src="../static/js/macarons.js"></script>
+
+    <style>
+        .owl-nav .owl-prev {
+            float: left;
+            /*margin-right: 80%;*/
+            color: #379ebe;
+        }
+
+        .owl-nav .owl-next {
+            float: right;
+            /*margin-left: 80%;*/
+            color: #379ebe;
+        }
+    </style>
+
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">Tickets</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <!--<li><a href="#">首页</span></a></li>-->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">地区<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="events.html">全国</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="events.html">南京</a></li>
+                        <li><a href="events.html">杭州</a></li>
+                        <li><a href="events.html">上海</a></li>
+                        <li><a href="events.html">广州</a></li>
+                        <li><a href="events.html">成都</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="events.html">其他</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">我的 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="login.html">登录</a></li>
+                        <li><a href="signUp.html">注册</a></li>
+                        <li><a href="userinfo.html">个人简介</a></li>
+                        <li><a href="coupons.html">我的票夹</a></li>
+                        <li><a href="orders.html">我的订单</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">注销</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div style="font-size: larger;padding-top: 2%">
+        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true" style="color: #116e8a"></span>
+        <span class="active" style="color: #349dbd">我的资料</span>
+    </div>
+
+    <div class="row" style="padding-top: 1%">
+        <div class="col-sm-3">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">账户名</label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">ISLAND</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">邮箱验证</label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">已完成&nbsp&nbsp<i class="glyphicon glyphicon-ok"
+                                                                       style="color: green"></i></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-sm-3">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">邮箱</label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">ISLAND@tickets.com</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">账户状态</label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">停用&nbsp&nbsp<i class="glyphicon glyphicon-remove"
+                                                                      style="color: darkred"></i></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-3">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">积分</label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">5000&nbsp&nbsp&nbsp&nbsp<a href="#"
+                                                                                  style="font-size: small">兑换</a></p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">密码</label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">********&nbsp&nbsp<i style="cursor: pointer"
+                                                                            class="glyphicon glyphicon-wrench"
+                                                                            data-toggle="modal"
+                                                                            data-target="#modifyPassModal"></i></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-3">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">会员等级</label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static"><span class="label label-success">LV 1</span></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modifyPassModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+            </div>
+            <div class="modal-body">
+                <form style="margin-left: 20%;margin-right: 20%">
+                    <div class="form-group">
+                        <label for="inputOldPassword">旧密码</label>
+                        <input type="password" class="form-control" id="inputOldPassword" placeholder="请输入旧密码">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputNewPassword">新密码</label>
+                        <input type="password" class="form-control" id="inputNewPassword" placeholder="请输入新密码">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmNewPassword">确认新密码</label>
+                        <input type="password" class="form-control" id="confirmNewPassword" placeholder="请再输入一次新密码">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-info">确认修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div style="font-size: larger;padding-top: 2%">
+        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true" style="color: #116e8a"></span>
+        <span class="active" style="color: #349dbd">我的近期活动</span>
+    </div>
+
+    <div class="alert alert-info fade in" style="margin-top: 1%">
+        <a href="#" class="close" data-dismiss="alert">
+            &times;
+        </a>
+        <h4>今日活动提醒</h4>
+        您预定的活动&nbsp<strong>周杰伦演唱会</strong>&nbsp将于今日&nbsp<strong>19:30</strong>&nbsp开始，不要忘了哦！
+    </div>
+
+    <div class="owl-carousel" style="margin-top: 1%">
+        <div>
+            <a href="eventDetail.html" class="thumbnail">
+                <img src="../static/img/5e452a62c87cf9d.jpg">
+                <div class="caption">
+                    <h5 class="text-hidden" title="邱比Chiu Pi 上下一方 巡回演唱会 南京站">邱比Chiu Pi 上下一方 巡回演唱会 南京站</h5>
+                    <p style="font-size: x-small">03月23日 周五 20:30-20:30</p>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a href="eventDetail.html" class="thumbnail">
+                <img src="../static/img/0204979cd6aee12.jpg">
+                <div class="caption">
+                    <h5 class="text-hidden" title="2018咪咕音乐现场南京站徐佳莹心里学音乐会">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h5>
+                    <p style="font-size: x-small">03月17日 周六 19:30-19:30</p>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a href="eventDetail.html" class="thumbnail">
+                <img src="../static/img/f2f20ad195dc812.jpg">
+                <div class="caption">
+                    <h5 class="text-hidden" title="2018好妹妹“自在如风”全国巡回演唱会南京站">2018好妹妹“自在如风”全国巡回演唱会南京站</h5>
+                    <p style="font-size: x-small">05月01日 周二 19:30-21:30</p>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a href="eventDetail.html" class="thumbnail">
+                <img src="../static/img/c2f702e70f7afd9.jpg">
+                <div class="caption">
+                    <h5 class="text-hidden" title="何炅主演-话剧《水中之书》">何炅主演-话剧《水中之书》</h5>
+                    <p style="font-size: x-small">05月18日 周五 19:30-19:30</p>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a href="eventDetail.html" class="thumbnail">
+                <img src="../static/img/f2ed2921705262c.jpg">
+                <div class="caption">
+                    <h5 class="text-hidden" title="喜剧《蒋公的面子》 江苏省演艺集团2018春季演出季">喜剧《蒋公的面子》 江苏省演艺集团2018春季演出季</h5>
+                    <p style="font-size: x-small">03月23日 周五 19:30-21:30</p>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a href="eventDetail.html" class="thumbnail">
+                <img src="../static/img/f2ed2921705262c.jpg">
+                <div class="caption">
+                    <h5 class="text-hidden" title="喜剧《蒋公的面子》 江苏省演艺集团2018春季演出季">喜剧《蒋公的面子》 江苏省演艺集团2018春季演出季</h5>
+                    <p style="font-size: x-small">03月23日 周五 19:30-21:30</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".owl-carousel").owlCarousel(
+            {
+                loop: true,
+                margin: 10,
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                        nav: true
+                    },
+                    600: {
+                        items: 3,
+                        nav: false
+                    },
+                    1000: {
+                        items: 5,
+                        nav: true,
+                        rewind: true
+                    }
+                }
+            }
+        );
+    });
+</script>
+
+
+<div class="container">
+    <div style="font-size: larger;padding-top: 2%">
+        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true" style="color: #116e8a"></span>
+        <span class="active" style="color: #349dbd">我的财务信息</span>
+    </div>
+</div>
+
+<footer class="panel-footer">
+    <div class="container" style="text-align: center">
+        © 2018 | Created by <a href="https://atlas-zqh.github.io/">Keenan</a>. All rights reserved. | Content by <a
+            href="http://www.douban.com/location/">豆瓣同城</a>
+    </div>
+</footer>
+</body>
+
+</html>

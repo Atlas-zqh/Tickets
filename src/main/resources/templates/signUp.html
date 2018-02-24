@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>登录</title>
+    <title>注册</title>
 
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
     <link href="../static/css/fixed-footer.css" type="text/css" rel="stylesheet">
@@ -68,33 +68,50 @@
 </nav>
 
 <div class="container" style="text-align: center;">
-    <div style="padding-top: 6%">
-        <h1>Tickets<br><small>登录您的账户来快速订票</small></h1>
-        <div style="margin-left: 30%;margin-right: 30%;padding-top: 3%">
+    <div style="padding-top: 2%">
+        <h1>Tickets<br><small>快速注册新账户</small></h1>
+        <div style="margin-left: 30%;margin-right: 30%;padding-top: 2%">
             <form>
                 <div class="form-group">
                     <label for="inputEmail">Email</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <label for="inputPassword">密码</label>
-                    <input type="password" class="form-control" id="inputPassword" placeholder="密码">
+                    <input type="email" class="form-control" id="inputEmail" placeholder="请设置Email">
                 </div>
 
-                <div class="checkbox" style="padding-top: 2%">
-                    <label>
-                        <input type="checkbox">记住我
+                <div class="form-group">
+                    <label for="inputUsername">账户名</label>
+                    <input type="text" class="form-control" id="inputUsername" placeholder="请设置账户名">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputPassword">密码</label>
+                    <input type="password" class="form-control" id="inputPassword" placeholder="请设置密码">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">确认密码</label>
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="请再次输入密码">
+                </div>
+
+                <div class="form-group">
+                    <label>用户类型</label>
+                    <br>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">普通用户
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">场馆
                     </label>
                 </div>
-                <button type="submit" class="btn btn-info" style="margin-top: 5%">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp登录&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
+
+                <button type="submit" class="btn btn-info" style="margin-top: 5%">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp注册&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
             </form>
         </div>
 
         <div style="margin-left: 20%;margin-right: 20%;padding-top: 2%">
             <hr color="#5bc0de">
 
-            <h4 style="margin-top: 6%">还没有账户？<br><small>点击下面的按钮快速注册</small></h4>
-            <a role="button" class="btn btn-default" style="margin-top: 2%" href="signUp.html">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp前往注册&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
+            <h4 style="margin-top: 6%">已有账户？<br><small>点击下面的按钮进行登录</small></h4>
+            <a role="button" class="btn btn-default" style="margin-top: 2%" href="login.html">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp前往登录&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
 
             <hr style="margin-top: 6%">
         </div>
