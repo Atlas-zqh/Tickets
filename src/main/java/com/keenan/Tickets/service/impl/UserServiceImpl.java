@@ -9,6 +9,8 @@ import com.keenan.Tickets.util.MailUtil;
 import com.keenan.Tickets.util.ResultMessage;
 import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import sun.security.provider.MD5;
 
 import java.util.ArrayList;
@@ -67,5 +69,16 @@ public class UserServiceImpl implements UserService {
             return new ResultMessage(ResultMessage.SUCCESS, "验证成功");
         }
         return new ResultMessage(ResultMessage.ERROR, "验证失败");
+    }
+
+    @Override
+    public User getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth != null) {
+            return (User) auth.getPrincipal();
+        } else {
+            return null;
+        }
     }
 }

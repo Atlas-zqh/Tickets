@@ -2,25 +2,26 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>个人资料</title>
 
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../static/css/fixed-footer.css" type="text/css" rel="stylesheet">
-    <link href="../static/css/text-hidden.css" type="text/css" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/owl.carousel.css">
-    <link rel="stylesheet" href="../static/css/owl.theme.default.css">
+    <link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>
+    <link th:href="@{~/css/text-hidden.css}" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{~/css/owl.carousel.css}"/>
+    <link rel="stylesheet" th:href="@{~/css/owl.theme.default.css}"/>
 
-    <script src="../static/js/html5shiv.min.js"></script>
-    <script src="../static/js/respond.min.js"></script>
-    <script src="../static/js/jquery.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
-    <script src="../static/js/owl.carousel.js"></script>
+    <script th:src="@{~/js/html5shiv.min.js}"></script>
+    <script th:src="@{~/js/respond.min.js}"></script>
+    <script th:src="@{~/js/jquery.js}"></script>
+    <script th:src="@{~/js/bootstrap.min.js}"></script>
+    <script th:src="@{~/js/owl.carousel.js}"></script>
 
     <!-- echarts -->
-    <script src="../static/js/echarts.min.js"></script>
-    <script src="../static/js/macarons.js"></script>
+    <script th:src="@{~/js/echarts.min.js}"></script>
+    <script th:src="@{~/js/macarons.js}"></script>
+
 
     <style>
         .owl-nav .owl-prev {

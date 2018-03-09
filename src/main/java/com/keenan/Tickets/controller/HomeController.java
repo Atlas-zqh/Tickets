@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
     @RequestMapping("/")
     public String index(Model model) {
-        Msg msg = new Msg("标题", "内容", "1111");
-        model.addAttribute("msg", msg);
         return "index";
     }
 

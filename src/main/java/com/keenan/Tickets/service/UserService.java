@@ -12,4 +12,6 @@ public interface UserService {
     ResultMessage signUp(String username, String password, String email);
 
     ResultMessage checkMail(String email, String code);
+
+    User getCurrentUser();
 }

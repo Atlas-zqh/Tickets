@@ -2,17 +2,17 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>登录</title>
 
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../static/css/fixed-footer.css" type="text/css" rel="stylesheet">
+    <link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>
 
-    <script src="../static/js/html5shiv.min.js"></script>
-    <script src="../static/js/respond.min.js"></script>
-    <script src="../static/js/jquery.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
+    <script th:src="@{~/js/html5shiv.min.js}"></script>
+    <script th:src="@{~/js/respond.min.js}"></script>
+    <script th:src="@{~/js/jquery.js}"></script>
+    <script th:src="@{~/js/bootstrap.min.js}"></script>
 
 </head>
 <body>
@@ -69,34 +69,34 @@
 
 <div class="container" style="text-align: center;">
     <div style="padding-top: 6%">
-        <h1>Tickets<br><small>登录您的账户来快速订票</small></h1>
+        <h1>Tickets<br></br><small>登录您的账户来快速订票</small></h1>
         <div style="margin-left: 30%;margin-right: 30%;padding-top: 3%">
             <form>
                 <div class="form-group">
                     <label for="inputEmail">Email</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                    <input type="email" class="form-control" id="inputEmail" placeholder="Email"/>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword">密码</label>
-                    <input type="password" class="form-control" id="inputPassword" placeholder="密码">
+                    <input type="password" class="form-control" id="inputPassword" placeholder="密码"/>
                 </div>
 
                 <div class="checkbox" style="padding-top: 2%">
                     <label>
-                        <input type="checkbox">记住我
+                        <input type="checkbox"/>记住我
                     </label>
                 </div>
-                <button type="submit" class="btn btn-info" style="margin-top: 5%">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp登录&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
+                <button type="submit" class="btn btn-info" style="margin-top: 5%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;登录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
             </form>
         </div>
 
         <div style="margin-left: 20%;margin-right: 20%;padding-top: 2%">
-            <hr color="#5bc0de">
+            <hr color="#5bc0de"/>
 
-            <h4 style="margin-top: 6%">还没有账户？<br><small>点击下面的按钮快速注册</small></h4>
-            <a role="button" class="btn btn-default" style="margin-top: 2%" href="signUp.html">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp前往注册&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
+            <h4 style="margin-top: 6%">还没有账户？<br></br><small>点击下面的按钮快速注册</small></h4>
+            <a role="button" class="btn btn-default" style="margin-top: 2%" href="signUp.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前往注册&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 
-            <hr style="margin-top: 6%">
+            <hr style="margin-top: 6%"/>
         </div>
     </div>
 </div>
@@ -106,7 +106,6 @@
         © 2018 | Created by <a href="https://atlas-zqh.github.io/">Keenan</a>. All rights reserved. | Content by <a href="http://www.douban.com/location/">豆瓣同城</a>
     </div>
 </footer>
-</body>
 
 </body>
 </html>
