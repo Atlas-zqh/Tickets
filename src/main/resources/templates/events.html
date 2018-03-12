@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>活动信息</title>
@@ -12,7 +12,7 @@
     <link th:href="@{~/css/bootstrap-datetimepicker.min.css}" type="text/css" rel="stylesheet"/>
 
     <link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>
-    <link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>
+    <link href="../static/css/fixed-footer.css" th:href="@{css/fixed-footer.css}" type="text/css" rel="stylesheet"/>
 
     <script th:src="@{~/js/html5shiv.min.js}"></script>
     <script th:src="@{~/js/respond.min.js}"></script>
@@ -31,57 +31,7 @@
     <script th:src="@{~/js/bootstrap-datetimepicker.zh-CN.js}"></script>
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand">Tickets</a>
-        </div>
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <!--<li><a href="#">首页</span></a></li>-->
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">地区<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="events.html">全国</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="events.html">南京</a></li>
-                        <li><a href="events.html">杭州</a></li>
-                        <li><a href="events.html">上海</a></li>
-                        <li><a href="events.html">广州</a></li>
-                        <li><a href="events.html">成都</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="events.html">其他</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">我的 <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="login.html">登录</a></li>
-                        <li><a href="signUp.html">注册</a></li>
-                        <li><a href="userinfo.html">个人信息</a></li>
-                        <li><a href="coupons.html">我的优惠</a></li>
-                        <li><a href="orders.html">我的订单</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">注销</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
+<div th:replace="common/nav :: nav"></div>
 
 <div class="container">
     <div class="jumbotron">
@@ -121,11 +71,13 @@
         </div>
 
         <div class="form-inline" style="float: right;margin-right: 2%">
-            <input class="form-control" id="start_date" size="16" type="text" value="" readonly placeholder="开始日期"
-                   style="background-color: white;">
-            <span>&nbsp~&nbsp</span>
-            <input class="form-control" id="end_date" size="16" type="text" value="" readonly placeholder="结束日期"
-                   style="background-color: white;">
+            <input class="form-control" id="start_date" size="16" type="text" value="" readonly="readonly"
+                   placeholder="开始日期"
+                   style="background-color: white;"/>
+            <span>&nbsp;~&nbsp;</span>
+            <input class="form-control" id="end_date" size="16" type="text" value="" readonly="readonly"
+                   placeholder="结束日期"
+                   style="background-color: white;"/>
         </div>
     </div>
 </div>
@@ -169,7 +121,7 @@
     <div class="row">
         <div class="col-xs-3 col-sm-2">
             <a href="eventDetail.html" class="thumbnail">
-                <img src="../static/img/5e452a62c87cf9d.jpg">
+                <img th:src="@{/img/5e452a62c87cf9d.jpg}"/>
                 <div class="caption">
                     <h5 class="text-hidden" title="邱比Chiu Pi 上下一方 巡回演唱会 南京站">邱比Chiu Pi 上下一方 巡回演唱会 南京站</h5>
                     <p style="font-size: x-small">03月23日 周五 20:30-20:30</p>
@@ -178,7 +130,7 @@
         </div>
         <div class="col-xs-3 col-sm-2">
             <a href="eventDetail.html" class="thumbnail">
-                <img src="../static/img/0204979cd6aee12.jpg">
+                <img th:src="@{/img/0204979cd6aee12.jpg}"/>
                 <div class="caption">
                     <h5 class="text-hidden" title="2018咪咕音乐现场南京站徐佳莹心里学音乐会">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h5>
                     <p style="font-size: x-small">03月17日 周六 19:30-19:30</p>
@@ -187,7 +139,7 @@
         </div>
         <div class="col-xs-3 col-sm-2">
             <a href="eventDetail.html" class="thumbnail">
-                <img src="../static/img/f2f20ad195dc812.jpg">
+                <img th:src="@{/img/f2f20ad195dc812.jpg}"/>
                 <div class="caption">
                     <h5 class="text-hidden" title="2018好妹妹“自在如风”全国巡回演唱会南京站">2018好妹妹“自在如风”全国巡回演唱会南京站</h5>
                     <p style="font-size: x-small">05月01日 周二 19:30-21:30</p>
@@ -196,7 +148,7 @@
         </div>
         <div class="col-xs-3 col-sm-2">
             <a href="eventDetail.html" class="thumbnail">
-                <img src="../static/img/c2f702e70f7afd9.jpg">
+                <img th:src="@{/img/c2f702e70f7afd9.jpg}"/>
                 <div class="caption">
                     <h5 class="text-hidden" title="何炅主演-话剧《水中之书》">何炅主演-话剧《水中之书》</h5>
                     <p style="font-size: x-small">05月18日 周五 19:30-19:30</p>
@@ -205,7 +157,7 @@
         </div>
         <div class="col-xs-3 col-sm-2">
             <a href="eventDetail.html" class="thumbnail">
-                <img src="../static/img/f2ed2921705262c.jpg">
+                <img th:src="@{/img/f2ed2921705262c.jpg}"/>
                 <div class="caption">
                     <h5 class="text-hidden" title="喜剧《蒋公的面子》 江苏省演艺集团2018春季演出季">喜剧《蒋公的面子》 江苏省演艺集团2018春季演出季</h5>
                     <p style="font-size: x-small">03月23日 周五 19:30-21:30</p>
@@ -214,7 +166,7 @@
         </div>
         <div class="col-xs-3 col-sm-2">
             <a href="eventDetail.html" class="thumbnail">
-                <img src="../static/img/f2f20ad195dc812.jpg">
+                <img th:src="@{/img/f2f20ad195dc812.jpg}"/>
                 <div class="caption">
                     <h5 class="text-hidden" title="2018好妹妹“自在如风”全国巡回演唱会南京站">2018好妹妹“自在如风”全国巡回演唱会南京站</h5>
                     <p style="font-size: x-small">05月01日 周二 19:30-21:30</p>
@@ -223,7 +175,7 @@
         </div>
         <div class="col-xs-3 col-sm-2">
             <a href="eventDetail.html" class="thumbnail">
-                <img src="../static/img/c2f702e70f7afd9.jpg">
+                <img th:src="@{/img/c2f702e70f7afd9.jpg}"/>
                 <div class="caption">
                     <h5 class="text-hidden" title="何炅主演-话剧《水中之书》">何炅主演-话剧《水中之书》</h5>
                     <p style="font-size: x-small">05月18日 周五 19:30-19:30</p>
@@ -232,7 +184,7 @@
         </div>
         <div class="col-xs-3 col-sm-2">
             <a href="eventDetail.html" class="thumbnail">
-                <img src="../static/img/f2ed2921705262c.jpg">
+                <img th:src="@{/img/f2ed2921705262c.jpg}"/>
                 <div class="caption">
                     <h5 class="text-hidden" title="喜剧《蒋公的面子》 江苏省演艺集团2018春季演出季">喜剧《蒋公的面子》 江苏省演艺集团2018春季演出季</h5>
                     <p style="font-size: x-small">03月23日 周五 19:30-21:30</p>
@@ -266,8 +218,7 @@
 
 <footer class="panel-footer">
     <div class="container" style="text-align: center">
-        © 2018 | Created by <a href="https://atlas-zqh.github.io/">Keenan</a>. All rights reserved. | Content by <a
-            href="http://www.douban.com/location/">豆瓣同城</a>
+        © 2018 | Created by <a href="https://atlas-zqh.github.io/">Keenan</a>. All rights reserved. | Content by <a href="http://www.douban.com/location/">豆瓣同城</a>
     </div>
 </footer>
 </body>

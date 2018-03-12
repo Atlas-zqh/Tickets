@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>登录</title>
 
-    <link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{~/css/bootstrap.min.css}" type="text/css" rel="stylesheet"/>
     <link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>
 
     <script th:src="@{~/js/html5shiv.min.js}"></script>
@@ -16,60 +16,13 @@
 
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand">Tickets</a>
-        </div>
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <!--<li><a href="#">首页</span></a></li>-->
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">地区<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="events.html">全国</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="events.html">南京</a></li>
-                        <li><a href="events.html">杭州</a></li>
-                        <li><a href="events.html">上海</a></li>
-                        <li><a href="events.html">广州</a></li>
-                        <li><a href="events.html">成都</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="events.html">其他</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">我的 <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="login.html">登录</a></li>
-                        <li><a href="signUp.html">注册</a> </li>
-                        <li><a href="userinfo.html">个人信息</a></li>
-                        <li><a href="coupons.html">我的优惠</a></li>
-                        <li><a href="orders.html">我的订单</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">注销</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div th:replace="common/nav :: nav"></div>
 
 <div class="container" style="text-align: center;">
     <div style="padding-top: 6%">
-        <h1>Tickets<br></br><small>登录您的账户来快速订票</small></h1>
+        <h1>Tickets<br></br>
+            <small>登录您的账户来快速订票</small>
+        </h1>
         <div style="margin-left: 30%;margin-right: 30%;padding-top: 3%">
             <form>
                 <div class="form-group">
@@ -93,7 +46,9 @@
         <div style="margin-left: 20%;margin-right: 20%;padding-top: 2%">
             <hr color="#5bc0de"/>
 
-            <h4 style="margin-top: 6%">还没有账户？<br></br><small>点击下面的按钮快速注册</small></h4>
+            <h4 style="margin-top: 6%">还没有账户？<br></br>
+                <small>点击下面的按钮快速注册</small>
+            </h4>
             <a role="button" class="btn btn-default" style="margin-top: 2%" href="signUp.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前往注册&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 
             <hr style="margin-top: 6%"/>
@@ -103,9 +58,9 @@
 
 <footer class="panel-footer">
     <div class="container" style="text-align: center">
-        © 2018 | Created by <a href="https://atlas-zqh.github.io/">Keenan</a>. All rights reserved. | Content by <a href="http://www.douban.com/location/">豆瓣同城</a>
+        © 2018 | Created by <a href="https://atlas-zqh.github.io/">Keenan</a>. All rights reserved. | Content by <a
+            href="http://www.douban.com/location/">豆瓣同城</a>
     </div>
 </footer>
-
 </body>
 </html>

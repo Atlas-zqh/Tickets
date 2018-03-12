@@ -1,10 +1,363 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>选座购买</title>
+
+    <!--<link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>-->
+    <!--<link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>-->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/fixed-footer.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/jquery.seat-charts.css" rel="stylesheet" type="text/css"/>
+    <!--<script th:src="@{~/js/html5shiv.min.js}"></script>-->
+    <!--<script th:src="@{~/js/respond.min.js}"></script>-->
+    <!--<script th:src="@{~/js/jquery.js}"></script>-->
+    <!--<script th:src="@{~/js/bootstrap.min.js}"></script>-->
+    <script src="../static/js/html5shiv.min.js"></script>
+    <script src="../static/js/respond.min.js"></script>
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/jquery.spinner.min.js"></script>
+    <script src="../static/js/jquery.seat-charts.min.js"></script>
 </head>
+
 <body>
 
+<!--<div th:replace="common/nav :: nav"></div>-->
+<nav th:fragment="nav" class="navbar navbar-default">
+    <div class="container-fluid container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">Tickets</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <!--<li><a href="#">首页</span></a></li>-->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">地区<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{events.html}">全国</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a th:href="@{events.html}">南京</a></li>
+                        <li><a th:href="@{events.html}">杭州</a></li>
+                        <li><a th:href="@{events.html}">上海</a></li>
+                        <li><a th:href="@{events.html}">广州</a></li>
+                        <li><a th:href="@{events.html}">成都</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a th:href="@{events.html}">其他</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">我的 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{events.html}">登录</a></li>
+                        <li><a th:href="@{events.html}">注册</a></li>
+                        <li><a th:href="@{events.html}">个人信息</a></li>
+                        <li><a th:href="@{events.html}">我的优惠</a></li>
+                        <li><a th:href="@{events.html}">我的订单</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">注销</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="text-align: center">
+    <div style="padding-top: 6%">
+        <h1>Tickets<br/>
+            <small>选座购买</small>
+        </h1>
+
+        <div style="margin-left: 20%;margin-right: 20%;padding-top: 2%">
+            <hr color="#5bc0de"/>
+
+            <h3 style="margin-top: 6%">2018咪咕音乐现场南京站徐佳莹心里学音乐会<br/>
+                <small>2018-03-17 南京太阳宫</small>
+            </h3>
+
+            <br/>
+
+            <div>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active" style="width: 50%"><a href="#chooseSeats"
+                                                                                 aria-controls="chooseSeats" role="tab"
+                                                                                 data-toggle="tab">选座购买</a></li>
+                    <li role="presentation" style="width: 50%"><a href="#allocateSeats" aria-controls="allocateSeats"
+                                                                  role="tab" data-toggle="tab">立即购买</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <!-- 选座 -->
+                    <div role="tabpanel" class="tab-pane active" id="chooseSeats">
+                        <form style="margin-left: 12%;margin-right: 12%;margin-top: 5%" class="form-horizontal">
+                            <div class="form-group">
+                                <label>座位购买须知</label>
+                                <br/>
+                                <div style="text-align: left">
+                                    <p>每单限购票6张，且只允许购买同价票，购票后请在15分钟内付款，否则将取消您的选座</p>
+                                    <p>购票后不能单独修改座位，可在「我的订单」中申请退款重新进行选座</p>
+                                </div>
+                            </div>
+
+                            <!-- Button trigger modal -->
+
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="seat-chart" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                                            <!--<span aria-hidden="true">&times;</span></button>-->
+                                            <h4 class="modal-title" id="myModalLabel">座位表 - 票价288元</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div id="seat-map" style="margin-left: 120px;margin-top: 20px"></div>
+                                            <div id="legend-container"
+                                                 style="margin-left: 220px;margin-right: 220px"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="confirmChosenButton" type="button" class="btn btn-primary">确认
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>座位价格</label>
+                                <br/>
+
+                                <div class="btn-group" data-toggle="buttons">
+                                    <label class="btn btn-default" data-toggle="modal" data-target="#seat-chart">
+                                        <input type="radio" name="chosenSeatsPrice" id="chosenSeatsPrice1"
+                                               autocomplete="off" value="188"/>188
+                                    </label>
+                                    <label class="btn btn-default" data-toggle="modal" data-target="#seat-chart">
+                                        <input type="radio" name="chosenSeatsPrice" id="chosenSeatsPrice2"
+                                               autocomplete="off" value="288"/>288
+                                    </label>
+                                    <label class="btn btn-default" data-toggle="modal"
+                                           data-target="#seat-chart">
+                                        <input type="radio" name="chosenSeatsPrice" id="chosenSeatsPrice3"
+                                               autocomplete="off" value="488"/>488
+                                    </label>
+                                    <label class="btn btn-default" data-toggle="modal" data-target="#seat-chart">
+                                        <input type="radio" name="chosenSeatsPrice" id="chosenSeatsPrice4"
+                                               autocomplete="off" value="888"/>888
+                                    </label>
+                                    <label class="btn btn-default" data-toggle="modal"
+                                           data-target="#seat-chart">
+                                        <input type="radio" name="chosenSeatsPrice" id="chosenSeatsPrice5"
+                                               autocomplete="off" value="1288"/>1288
+                                    </label>
+
+
+                                </div>
+                            </div>
+
+                            <br/>
+
+                            <div class="form-group">
+                                <label>已选座位</label>
+                                <div id="chosenSeats"></div>
+                            </div>
+
+                            <div class="form-group" style="font-size: larger">
+                                <label>当前总价: </label>
+                                ¥ <span id="chosenTotal">0</span>
+                            </div>
+
+                            <a role="button" class="btn btn-success" style="margin-top: 2%">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp确认选座&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
+                        </form>
+
+
+                        <script type="text/javascript">
+                            var chosenCount = 0;
+                            var sc;
+                            $(document).ready(function () {
+                                sc = $('#seat-map').seatCharts({
+                                    map: [
+                                        'aaaaaa__aaaaa',
+                                        'aaaaaa__aaaaa',
+                                        'aaaaaa__aaaaa',
+                                        'aaaaaa__aaaaa',
+                                        'aaaaaa__aaaaa',
+                                        'aaaaaa__aaaaa',
+                                        'aaaaaaaaaaaaa'
+                                    ],
+                                    naming: {
+                                        top: true,
+                                        left: true,
+                                        columns: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
+                                        rows: ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+                                    },
+                                    seats: {
+                                        a: {},
+                                        b: {},
+                                        c: {}
+                                    },
+                                    legend: {
+                                        items: [
+                                            ['a', 'available', '可选'],
+                                            ['b', 'selected', '已选'],
+                                            ['c', 'unavailable', '不可选']
+                                        ]
+                                    },
+                                    click: function () {
+                                        if (this.status() == 'available') {
+                                            console.log(chosenCount)
+                                            if (chosenCount === 6) {
+                                                return this.style();
+                                            }
+                                            //do some stuff, i.e. add to the cart
+                                            chosenCount += 1
+                                            return 'selected';
+                                        } else if (this.status() == 'selected') {
+                                            chosenCount -= 1;
+                                            //seat has been vacated
+                                            return 'available';
+                                        } else if (this.status() == 'unavailable') {
+                                            //seat has been already booked
+                                            return 'unavailable';
+                                        } else {
+                                            return this.style();
+                                        }
+                                    }
+
+                                });
+
+                            });
+
+
+                            $('#confirmChosenButton').on('click', function () {
+                                seats = sc.find('selected').seatIds
+                                var output = ''
+                                for (j = 0, len = seats.length; j < len; j++) {
+                                    splited = seats[j].split('_')
+                                    output += (splited[0] + '排' + splited[1] + '座')
+                                    if (j != len - 1) {
+                                        output += ', '
+                                    }
+                                }
+                                document.getElementById('chosenSeats').innerText = output
+                                $('#seat-chart').modal('hide')
+
+                                var chosenPrice = parseInt($("input[name='chosenSeatsPrice']:checked").val())
+                                console.log(chosenPrice)
+                                var totalPrice = chosenPrice * seats.length
+                                console.log(totalPrice)
+                                $('#chosenTotal').text(totalPrice)
+                            });
+
+                        </script>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="allocateSeats">
+                        <form style="margin-left: 17%;margin-right: 17%;margin-top: 5%" class="form-horizontal">
+                            <div class="form-group">
+                                <label>座位分配须知</label>
+                                <br/>
+                                <div style="text-align: left">
+                                    <p>每单限购同价位票20张，演出前2周开票，座位安排请在「我的订单」中查看</p>
+                                    <p>按照购票时间顺序依次配票，若最终余票不能满足您的购票需求，工作人员将与您联系，您可以选择部分退票或全部退票</p>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>座位价格</label>
+                                <br/>
+                                <label class="radio-inline">
+                                    <input type="radio" name="seatsPrice" id="price1" value="188"/>188
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="seatsPrice" id="price2" value="288"/>288
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="seatsPrice" id="price3" value="488"/>488
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="seatsPrice" id="price4" value="888"/>888
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="seatsPrice" id="price5" value="1288"/>1288
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="spinner">购买数量</label>
+                                <br/>
+                                <div data-trigger="spinner" id="spinner">
+                                    <a data-spin="down" id="decreaseSeatsNum"><strong>-</strong></a>
+                                    <input type="text" value="1" data-rule="quantity" style="text-align: center"
+                                           data-min="1" data-max="20" id="seatsNum" readonly="readonly">
+                                    <a data-spin="up" id="increaseSeatsNum">+</a>
+                                </div>
+                            </div>
+
+                            <br/>
+
+                            <div class="form-group" style="font-size: larger">
+                                <label>当前总价: </label>
+                                ¥ <span id="currentTotal">0</span>
+                            </div>
+
+                            <a role="button" class="btn btn-success" style="margin-top: 2%">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp确认选座&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <hr style="margin-top: 6%"/>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("input[name='seatsPrice']").click(function () {
+        var seatsPrice = parseInt($(this).val())
+        var seatsNum = parseInt($("#seatsNum").val())
+        var totalPrice = seatsPrice * seatsNum
+        $("#currentTotal").text(totalPrice)
+    })
+
+    $("#spinner")
+        .spinner('delay', 200) //delay in ms
+        .spinner('changing', function (e, newVal, oldVal) {
+            var seatsPrice = parseInt($("input[name='seatsPrice']:checked").val())
+            console.log(seatsPrice)
+            var seatsNum = newVal
+            console.log(seatsNum)
+            var totalPrice = seatsPrice * seatsNum
+            console.log(totalPrice)
+            $("#currentTotal").text(totalPrice)
+
+        });
+</script>
+
+<footer class="panel-footer">
+    <div class="container" style="text-align: center">
+        © 2018 | Created by <a href="https://atlas-zqh.github.io/">Keenan</a>. All rights reserved. | Content by <a
+            href="http://www.douban.com/location/">豆瓣同城</a>
+    </div>
+</footer>
 </body>
 </html>
