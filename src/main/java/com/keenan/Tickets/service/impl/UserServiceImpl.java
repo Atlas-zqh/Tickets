@@ -11,6 +11,7 @@ import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 import sun.security.provider.MD5;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.List;
 /**
  * @author keenan on 09/02/2018
  */
+@Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>VenueNav</title>
+    <!--<link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>-->
+    <!--<link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>-->
+    <link href="../../static/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <!--<script th:src="@{~/js/html5shiv.min.js}"></script>-->
+    <!--<script th:src="@{~/js/respond.min.js}"></script>-->
+    <!--<script th:src="@{~/js/jquery.js}"></script>-->
+    <!--<script th:src="@{~/js/bootstrap.min.js}"></script>-->
+    <script src="../../static/js/html5shiv.min.js"></script>
+    <script src="../../static/js/respond.min.js"></script>
+    <script src="../../static/js/jquery.js"></script>
+    <script src="../../static/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav th:fragment="vuenuNav" class="navbar navbar-default">
+    <div class="container-fluid container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">Tickets</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="#">场馆信息</a></li>
+                <li><a href="#">演出计划</a></li>
+                <li><a href="#">现场购票</a></li>
+                <li><a href="#">检票入口</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div>
+</nav>
+
+</body>
+</html>
