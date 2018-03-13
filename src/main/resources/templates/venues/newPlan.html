@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>创建新计划</title>
+
+    <link href="../../static/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../../static/css/fixed-footer.css" rel="stylesheet" type="text/css"/>
+    <link href="../../static/css/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css"/>
+
+    <script src="../../static/js/html5shiv.min.js"></script>
+    <script src="../../static/js/respond.min.js"></script>
+    <script src="../../static/js/jquery.js"></script>
+    <script src="../../static/js/bootstrap.min.js"></script>
+    <script src="../../static/js/bootstrap-datetimepicker.js"></script>
+    <script src="../../static/js/bootstrap-datetimepicker.zh-CN.js"></script>
+</head>
+<body>
+<nav th:fragment="vuenuNav" class="navbar navbar-default">
+    <div class="container-fluid container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">Tickets</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="#">场馆信息</a></li>
+                <li><a href="#">演出计划</a></li>
+                <li><a href="#">现场购票</a></li>
+                <li><a href="#">检票入口</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div>
+</nav>
+
+<div class="container">
+    <div class="alert alert-info" role="alert" style="margin-top: 1%">
+        <h3>创建须知</h3>
+        <ol>
+            <li>创建新的演出计划时，需根据场馆座位设定各区域票价，每个区域的票价不可相同，且票价设置完成后不可修改。</li>
+            <li>创建新的演出计划时，必须填写演出的名称、时间、地点、演出简介和注意事项，并上传演出海报，以上信息一旦提交，不可修改。</li>
+            <li>创建演出计划完成后，将不再允许修改演出的任何信息，请务必在检查后提交演出计划。</li>
+            <li>创建演出计划完成后，将直接开启Tickets购票通道。Tickets平台将收取占收入的10%的第三方费用。</li>
+        </ol>
+    </div>
+
+    <div style="text-align: center;margin-top:2%;margin-bottom: 2%;color: #004e6d">
+        <h1>创建新活动</h1>
+    </div>
+
+    <form role="form" class="form-horizontal">
+
+        <div class="form-group">
+            <label for="inputEventName" class="col-sm-2 control-label">活动名称</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="inputEventName" placeholder="请输入活动名称"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inputEventTime" class="col-sm-2 control-label">活动时间</label>
+            <div class="col-sm-8">
+                <input class="form-control" id="inputEventTime" size="16" type="text" value="" readonly="readonly"
+                       placeholder="活动日期"
+                       style="background-color: white;"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inputEventVenue" class="col-sm-2 control-label">活动场馆</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="inputEventVenue" placeholder="南京市太阳宫"
+                       disabled="disabled"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputEventAddress" class="col-sm-2 control-label">活动地点</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="inputEventAddress" placeholder="南京市鼓楼校区"
+                       disabled="disabled"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inputEventPoster" class="col-sm-2 control-label">活动海报</label>
+            <div class="col-sm-8">
+                <input id="inputEventPoster" name="inputEventPoster" type="file" accept="image/*"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inputEventInfo" class="col-sm-2 control-label">活动简介</label>
+            <div class="col-sm-8">
+                <textarea id="inputEventInfo" class="form-control" placeholder="请输入活动简介"
+                          style="height: 200px"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inputEventWarning" class="col-sm-2 control-label">活动须知</label>
+            <div class="col-sm-8">
+                <textarea id="inputEventWarning" class="form-control" placeholder="请输入活动须知"
+                          style="height: 200px"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inputEventSeatPrice" class="col-sm-2 control-label">价位安排</label>
+            <div class="col-sm-4" id="inputEventSeatPrice">
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon">内场一区</span>
+                    <input type="text" class="form-control" placeholder="请输入价格"/>
+                    <span class="input-group-addon">元</span>
+                </div>
+
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon">内场二区</span>
+                    <input type="text" class="form-control" placeholder="请输入价格"/>
+                    <span class="input-group-addon">元</span>
+                </div>
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon">内场三区</span>
+                    <input type="text" class="form-control" placeholder="请输入价格"/>
+                    <span class="input-group-addon">元</span>
+                </div>
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon">内场四区</span>
+                    <input type="text" class="form-control" placeholder="请输入价格"/>
+                    <span class="input-group-addon">元</span>
+                </div>
+                <div class="input-group" style="margin-top: 1%">
+                    <span class="input-group-addon">内场五区</span>
+                    <input type="text" class="form-control" placeholder="请输入价格"/>
+                    <span class="input-group-addon">元</span>
+                </div>
+            </div>
+        </div>
+
+    </form>
+    <div style="text-align: center; margin-top: 2%">
+        <button type="submit" class="btn btn-info" style="margin-right: 2%">确认创建</button>
+        <button type="button" class="btn btn-default">取消</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var newDate = new Date();
+    var t = newDate.toJSON();
+
+    $('#inputEventTime').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        forceParse: 0,
+        startDate: new Date(t)
+    });
+</script>
+
+
+<footer class="panel-footer">
+    <div class="container" style="text-align: center">
+        © 2018 | Created by <a href="https://atlas-zqh.github.io/">Keenan</a>. All rights reserved. | Content by <a
+            href="http://www.douban.com/location/">豆瓣同城</a>
+    </div>
+</footer>
+</body>
+</html>
