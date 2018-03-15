@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "user")
-public class User implements UserDetails{
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue
@@ -39,13 +39,13 @@ public class User implements UserDetails{
     // 邮箱验证码
     private String code;
 
-    @ManyToMany(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
-    private List<SysRole> roles;
+    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    private SysRole role;
 
     public User() {
     }
 
-    public User(String username, String password, String email, Boolean isValid, Boolean isConfirmed, Double points, Integer level, Double balance, String code, List<SysRole> roles) {
+    public User(String username, String password, String email, Boolean isValid, Boolean isConfirmed, Double points, Integer level, Double balance, String code, SysRole role) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -55,7 +55,7 @@ public class User implements UserDetails{
         this.level = level;
         this.balance = balance;
         this.code = code;
-        this.roles = roles;
+        this.role = role;
     }
 
     @Override
@@ -144,10 +144,7 @@ public class User implements UserDetails{
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> auths = new ArrayList<>();
-        List<SysRole> roles = this.getRoles();
-        for (SysRole role : roles) {
-            auths.add(new SimpleGrantedAuthority(role.getName()));
-        }
+        auths.add(new SimpleGrantedAuthority(this.getRole().getName()));
         return auths;
     }
 
@@ -175,12 +172,12 @@ public class User implements UserDetails{
         this.balance = balance;
     }
 
-    public List<SysRole> getRoles() {
-        return roles;
+    public SysRole getRole() {
+        return role;
     }
 
-    public void setRoles(List<SysRole> roles) {
-        this.roles = roles;
+    public void setRole(SysRole role) {
+        this.role = role;
     }
 
     public String getCode() {

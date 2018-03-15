@@ -1,5 +1,6 @@
 package com.keenan.Tickets.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -33,12 +34,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/signUp").permitAll()
+                .antMatchers("/signUp").permitAll()
+                .antMatchers("/user/**").hasAnyRole("USER")
+                .antMatchers("/admin/**").hasAnyRole("ADMIN")
+                .antMatchers("/venue/**").hasAnyRole("VENUE")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/")
+                .formLogin().successHandler(loginAuthenticationSuccessHandler()).loginPage("/login").failureUrl("/login?error=true")
                 .permitAll()
-                .and().logout().permitAll().logoutSuccessUrl("/");
+                .and().logout().permitAll().logoutSuccessUrl("/login");
 
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
         filter.setEncoding("UTF-8");
@@ -48,6 +52,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/fonts/**", "/img/**");
+        web.ignoring().antMatchers("/css/**", "/js/**", "/fonts/**", "/img/**", "/403.html", "/404.html", "/500.html");
+    }
+
+    @Bean
+    public LoginAuthenticationSuccessHandler loginAuthenticationSuccessHandler() {
+        return new LoginAuthenticationSuccessHandler();
     }
 }

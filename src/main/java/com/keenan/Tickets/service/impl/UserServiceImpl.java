@@ -11,6 +11,9 @@ import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import sun.security.provider.MD5;
 
@@ -29,10 +32,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private MailUtil mailUtil;
 
-    @Override
-    public ResultMessage signIn(String email, String password) {
-        return null;
-    }
+//    @Override
+//    public ResultMessage signIn(String email, String password) {
+//        return null;
+//    }
 
     @Override
     public ResultMessage signUp(String username, String password, String email) {
@@ -50,9 +53,8 @@ public class UserServiceImpl implements UserService {
 
 
         String code = MD5Encoder.encode((email + System.currentTimeMillis()).getBytes());
-        List<SysRole> roles = new ArrayList<>();
-        roles.add(sysRoleRepository.findSysRoleByName("ROLE_USER"));
-        User user = new User(username, password, email, true, false, 0.0, 1, 0.0, code, roles);
+        SysRole role = sysRoleRepository.findSysRoleByName("ROLE_USER");
+        User user = new User(username, password, email, true, false, 0.0, 1, 0.0, code, role);
 
         if (!mailUtil.sendRegisterMail(email, code)) {
             return new ResultMessage(ResultMessage.ERROR, "发送验证邮件失败!");

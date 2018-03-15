@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -49,17 +50,23 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">我的 <span class="caret"></span></a>
+                       aria-expanded="false">
+
+                        <span sec:authorize="isAuthenticated()" sec:authentication="name"></span>
+                        <span sec:authorize="isAnonymous()">我的</span>
+                        <span class="caret"></span>
+                    </a>
                     <ul class="dropdown-menu">
-                        <li><a th:href="@{events.html}">登录</a></li>
-                        <li><a th:href="@{events.html}">注册</a></li>
-                        <li><a th:href="@{events.html}">个人信息</a></li>
-                        <li><a th:href="@{events.html}">我的优惠</a></li>
-                        <li><a th:href="@{events.html}">我的订单</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">注销</a></li>
+                        <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">登录</a></li>
+                        <li sec:authorize="!isAuthenticated()"><a th:href="@{events.html}">注册</a></li>
+                        <li sec:authorize="isAuthenticated()"><a th:href="@{events.html}">个人信息</a></li>
+                        <li sec:authorize="isAuthenticated()"><a th:href="@{events.html}">我的优惠</a></li>
+                        <li sec:authorize="isAuthenticated()"><a th:href="@{events.html}">我的订单</a></li>
+                        <li sec:authorize="!isAuthenticated()" role="separator" class="divider"></li>
+                        <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">注销</a></li>
                     </ul>
                 </li>
             </ul>
