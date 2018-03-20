@@ -1,18 +1,28 @@
 package com.keenan.Tickets.util;
 
+import java.util.Objects;
+
 /**
  * @author keenan on 28/01/2018
  */
 public class ResultMessage {
-    public static final int SUCCESS=0;
-    public static final int ERROR=1;
+    public static final String SUCCESS = "success";
+    public static final String ERROR = "error";
 
     private String resultMessage;
-    private int resultCode;
+    private String resultCode;
 
-    public ResultMessage(int resultCode, String resultMessage){
-        this.resultCode=resultCode;
-        this.resultMessage=resultMessage;
+    public ResultMessage(String resultCode, String resultMessage) {
+        this.resultCode = resultCode;
+        this.resultMessage = resultMessage;
+    }
+
+    public ResultMessage(String resultCode) {
+        this.resultCode = resultCode;
+        this.resultMessage = "";
+    }
+
+    public ResultMessage() {
     }
 
     public String getResultMessage() {
@@ -23,11 +33,25 @@ public class ResultMessage {
         this.resultMessage = resultMessage;
     }
 
-    public int getResultCode() {
+    public String getResultCode() {
         return resultCode;
     }
 
-    public void setResultCode(int resultCode) {
+    public void setResultCode(String resultCode) {
         this.resultCode = resultCode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ResultMessage)) return false;
+        ResultMessage that = (ResultMessage) o;
+        return Objects.equals(resultCode, that.resultCode);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(resultCode);
     }
 }

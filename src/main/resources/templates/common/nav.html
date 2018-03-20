@@ -61,7 +61,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">登录</a></li>
-                        <li sec:authorize="!isAuthenticated()"><a th:href="@{events.html}">注册</a></li>
+                        <li sec:authorize="!isAuthenticated()"><a th:href="@{/user/signUp}">注册</a></li>
                         <li sec:authorize="isAuthenticated()"><a th:href="@{events.html}">个人信息</a></li>
                         <li sec:authorize="isAuthenticated()"><a th:href="@{events.html}">我的优惠</a></li>
                         <li sec:authorize="isAuthenticated()"><a th:href="@{events.html}">我的订单</a></li>

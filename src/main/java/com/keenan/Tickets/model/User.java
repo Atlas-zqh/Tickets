@@ -42,6 +42,15 @@ public class User implements UserDetails {
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     private SysRole role;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Coupon> coupons;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    private LevelCoupon levelCoupon;
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    private List<TicketOrder> ticketOrders;
+
     public User() {
     }
 
@@ -186,5 +195,29 @@ public class User implements UserDetails {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public List<Coupon> getCoupons() {
+        return coupons;
+    }
+
+    public void setCoupons(List<Coupon> coupons) {
+        this.coupons = coupons;
+    }
+
+    public LevelCoupon getLevelCoupon() {
+        return levelCoupon;
+    }
+
+    public void setLevelCoupon(LevelCoupon levelCoupon) {
+        this.levelCoupon = levelCoupon;
+    }
+
+    public List<TicketOrder> getTicketOrders() {
+        return ticketOrders;
+    }
+
+    public void setTicketOrders(List<TicketOrder> ticketOrders) {
+        this.ticketOrders = ticketOrders;
     }
 }

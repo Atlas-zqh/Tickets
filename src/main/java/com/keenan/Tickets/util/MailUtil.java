@@ -33,18 +33,15 @@ public class MailUtil {
     public boolean sendRegisterMail(String email, String code) {
 
         MimeMessage message = mailSender.createMimeMessage();
-        String registerLink = "http://localhost:8080/user/register/email=" + email + "/code=" + code;
+        String registerLink = "http://localhost:8080/user/confirm?email=" + email + "&amp;code=" + code;
 
-        Context context = new Context();
-        context.setVariable("registerLink", registerLink);
-        String emailContent = templateEngine.process("UserRegisterTemplate", context);
 
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setFrom(from);
             helper.setTo(email);
             helper.setSubject("Tickets验证邮件");
-            helper.setText(emailContent, true);
+            helper.setText(registerLink, true);
 
             mailSender.send(message);
             logger.info("发送邮件成功");

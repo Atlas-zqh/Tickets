@@ -23,8 +23,12 @@
         <h1>Tickets<br></br>
             <small>登录您的账户来快速订票</small>
         </h1>
+
         <div style="margin-left: 30%;margin-right: 30%;padding-top: 3%">
             <form role="form" th:action="@{/login}" action="/login" method="post">
+                <div class="alert alert-info" role="alert" th:if="${checkMail!=null}">
+                    <span th:text="${checkMail}"></span>
+                </div>
                 <div class="form-group">
                     <label for="inputUsername">用户名</label>
                     <input type="text" class="form-control" id="inputUsername" name="username" placeholder="用户名"/>
@@ -34,7 +38,9 @@
                     <input type="password" class="form-control" id="inputPassword" name="password" placeholder="密码"/>
                 </div>
 
-                <div class="alert alert-danger" role="alert" th:if="${param.error}" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}">用户名或密码错误！请重试！</div>
+                <div class="alert alert-danger" role="alert" th:if="${param.error}"
+                     th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}">用户名或密码错误！请重试！
+                </div>
 
                 <button type="submit" class="btn btn-info" style="margin-top: 5%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;登录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
             </form>
@@ -46,7 +52,7 @@
             <h4 style="margin-top: 6%">还没有账户？<br></br>
                 <small>点击下面的按钮快速注册</small>
             </h4>
-            <a role="button" class="btn btn-default" style="margin-top: 2%" href="signUp.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前往注册&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <a role="button" class="btn btn-default" style="margin-top: 2%" th:href="@{/user/signUp}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前往注册&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 
             <hr style="margin-top: 6%"/>
         </div>

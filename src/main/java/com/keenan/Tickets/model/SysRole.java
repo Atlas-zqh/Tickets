@@ -1,9 +1,7 @@
 package com.keenan.Tickets.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author keenan on 09/02/2018
@@ -15,6 +13,9 @@ public class SysRole {
     @GeneratedValue
     private Long id;
     private String name;
+
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    private List<User> users;
 
 
     public Long getId() {
@@ -31,5 +32,13 @@ public class SysRole {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

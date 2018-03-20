@@ -20,61 +20,80 @@
 
 <div class="container" style="text-align: center;">
     <div style="padding-top: 2%">
-        <h1>Tickets<br><small>快速注册新账户</small></h1>
+        <h1>Tickets<br></br>
+            <small>快速注册新账户</small>
+        </h1>
         <div style="margin-left: 30%;margin-right: 30%;padding-top: 2%">
-            <form>
+            <form role="form" method="post" th:action="@{/user/register}" th:object="${user}">
+
+                <div class="alert alert-danger" th:if="${result.resultCode=='error'}">
+                    <span th:text="${result.resultMessage}">注册失败！</span>
+                </div>
+
+
                 <div class="form-group">
                     <label for="inputEmail">Email</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="请设置Email">
+                    <input type="email" class="form-control" id="inputEmail" placeholder="请设置Email"
+                           th:field="*{email}"/>
                 </div>
 
                 <div class="form-group">
                     <label for="inputUsername">账户名</label>
-                    <input type="text" class="form-control" id="inputUsername" placeholder="请设置账户名">
+                    <input type="text" class="form-control" id="inputUsername" placeholder="请设置账户名"
+                           th:field="*{username}"/>
                 </div>
 
                 <div class="form-group">
                     <label for="inputPassword">密码</label>
-                    <input type="password" class="form-control" id="inputPassword" placeholder="请设置密码">
+                    <input type="password" class="form-control" id="inputPassword" placeholder="请设置密码"
+                           th:field="*{password}"/>
                 </div>
 
                 <div class="form-group">
                     <label for="confirmPassword">确认密码</label>
-                    <input type="password" class="form-control" id="confirmPassword" placeholder="请再次输入密码">
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="请再次输入密码"
+                           th:field="*{confirmPassword}"/>
                 </div>
 
                 <div class="form-group">
                     <label>用户类型</label>
-                    <br>
+                    <br></br>
                     <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">普通用户
+                        <input th:field="*{userType}" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                               value="ROLE_USER" th:checked="true"/>普通用户
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">场馆
+                        <input th:field="*{userType}" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                               value="ROLE_VENUE"/>场馆
                     </label>
                 </div>
 
-                <button type="submit" class="btn btn-info" style="margin-top: 5%">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp注册&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
+                <button type="submit" class="btn btn-info" style="margin-top: 5%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注册&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
             </form>
         </div>
 
         <div style="margin-left: 20%;margin-right: 20%;padding-top: 2%">
-            <hr color="#5bc0de">
+            <hr color="#5bc0de"/>
 
-            <h4 style="margin-top: 6%">已有账户？<br><small>点击下面的按钮进行登录</small></h4>
-            <a role="button" class="btn btn-default" style="margin-top: 2%" href="login.html">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp前往登录&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
+            <h4 style="margin-top: 6%">已有账户？<br></br>
+                <small>点击下面的按钮进行登录</small>
+            </h4>
+            <a role="button" class="btn btn-default" style="margin-top: 2%" th:href="@{/login}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前往登录&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 
-            <hr style="margin-top: 6%">
+            <hr style="margin-top: 6%"/>
         </div>
     </div>
 </div>
 
+<script th:inline="javascript">
+
+</script>
+
 <footer class="panel-footer">
     <div class="container" style="text-align: center">
-        © 2018 | Created by <a href="https://atlas-zqh.github.io/">Keenan</a>. All rights reserved. | Content by <a href="http://www.douban.com/location/">豆瓣同城</a>
+        © 2018 | Created by <a href="https://atlas-zqh.github.io/">Keenan</a>. All rights reserved. | Content by <a
+            href="http://www.douban.com/location/">豆瓣同城</a>
     </div>
 </footer>
-</body>
-
 </body>
 </html>
