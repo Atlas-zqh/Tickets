@@ -1,9 +1,9 @@
-package com.keenan.Tickets.vo;
+package com.keenan.Tickets.bean;
 
 /**
  * @author keenan on 15/03/2018
  */
-public class RegisterUserVO {
+public class RegisterUserBean {
     private String username;
 
     private String email;
@@ -18,7 +18,7 @@ public class RegisterUserVO {
      */
     private String userType;
 
-    public RegisterUserVO() {
+    public RegisterUserBean() {
     }
 
 
@@ -64,7 +64,7 @@ public class RegisterUserVO {
 
     @Override
     public String toString() {
-        return "RegisterUserVO{" +
+        return "RegisterUserBean{" +
                 "username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

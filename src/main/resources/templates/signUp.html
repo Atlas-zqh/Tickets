@@ -24,7 +24,7 @@
             <small>快速注册新账户</small>
         </h1>
         <div style="margin-left: 30%;margin-right: 30%;padding-top: 2%">
-            <form role="form" method="post" th:action="@{/user/register}" th:object="${user}">
+            <form role="form" method="post" th:action="@{/user/register.action}" th:object="${user}">
 
                 <div class="alert alert-danger" th:if="${result.resultCode=='error'}">
                     <span th:text="${result.resultMessage}">注册失败！</span>

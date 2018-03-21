@@ -11,12 +11,14 @@
     <link th:href="@{~/css/text-hidden.css}" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{~/css/owl.carousel.css}"/>
     <link rel="stylesheet" th:href="@{~/css/owl.theme.default.css}"/>
+    <link rel="stylesheet" th:href="@{~/css/toastr.css}"/>
 
     <script th:src="@{~/js/html5shiv.min.js}"></script>
     <script th:src="@{~/js/respond.min.js}"></script>
     <script th:src="@{~/js/jquery.js}"></script>
     <script th:src="@{~/js/bootstrap.min.js}"></script>
     <script th:src="@{~/js/owl.carousel.js}"></script>
+    <script th:src="@{~/js/toastr.min.js}"></script>
 
     <!-- echarts -->
     <script th:src="@{~/js/echarts.min.js}"></script>
@@ -53,14 +55,17 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">账户名</label>
                     <div class="col-sm-8">
-                        <p class="form-control-static">ISLAND</p>
+                        <p class="form-control-static" th:text="${user.username}">ISLAND</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">邮箱验证</label>
                     <div class="col-sm-8">
-                        <p class="form-control-static">已完成&nbsp;&nbsp;<i class="glyphicon glyphicon-ok"
-                                                                         style="color: green"></i></p>
+                        <p class="form-control-static" th:if="${user.isConfirmed}">已完成&nbsp;&nbsp;<i
+                                class="glyphicon glyphicon-ok"
+                                style="color: green"></i></p>
+                        <p class="form-control-static" th:unless="${user.isConfirmed}">未完成&nbsp;&nbsp;<i
+                                class="glyphicon glyphicon-remove" style="color: darkred"></i></p>
                     </div>
                 </div>
             </form>
@@ -71,14 +76,18 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">邮箱</label>
                     <div class="col-sm-8">
-                        <p class="form-control-static">ISLAND@tickets.com</p>
+                        <p class="form-control-static" th:text="${user.email}">ISLAND@tickets.com</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">账户状态</label>
                     <div class="col-sm-8">
-                        <p class="form-control-static">停用&nbsp;&nbsp;<i class="glyphicon glyphicon-remove"
-                                                                        style="color: darkred"></i></p>
+                        <p class="form-control-static" th:unless="${user.isValid}">停用&nbsp;&nbsp;<i
+                                class="glyphicon glyphicon-remove"
+                                style="color: darkred"></i></p>
+                        <p class="form-control-static" th:if="${user.isValid}">正常&nbsp;&nbsp;<i
+                                class="glyphicon glyphicon-ok"
+                                style="color: green"></i></p>
                     </div>
                 </div>
             </form>
@@ -88,8 +97,9 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">积分</label>
                     <div class="col-sm-8">
-                        <p class="form-control-static">5000&nbsp;&nbsp;&nbsp;&nbsp;<a href="coupons.html"
-                                                                                      style="font-size: small">查看可用优惠</a>
+                        <p class="form-control-static" th:text="${user.points}">5000&nbsp;&nbsp;&nbsp;&nbsp;<a
+                                href="coupons.html"
+                                style="font-size: small">查看可用优惠</a>
                         </p>
                     </div>
                 </div>
@@ -109,7 +119,8 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">会员等级</label>
                     <div class="col-sm-8">
-                        <p class="form-control-static"><span class="label label-success">LV 1</span></p>
+                        <p class="form-control-static"><span class="label label-success">LV <span
+                                th:text="${user.level}">1</span></span></p>
                     </div>
                 </div>
             </form>
@@ -145,11 +156,54 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-info">确认修改</button>
+                <button type="button" class="btn btn-info" onclick="modifyPassword()">确认修改</button>
             </div>
         </div>
     </div>
 </div>
+
+<script th:inline="javascript">
+    toastr.options = {
+        closeButton: false,
+        debug: false,
+        progressBar: true,
+        positionClass: "toast-top-center",
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "3000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut"
+    };
+
+    function modifyPassword() {
+        $.ajax({
+            type: 'POST',
+            url: '/user/modifyPassword.action',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify({
+                oldPassword: $("#inputOldPassword").val(),
+                newPassword: $("#inputNewPassword").val(),
+                confirmPassword: $("#confirmNewPassword").val()
+            }),
+            success: function (data) {
+                if (data.resultCode === 'error') {
+                    toastr.warning(data.resultMessage)
+                } else {
+                    toastr.success(data.resultMessage)
+                    $("#modifyPassModal").modal("hide")
+                    $("#inputOldPassword").val('')
+                    $("#inputNewPassword").val('')
+                    $("#confirmNewPassword").val('')
+                }
+            }
+        })
+    }
+</script>
 
 <div class="container">
     <div style="font-size: larger;padding-top: 2%">
