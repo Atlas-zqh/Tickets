@@ -11,8 +11,8 @@
     <link th:href="@{~/css/datetimepicker.css}" type="text/css" rel="stylesheet"/>
     <link th:href="@{~/css/bootstrap-datetimepicker.min.css}" type="text/css" rel="stylesheet"/>
 
-    <link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>
-    <link href="../../static/css/fixed-footer.css" th:href="@{css/fixed-footer.css}" type="text/css" rel="stylesheet"/>
+    <link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>
 
     <script th:src="@{~/js/html5shiv.min.js}"></script>
     <script th:src="@{~/js/respond.min.js}"></script>
@@ -119,78 +119,19 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-xs-3 col-sm-2">
-            <a href="eventDetail.html" class="thumbnail">
-                <img th:src="@{/img/5e452a62c87cf9d.jpg}"/>
-                <div class="caption">
-                    <h5 class="text-hidden" title="邱比Chiu Pi 上下一方 巡回演唱会 南京站">邱比Chiu Pi 上下一方 巡回演唱会 南京站</h5>
-                    <p style="font-size: x-small">03月23日 周五 20:30-20:30</p>
-                </div>
-            </a>
+        <div th:each="showPlanBriefBean: ${showPlanBriefBeans}">
+            <div class="col-xs-3 col-sm-2">
+                <a th:href="@{'/user/event/detail?id='+${showPlanBriefBean.id}}" class="thumbnail">
+                    <img th:src="${showPlanBriefBean.posterUrl}" class="img-responsive" height="600" width="400"/>
+                    <div class="caption">
+                        <h5 class="text-hidden" th:title="${showPlanBriefBean.showName}"
+                            th:text="${showPlanBriefBean.showName}"></h5>
+                        <p style="font-size: x-small" th:text="${showPlanBriefBean.time}"></p>
+                    </div>
+                </a>
+            </div>
         </div>
-        <div class="col-xs-3 col-sm-2">
-            <a href="eventDetail.html" class="thumbnail">
-                <img th:src="@{/img/0204979cd6aee12.jpg}"/>
-                <div class="caption">
-                    <h5 class="text-hidden" title="2018咪咕音乐现场南京站徐佳莹心里学音乐会">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h5>
-                    <p style="font-size: x-small">03月17日 周六 19:30-19:30</p>
-                </div>
-            </a>
-        </div>
-        <div class="col-xs-3 col-sm-2">
-            <a href="eventDetail.html" class="thumbnail">
-                <img th:src="@{/img/f2f20ad195dc812.jpg}"/>
-                <div class="caption">
-                    <h5 class="text-hidden" title="2018好妹妹“自在如风”全国巡回演唱会南京站">2018好妹妹“自在如风”全国巡回演唱会南京站</h5>
-                    <p style="font-size: x-small">05月01日 周二 19:30-21:30</p>
-                </div>
-            </a>
-        </div>
-        <div class="col-xs-3 col-sm-2">
-            <a href="eventDetail.html" class="thumbnail">
-                <img th:src="@{/img/c2f702e70f7afd9.jpg}"/>
-                <div class="caption">
-                    <h5 class="text-hidden" title="何炅主演-话剧《水中之书》">何炅主演-话剧《水中之书》</h5>
-                    <p style="font-size: x-small">05月18日 周五 19:30-19:30</p>
-                </div>
-            </a>
-        </div>
-        <div class="col-xs-3 col-sm-2">
-            <a href="eventDetail.html" class="thumbnail">
-                <img th:src="@{/img/f2ed2921705262c.jpg}"/>
-                <div class="caption">
-                    <h5 class="text-hidden" title="喜剧《蒋公的面子》 江苏省演艺集团2018春季演出季">喜剧《蒋公的面子》 江苏省演艺集团2018春季演出季</h5>
-                    <p style="font-size: x-small">03月23日 周五 19:30-21:30</p>
-                </div>
-            </a>
-        </div>
-        <div class="col-xs-3 col-sm-2">
-            <a href="eventDetail.html" class="thumbnail">
-                <img th:src="@{/img/f2f20ad195dc812.jpg}"/>
-                <div class="caption">
-                    <h5 class="text-hidden" title="2018好妹妹“自在如风”全国巡回演唱会南京站">2018好妹妹“自在如风”全国巡回演唱会南京站</h5>
-                    <p style="font-size: x-small">05月01日 周二 19:30-21:30</p>
-                </div>
-            </a>
-        </div>
-        <div class="col-xs-3 col-sm-2">
-            <a href="eventDetail.html" class="thumbnail">
-                <img th:src="@{/img/c2f702e70f7afd9.jpg}"/>
-                <div class="caption">
-                    <h5 class="text-hidden" title="何炅主演-话剧《水中之书》">何炅主演-话剧《水中之书》</h5>
-                    <p style="font-size: x-small">05月18日 周五 19:30-19:30</p>
-                </div>
-            </a>
-        </div>
-        <div class="col-xs-3 col-sm-2">
-            <a href="eventDetail.html" class="thumbnail">
-                <img th:src="@{/img/f2ed2921705262c.jpg}"/>
-                <div class="caption">
-                    <h5 class="text-hidden" title="喜剧《蒋公的面子》 江苏省演艺集团2018春季演出季">喜剧《蒋公的面子》 江苏省演艺集团2018春季演出季</h5>
-                    <p style="font-size: x-small">03月23日 周五 19:30-21:30</p>
-                </div>
-            </a>
-        </div>
+
     </div>
 </div>
 
@@ -218,7 +159,8 @@
 
 <footer class="panel-footer">
     <div class="container" style="text-align: center">
-        © 2018 | Created by <a href="https://atlas-zqh.github.io/">Keenan</a>. All rights reserved. | Content by <a href="http://www.douban.com/location/">豆瓣同城</a>
+        © 2018 | Created by <a href="https://atlas-zqh.github.io/">Keenan</a>. All rights reserved. | Content by <a
+            href="http://www.douban.com/location/">豆瓣同城</a>
     </div>
 </footer>
 </body>

@@ -20,6 +20,10 @@ public class ShowPlan {
     @ManyToOne(fetch = FetchType.EAGER)
     private Venue venue;
 
+    private String showName;
+
+    private String posterUrl;
+
     private Timestamp startTime;
 
     private Timestamp endTime;
@@ -125,5 +129,21 @@ public class ShowPlan {
 
     public void setSeatArrangements(List<SeatArrangement> seatArrangements) {
         this.seatArrangements = seatArrangements;
+    }
+
+    public String getShowName() {
+        return showName;
+    }
+
+    public void setShowName(String showName) {
+        this.showName = showName;
+    }
+
+    public String getPosterUrl() {
+        return posterUrl;
+    }
+
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
     }
 }
