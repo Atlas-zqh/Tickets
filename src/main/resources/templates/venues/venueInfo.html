@@ -6,52 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>场馆信息</title>
 
-    <!--<link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>-->
-    <!--<link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>-->
-    <link href="../../static/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="../../static/css/fixed-footer.css" rel="stylesheet" type="text/css"/>
-    <!--<script th:src="@{~/js/html5shiv.min.js}"></script>-->
-    <!--<script th:src="@{~/js/respond.min.js}"></script>-->
-    <!--<script th:src="@{~/js/jquery.js}"></script>-->
-    <!--<script th:src="@{~/js/bootstrap.min.js}"></script>-->
-    <script src="../../static/js/html5shiv.min.js"></script>
-    <script src="../../static/js/respond.min.js"></script>
-    <script src="../../static/js/jquery.js"></script>
-    <script src="../../static/js/bootstrap.min.js"></script>
+    <link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>
+    <link th:href="@{~/css/text-hidden.css}" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{~/css/toastr.css}"/>
+
+    <script th:src="@{~/js/html5shiv.min.js}"></script>
+    <script th:src="@{~/js/respond.min.js}"></script>
+    <script th:src="@{~/js/jquery.js}"></script>
+    <script th:src="@{~/js/bootstrap.min.js}"></script>
+    <script th:src="@{~/js/toastr.min.js}"></script>
+
 </head>
 <body>
-<nav th:fragment="vuenuNav" class="navbar navbar-default">
-    <div class="container-fluid container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand">Tickets</a>
-        </div>
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="#">场馆信息</a></li>
-                <li><a href="#">演出计划</a></li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                        aria-haspopup="true"
-                                        aria-expanded="false">现场购票 <span class="caret"></span> </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">2018咪咕音乐现场南京站徐佳莹心里学音乐会</a></li>
-                        <li><a href="#">2018  shahshahshshsh</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">检票入口</a></li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div>
-</nav>
+<div th:replace="common/venueNav :: venueNav"></div>
 
 <div class="container">
     <div style="font-size: larger;padding-top: 2%">
@@ -63,16 +31,19 @@
         <div class="col-sm-4">
             <form class="form-horizontal">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">场馆名称</label>
+                    <label class="col-sm-4 control-label text-hidden">场馆名称</label>
                     <div class="col-sm-8">
-                        <p class="form-control-static">南京太阳宫</p>
+                        <p class="form-control-static" th:text="${venueInfoBean.venueName}">南京太阳宫</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">信息审批</label>
                     <div class="col-sm-8">
-                        <p class="form-control-static">已完成&nbsp;&nbsp;<i class="glyphicon glyphicon-ok"
-                                                                         style="color: green"></i></p>
+                        <p class="form-control-static" th:if="${venueInfoBean.editPermit}">已通过&nbsp;&nbsp;<i
+                                class="glyphicon glyphicon-ok"
+                                style="color: green"></i></p>
+                        <p class="form-control-static" th:unless="${venueInfoBean.editPermit}">未通过&nbsp;&nbsp;<i
+                                class="glyphicon glyphicon-remove" style="color: red"></i></p>
                     </div>
                 </div>
             </form>
@@ -83,13 +54,13 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label">注册邮箱</label>
                     <div class="col-sm-8">
-                        <p class="form-control-static">admin@tyg.com</p>
+                        <p class="form-control-static" th:text="${venueInfoBean.registerEmail}">admin@tyg.com</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-4 control-label">登录码</label>
                     <div class="col-sm-8">
-                        <p class="form-control-static">1234567</p>
+                        <p class="form-control-static" th:text="${venueInfoBean.loginCode}">1234567</p>
                     </div>
                 </div>
             </form>
@@ -97,12 +68,18 @@
         <div class="col-sm-4">
             <form class="form-horizontal">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">场馆地址</label>
+                    <label class="col-sm-4 control-label" style="cursor: pointer" data-toggle="modal"
+                           data-target="#modifyLocationModal" th:if="${venueInfoBean.venueAddress!=null}">场馆地址</label>
+                    <label class="col-sm-4 control-label" th:if="${venueInfoBean.venueAddress==null}">场馆地址</label>
                     <div class="col-sm-8">
-                        <p class="form-control-static">南京市汉口路22号&nbsp;&nbsp;<i style="cursor: pointer"
-                                                                               class="glyphicon glyphicon-wrench"
-                                                                               data-toggle="modal"
-                                                                               data-target="#modifyLocationModal"></i>
+                        <p class="form-control-static text-hidden" th:if="${venueInfoBean.venueAddress!=null}"
+                           th:text="${venueInfoBean.venueAddress}" id="venueLocation">南京市汉口路22号&nbsp;&nbsp;
+                        </p>
+                        <p class="form-control-static" th:if="${venueInfoBean.venueAddress==null}"
+                           id="venueLocation_empty">暂未设置地址，请设置&nbsp;&nbsp;<i style="cursor: pointer"
+                                                                             class="glyphicon glyphicon-wrench"
+                                                                             data-toggle="modal"
+                                                                             data-target="#modifyLocationModal"></i>
                         </p>
                     </div>
                 </div>
@@ -134,23 +111,24 @@
             <div class="modal-body">
                 <form style="margin-left: 20%;margin-right: 20%">
                     <div class="form-group">
-                        <label for="inputOldPassword">旧密码</label>
-                        <input type="password" class="form-control" id="inputOldPassword" placeholder="请输入旧密码">
+                        <label for="inputVenueOldPassword">旧密码</label>
+                        <input type="password" class="form-control" id="inputVenueOldPassword" placeholder="请输入旧密码">
                     </div>
                     <div class="form-group">
-                        <label for="inputNewPassword">新密码</label>
-                        <input type="password" class="form-control" id="inputNewPassword" placeholder="请输入新密码">
+                        <label for="inputVenueNewPassword">新密码</label>
+                        <input type="password" class="form-control" id="inputVenueNewPassword" placeholder="请输入新密码">
                     </div>
 
                     <div class="form-group">
-                        <label for="confirmNewPassword">确认新密码</label>
-                        <input type="password" class="form-control" id="confirmNewPassword" placeholder="请再输入一次新密码">
+                        <label for="confirmVenueNewPassword">确认新密码</label>
+                        <input type="password" class="form-control" id="confirmVenueNewPassword"
+                               placeholder="请再输入一次新密码">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-info">确认修改</button>
+                <button type="button" class="btn btn-info" onclick="modifyPassword()">确认修改</button>
             </div>
         </div>
     </div>
@@ -169,17 +147,94 @@
                 <form style="margin-left: 20%;margin-right: 20%">
                     <div class="form-group">
                         <label for="inputNewLocation">新地址</label>
-                        <input type="text" class="form-control" id="inputNewLocation" placeholder="请输入地址">
+                        <input type="text" class="form-control" id="inputNewLocation"
+                               th:placeholder="${venueInfoBean.venueAddress}">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-info">确认修改</button>
+                <button type="button" class="btn btn-info"
+                        th:onclick="'javascript:modifyAddress('+${venueInfoBean.id}+','+'\''+${venueInfoBean.venueAddress}+'\')'">确认修改
+                </button>
             </div>
         </div>
     </div>
 </div>
+
+<script th:inline="javascript">
+    toastr.options = {
+        closeButton: false,
+        debug: false,
+        progressBar: true,
+        positionClass: "toast-top-center",
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "3000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut"
+    };
+
+    function modifyPassword() {
+        $.ajax({
+            type: 'POST',
+            url: '/venue/modifyPassword.action',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify({
+                oldPassword: $("#inputVenueOldPassword").val(),
+                newPassword: $("#inputVenueNewPassword").val(),
+                confirmPassword: $("#confirmVenueNewPassword").val()
+            }),
+            success: function (data) {
+                if (data.resultCode === 'error') {
+                    toastr.warning(data.resultMessage)
+                } else {
+                    toastr.success(data.resultMessage)
+                    $("#modifyVenuePassModal").modal("hide")
+                    $("#inputVenueOldPassword").val('')
+                    $("#inputVenueNewPassword").val('')
+                    $("#confirmVenueNewPassword").val('')
+                }
+            }
+        })
+    };
+
+    function modifyAddress(id, ori_content) {
+        $.ajax({
+            type: 'POST',
+            url: '/venue/modifyAddress.action',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify({
+                id: id,
+                newAddress: $("#inputNewLocation").val()
+            }),
+            success: function (data) {
+                if (data.resultCode === 'error') {
+                    toastr.warning(data.resultMessage)
+                } else {
+                    toastr.success(data.resultMessage)
+                    $("#modifyLocationModal").modal("hide")
+
+                    var newVal = $("#inputNewLocation").val()
+
+                    if(ori_content==='null'){
+                        document.getElementById("venueLocation_empty").innerHTML = newVal
+                    }else {
+                        document.getElementById("venueLocation").innerHTML = newVal
+                    }
+                    $("#inputNewLocation").attr('placeholder',newVal)
+                    $("#inputNewLocation").val('')
+                }
+            }
+        })
+    }
+</script>
 
 <!-- 上传座位信息 -->
 <div class="container">

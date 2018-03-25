@@ -48,7 +48,7 @@ public class User implements UserDetails {
     @OneToOne(fetch = FetchType.EAGER)
     private LevelCoupon levelCoupon;
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<TicketOrder> ticketOrders;
 
     public User() {
@@ -79,6 +79,8 @@ public class User implements UserDetails {
                 ", points=" + points +
                 ", level=" + level +
                 ", balance=" + balance +
+                ", code='" + code + '\'' +
+                ", role=" + role +
                 '}';
     }
 

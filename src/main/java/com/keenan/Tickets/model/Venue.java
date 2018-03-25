@@ -22,6 +22,8 @@ public class Venue {
 
     private String address;
 
+    private Boolean editPermit;
+
     @OneToMany(mappedBy = "venue", fetch = FetchType.LAZY)
     private Set<VenuePermission> venuePermissions;
 
@@ -96,5 +98,19 @@ public class Venue {
 
     public void setShowPlans(Set<ShowPlan> showPlans) {
         this.showPlans = showPlans;
+    }
+
+    public Venue(String venueId, String password, String name) {
+        this.venueId = venueId;
+        this.password = password;
+        this.name = name;
+    }
+
+    public Boolean getEditPermit() {
+        return editPermit;
+    }
+
+    public void setEditPermit(Boolean editPermit) {
+        this.editPermit = editPermit;
     }
 }

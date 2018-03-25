@@ -1,7 +1,7 @@
 package com.keenan.Tickets.service.impl;
 
 import com.keenan.Tickets.bean.PasswordBean;
-import com.keenan.Tickets.bean.RegisterUserBean;
+import com.keenan.Tickets.bean.RegisterBean;
 import com.keenan.Tickets.model.SysRole;
 import com.keenan.Tickets.model.User;
 import com.keenan.Tickets.repository.SysRoleRepository;
@@ -29,32 +29,32 @@ public class UserServiceImpl implements UserService {
     private MailUtil mailUtil;
 
     @Override
-    public ResultMessage signUp(RegisterUserBean registerUserBean) {
-        if (userRepository.findUserByEmail(registerUserBean.getEmail()) != null) {
+    public ResultMessage signUp(RegisterBean registerBean) {
+        if (userRepository.findUserByEmail(registerBean.getEmail()) != null) {
             return new ResultMessage(ResultMessage.ERROR, "该邮箱已被注册!");
         }
 
-        if (userRepository.findUserByUsername(registerUserBean.getUsername()) != null) {
+        if (userRepository.findUserByUsername(registerBean.getUsername()) != null) {
             return new ResultMessage(ResultMessage.ERROR, "该用户名已被注册!");
         }
 
-        if (!registerUserBean.getEmail().matches("^\\w+@(\\w+\\.)+\\w+$")) {
+        if (!registerBean.getEmail().matches("^\\w+@(\\w+\\.)+\\w+$")) {
             return new ResultMessage(ResultMessage.ERROR, "邮箱格式不合法!");
         }
 
-        if (registerUserBean.getPassword().equals("") || registerUserBean.getConfirmPassword().equals("")) {
+        if (registerBean.getPassword().equals("") || registerBean.getConfirmPassword().equals("")) {
             return new ResultMessage(ResultMessage.ERROR, "请输入密码!");
         }
 
-        if (!registerUserBean.getPassword().equals(registerUserBean.getConfirmPassword())) {
+        if (!registerBean.getPassword().equals(registerBean.getConfirmPassword())) {
             return new ResultMessage(ResultMessage.ERROR, "两次输入的密码不一致!");
         }
 
         String code = UUID.randomUUID().toString().replace("-", "");
-        SysRole role = sysRoleRepository.findSysRoleByName(registerUserBean.getUserType());
-        User user = new User(registerUserBean.getUsername(), registerUserBean.getPassword(), registerUserBean.getEmail(), true, false, 0.0, 1, 0.0, code, role);
+        SysRole role = sysRoleRepository.findSysRoleByName(registerBean.getUserType());
+        User user = new User(registerBean.getUsername(), registerBean.getPassword(), registerBean.getEmail(), true, false, 0.0, 1, 0.0, code, role);
 
-        if (!mailUtil.sendRegisterMail(registerUserBean.getEmail(), code)) {
+        if (!mailUtil.sendRegisterMail(registerBean.getEmail(), code)) {
             return new ResultMessage(ResultMessage.ERROR, "发送验证邮件失败!");
         } else {
             userRepository.save(user);

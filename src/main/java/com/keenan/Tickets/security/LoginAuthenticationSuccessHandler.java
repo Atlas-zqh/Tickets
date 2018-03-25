@@ -62,7 +62,7 @@ public class LoginAuthenticationSuccessHandler implements AuthenticationSuccessH
         } else if (isAdmin) {
             return "/admin";
         } else if (isVenue) {
-            return "/venue";
+            return "/venue/info";
         } else {
             throw new IllegalStateException();
         }

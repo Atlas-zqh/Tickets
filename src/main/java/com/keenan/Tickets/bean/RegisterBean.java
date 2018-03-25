@@ -3,7 +3,7 @@ package com.keenan.Tickets.bean;
 /**
  * @author keenan on 15/03/2018
  */
-public class RegisterUserBean {
+public class RegisterBean {
     private String username;
 
     private String email;
@@ -18,7 +18,7 @@ public class RegisterUserBean {
      */
     private String userType;
 
-    public RegisterUserBean() {
+    public RegisterBean() {
     }
 
 
@@ -64,7 +64,7 @@ public class RegisterUserBean {
 
     @Override
     public String toString() {
-        return "RegisterUserBean{" +
+        return "RegisterBean{" +
                 "username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

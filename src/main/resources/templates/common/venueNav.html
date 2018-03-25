@@ -6,21 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <title>VenueNav</title>
-    <!--<link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>-->
-    <!--<link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>-->
-    <link href="../../static/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <!--<script th:src="@{~/js/html5shiv.min.js}"></script>-->
-    <!--<script th:src="@{~/js/respond.min.js}"></script>-->
-    <!--<script th:src="@{~/js/jquery.js}"></script>-->
-    <!--<script th:src="@{~/js/bootstrap.min.js}"></script>-->
-    <script src="../../static/js/html5shiv.min.js"></script>
-    <script src="../../static/js/respond.min.js"></script>
-    <script src="../../static/js/jquery.js"></script>
-    <script src="../../static/js/bootstrap.min.js"></script>
+    <link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>
+    <!--<link href="../../static/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>-->
+    <script th:src="@{~/js/html5shiv.min.js}"></script>
+    <script th:src="@{~/js/respond.min.js}"></script>
+    <script th:src="@{~/js/jquery.js}"></script>
+    <script th:src="@{~/js/bootstrap.min.js}"></script>
+    <!--<script src="../../static/js/html5shiv.min.js"></script>-->
+    <!--<script src="../../static/js/respond.min.js"></script>-->
+    <!--<script src="../../static/js/jquery.js"></script>-->
+    <!--<script src="../../static/js/bootstrap.min.js"></script>-->
 </head>
 <body>
 
-<nav th:fragment="vuenuNav" class="navbar navbar-default">
+<nav th:fragment="venueNav" class="navbar navbar-default">
     <div class="container-fluid container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -36,7 +36,17 @@
             <ul class="nav navbar-nav">
                 <li><a href="#">场馆信息</a></li>
                 <li><a href="#">演出计划</a></li>
-                <li><a href="#">现场购票</a></li>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                        aria-haspopup="true"
+                                        aria-expanded="false">现场购票 <span class="caret"></span> </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">2018咪咕音乐现场南京站徐佳莹心里学音乐会</a></li>
+                        <li><a href="#">2018 shahshahshshsh</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li><a href="#">One more separated link</a></li>
+                    </ul>
+                </li>
                 <li><a href="#">检票入口</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->

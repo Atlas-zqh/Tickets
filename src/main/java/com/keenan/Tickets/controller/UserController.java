@@ -1,10 +1,11 @@
 package com.keenan.Tickets.controller;
 
 import com.keenan.Tickets.bean.PasswordBean;
-import com.keenan.Tickets.bean.RegisterUserBean;
+import com.keenan.Tickets.bean.RegisterBean;
 import com.keenan.Tickets.bean.UserInfoBean;
 import com.keenan.Tickets.model.User;
 import com.keenan.Tickets.service.UserService;
+import com.keenan.Tickets.service.VenueService;
 import com.keenan.Tickets.util.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,9 +22,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private VenueService venueService;
+
     @RequestMapping(value = "/signUp", method = RequestMethod.GET)
     public String displaySignUp(Model model) {
-        model.addAttribute("user", new RegisterUserBean());
+        model.addAttribute("user", new RegisterBean());
         model.addAttribute("result", new ResultMessage(ResultMessage.SUCCESS));
         return "signUp";
     }
@@ -54,20 +58,32 @@ public class UserController {
     }
 
     @RequestMapping(value = "/register.action", method = RequestMethod.POST)
-    public String signUp(@ModelAttribute("user") RegisterUserBean user, BindingResult bindingResult, Model model) throws Exception {
-        System.out.println(user.toString());
-
-        if (user.getUserType().equals("ROLE_USER")) {
-            ResultMessage resultMessage = userService.signUp(user);
+    public String signUp(@ModelAttribute("user") RegisterBean registerBean, BindingResult bindingResult, Model model) throws Exception {
+        System.out.println("registerBean = " + registerBean.toString());
+        if (registerBean.getUserType().equals("ROLE_USER")) {
+            ResultMessage resultMessage = userService.signUp(registerBean);
 
             if (resultMessage.getResultCode().equals(ResultMessage.ERROR)) {
                 model.addAttribute("result", resultMessage);
-                model.addAttribute("user", user);
+                model.addAttribute("user", registerBean);
                 return "signUp";
             } else {
                 model.addAttribute("result", resultMessage);
-                model.addAttribute("user", new RegisterUserBean());
-                model.addAttribute("checkMail", "请前往注册邮箱进行认证，点击邮件中链接完成认证");
+                model.addAttribute("user", new RegisterBean());
+                model.addAttribute("info", "请前往注册邮箱进行认证，点击邮件中链接完成认证");
+                return "login";
+            }
+        } else if (registerBean.getUserType().equals("ROLE_VENUE")) {
+            ResultMessage resultMessage = venueService.signUpVenue(registerBean);
+
+            if (resultMessage.getResultCode().equals(ResultMessage.ERROR)) {
+                model.addAttribute("result", resultMessage);
+                model.addAttribute("user", registerBean);
+                return "signUp";
+            } else {
+                model.addAttribute("result", resultMessage);
+                model.addAttribute("user", new RegisterBean());
+                model.addAttribute("info","场馆的登录码为"+resultMessage.getResultMessage()+", 请记住");
                 return "login";
             }
         } else {
@@ -76,7 +92,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/modifyPassword.action", method = RequestMethod.POST)
-    public @ResponseBody ResultMessage modifyPassword(@RequestBody PasswordBean passwordBean) {
+    public @ResponseBody
+    ResultMessage modifyPassword(@RequestBody PasswordBean passwordBean) {
         return userService.modifyPassword(passwordBean);
     }
 
