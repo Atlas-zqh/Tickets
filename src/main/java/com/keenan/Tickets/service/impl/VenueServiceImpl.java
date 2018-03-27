@@ -3,16 +3,11 @@ package com.keenan.Tickets.service.impl;
 import com.keenan.Tickets.bean.AddressBean;
 import com.keenan.Tickets.bean.PasswordBean;
 import com.keenan.Tickets.bean.RegisterBean;
-import com.keenan.Tickets.model.SysRole;
-import com.keenan.Tickets.model.User;
-import com.keenan.Tickets.model.Venue;
-import com.keenan.Tickets.model.VenuePermission;
+import com.keenan.Tickets.bean.SeatInfoBean;
+import com.keenan.Tickets.model.*;
 import com.keenan.Tickets.model.util.PermissionStatus;
 import com.keenan.Tickets.model.util.PermissionType;
-import com.keenan.Tickets.repository.SysRoleRepository;
-import com.keenan.Tickets.repository.UserRepository;
-import com.keenan.Tickets.repository.VenuePermissionRepository;
-import com.keenan.Tickets.repository.VenueRepository;
+import com.keenan.Tickets.repository.*;
 import com.keenan.Tickets.service.VenueService;
 import com.keenan.Tickets.util.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +16,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @author keenan on 23/03/2018
@@ -36,6 +35,10 @@ public class VenueServiceImpl implements VenueService {
     private SysRoleRepository sysRoleRepository;
     @Autowired
     private VenuePermissionRepository venuePermissionRepository;
+    @Autowired
+    private ShowPlanRepository showPlanRepository;
+    @Autowired
+    private SeatRepository seatRepository;
 
     @Override
     public ResultMessage signUpVenue(RegisterBean registerBean) {
@@ -81,6 +84,7 @@ public class VenueServiceImpl implements VenueService {
 
         SysRole role = sysRoleRepository.findSysRoleByName(registerBean.getUserType());
         // 以场馆登录码为用户名，在user表中加入场馆的信息，供登录使用
+        // user中confirm为false，未通过管理员审核注册就无法登录
         User user = new User(loginCode, registerBean.getPassword(), registerBean.getEmail(), true, false, 0.0, 1, 0.0, "", role);
         userRepository.save(user);
         // 在场馆表中加入
@@ -118,9 +122,16 @@ public class VenueServiceImpl implements VenueService {
     public ResultMessage modifyAddress(AddressBean addressBean) {
         try {
             Venue venue = venueRepository.findOne(addressBean.id);
-            venue.setAddress(addressBean.newAddress);
+            if (!venue.getEditPermit()) {
+                return new ResultMessage(ResultMessage.ERROR, "尚未通过信息审核，无法进行新的修改");
+            }
+
+            venue.setEditPermit(false);
             venueRepository.save(venue);
-            return new ResultMessage(ResultMessage.SUCCESS, "修改成功");
+
+            VenuePermission venuePermission = new VenuePermission(venue, addressBean.newAddress, new Timestamp(System.currentTimeMillis()), PermissionStatus.WAIT_LIST, PermissionType.VENUE_ADDRESS);
+            venuePermissionRepository.save(venuePermission);
+            return new ResultMessage(ResultMessage.SUCCESS, "已提交修改请求，等待管理员审核");
         } catch (Exception e) {
             return new ResultMessage(ResultMessage.ERROR, "修改失败");
         }
@@ -149,5 +160,57 @@ public class VenueServiceImpl implements VenueService {
         corrVenue.setPassword(passwordBean.newPassword);
         userRepository.save(corrVenue);
         return new ResultMessage(ResultMessage.SUCCESS, "修改密码成功");
+    }
+
+    @Override
+    public ResultMessage modifySeats(List<SeatInfoBean> seatInfoBeans) {
+        if (seatInfoBeans == null || seatInfoBeans.size() == 0) {
+            return new ResultMessage(ResultMessage.ERROR, "请设置座位信息");
+        }
+
+        // 判断当前场馆有没有活动
+        Venue venue = venueRepository.findOne(seatInfoBeans.get(0).venueId);
+        Timestamp cur = new Timestamp(System.currentTimeMillis());
+        List<ShowPlan> showPlans = showPlanRepository.findShowPlansByVenueAndStartTimeAfterAndEndTimeAfter(venue, cur, cur);
+
+        if (showPlans.size() != 0) {
+            return new ResultMessage(ResultMessage.ERROR, "存在未完成活动，不能修改位置信息");
+        }
+
+        // 将之前的座位全部设为invalid
+        List<Seat> beforeSeats = seatRepository.findAllByVenue(venue);
+        for (Seat seat : beforeSeats) {
+            seat.setValid(false);
+        }
+
+        seatRepository.save(beforeSeats);
+        // 加入新的
+        List<Seat> newSeats = new ArrayList<>();
+        for (SeatInfoBean seatInfoBean : seatInfoBeans) {
+            for (int curRow = 0; curRow < seatInfoBean.row; curRow++) {
+                for (int curCol = 0; curCol < seatInfoBean.col; curCol++) {
+                    newSeats.add(new Seat(venue, seatInfoBean.section, (curRow + 1), (curCol + 1), true));
+                }
+            }
+        }
+
+        seatRepository.save(newSeats);
+
+        return new ResultMessage(ResultMessage.SUCCESS, "修改成功");
+    }
+
+    @Override
+    public List<SeatInfoBean> getSeatsInfo(Venue venue) {
+        List<Seat> seats = seatRepository.findAllByVenueAndIsValid(venue, true);
+        Map<String, List<Seat>> sectionMap = seats.stream().collect(Collectors.groupingBy(Seat::getSeat_section));
+
+        List<SeatInfoBean> seatInfoBeans = new ArrayList<>();
+        for (Map.Entry<String, List<Seat>> entry : sectionMap.entrySet()) {
+            Map<Integer, Long> cnt = entry.getValue().stream().collect(Collectors.groupingBy(Seat::getSeat_row, Collectors.counting()));
+
+            seatInfoBeans.add(new SeatInfoBean(venue.getId(), entry.getKey(), cnt.keySet().size(), cnt.get(1).intValue()));
+        }
+
+        return seatInfoBeans;
     }
 }

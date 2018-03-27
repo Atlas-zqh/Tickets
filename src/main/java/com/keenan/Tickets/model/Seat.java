@@ -22,10 +22,20 @@ public class Seat {
 
     private Integer seat_column;
 
+    private Boolean isValid;
+
     @OneToMany(mappedBy = "seat", fetch = FetchType.EAGER)
     private List<SeatArrangement> seatArrangements;
 
     public Seat() {
+    }
+
+    public Seat(Venue venue, String seat_section, Integer seat_row, Integer seat_column, Boolean isValid) {
+        this.venue = venue;
+        this.seat_section = seat_section;
+        this.seat_row = seat_row;
+        this.seat_column = seat_column;
+        this.isValid = isValid;
     }
 
     public Long getId() {
@@ -74,5 +84,13 @@ public class Seat {
 
     public void setSeatArrangements(List<SeatArrangement> seatArrangements) {
         this.seatArrangements = seatArrangements;
+    }
+
+    public Boolean getValid() {
+        return isValid;
+    }
+
+    public void setValid(Boolean valid) {
+        isValid = valid;
     }
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -8,15 +9,10 @@
     <title>VenueNav</title>
     <link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>
-    <!--<link href="../../static/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>-->
     <script th:src="@{~/js/html5shiv.min.js}"></script>
     <script th:src="@{~/js/respond.min.js}"></script>
     <script th:src="@{~/js/jquery.js}"></script>
     <script th:src="@{~/js/bootstrap.min.js}"></script>
-    <!--<script src="../../static/js/html5shiv.min.js"></script>-->
-    <!--<script src="../../static/js/respond.min.js"></script>-->
-    <!--<script src="../../static/js/jquery.js"></script>-->
-    <!--<script src="../../static/js/bootstrap.min.js"></script>-->
 </head>
 <body>
 
@@ -34,20 +30,32 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="#">场馆信息</a></li>
-                <li><a href="#">演出计划</a></li>
+                <li><a th:href="@{/venue/info}">场馆信息</a></li>
+                <li><a th:href="@{/venue/showPlan}">演出计划</a></li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                         aria-haspopup="true"
                                         aria-expanded="false">现场购票 <span class="caret"></span> </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">2018咪咕音乐现场南京站徐佳莹心里学音乐会</a></li>
-                        <li><a href="#">2018 shahshahshshsh</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li><a href="#">One more separated link</a></li>
+                        <li><a href="#" th:each="showPlanBriefBean:${showPlanBriefBeans}" th:text="${showPlanBriefBean.showName}"></a></li>
                     </ul>
                 </li>
                 <li><a href="#">检票入口</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">
+
+                        <span sec:authorize="isAuthenticated()" sec:authentication="name"></span>
+                        <span sec:authorize="isAnonymous()">我的</span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">注销</a></li>
+                    </ul>
+                </li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div>

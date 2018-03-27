@@ -28,9 +28,14 @@ public class SeatArrangement {
     @ManyToOne(fetch = FetchType.EAGER)
     private TicketOrder ticketOrder;
 
-    private String ticketNumber;
-
     public SeatArrangement() {
+    }
+
+    public SeatArrangement(Seat seat, ShowPlan showPlan, SeatStatus seatStatus, Double seatPrice) {
+        this.seat = seat;
+        this.showPlan = showPlan;
+        this.seatStatus = seatStatus;
+        this.seatPrice = seatPrice;
     }
 
     public Long getId() {
@@ -81,11 +86,4 @@ public class SeatArrangement {
         this.ticketOrder = ticketOrder;
     }
 
-    public String getTicketNumber() {
-        return ticketNumber;
-    }
-
-    public void setTicketNumber(String ticketNumber) {
-        this.ticketNumber = ticketNumber;
-    }
 }

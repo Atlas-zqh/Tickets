@@ -155,7 +155,8 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-info"
-                        th:onclick="'javascript:modifyAddress('+${venueInfoBean.id}+','+'\''+${venueInfoBean.venueAddress}+'\')'">确认修改
+                        th:onclick="'javascript:modifyAddress('+${venueInfoBean.id}+','+'\''+${venueInfoBean.venueAddress}+'\')'">
+                    确认修改
                 </button>
             </div>
         </div>
@@ -223,12 +224,12 @@
 
                     var newVal = $("#inputNewLocation").val()
 
-                    if(ori_content==='null'){
+                    if (ori_content === 'null') {
                         document.getElementById("venueLocation_empty").innerHTML = newVal
-                    }else {
+                    } else {
                         document.getElementById("venueLocation").innerHTML = newVal
                     }
-                    $("#inputNewLocation").attr('placeholder',newVal)
+                    $("#inputNewLocation").attr('placeholder', newVal)
                     $("#inputNewLocation").val('')
                 }
             }
@@ -253,38 +254,20 @@
             <li>修改座位信息后需等待Tickets经理审核，若该场馆仍存在「售票中」或「未结束」的演出，Tickets将不会通过您的修改请求，请确保场馆在没有演出时提交请求。</li>
         </ol>
     </div>
-    <!--<div style="text-align: center;font-size: larger">暂无座位信息</div>-->
-    <div class="panel panel-default" style="margin-left:2%;margin-right: 10%;margin-top: 2%">
-        <table class="table">
+    <div style="text-align: center;font-size: larger" th:if="${#lists.isEmpty(seatsInfo)}">暂无座位信息</div>
+    <div class="panel panel-default" style="margin-left:2%;margin-right: 10%;margin-top: 2%"
+         th:unless="${#lists.isEmpty(seatsInfo)}">
+        <table class="table" id="showSeatsTable">
             <tr>
                 <th>区号</th>
                 <th>排数</th>
                 <th>列数</th>
             </tr>
-            <tr>
-                <td>内场一区</td>
-                <td>10</td>
-                <td>20</td>
-            </tr>
-            <tr>
-                <td>内场二区</td>
-                <td>15</td>
-                <td>30</td>
-            </tr>
-            <tr>
-                <td>内场三区</td>
-                <td>15</td>
-                <td>30</td>
-            </tr>
-            <tr>
-                <td>内场四区</td>
-                <td>15</td>
-                <td>30</td>
-            </tr>
-            <tr>
-                <td>内场五区</td>
-                <td>10</td>
-                <td>20</td>
+
+            <tr th:each="sectionInfo: ${seatsInfo}">
+                <td th:text="${sectionInfo.section}"></td>
+                <td th:text="${sectionInfo.row}"></td>
+                <td th:text="${sectionInfo.col}"></td>
             </tr>
         </table>
     </div>
@@ -300,7 +283,7 @@
                 <h4 class="modal-title" id="resetSeatsModalTitle">重置座位表</h4>
             </div>
             <div class="modal-body">
-                <table id="table" class="table">
+                <table id="resetSeatTable" class="table">
                     <tr>
                         <th>区号</th>
                         <th>排数</th>
@@ -313,17 +296,19 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-info">确认重置</button>
+                <button type="button" class="btn btn-info"
+                        th:onclick="'javascript:submitSeats('+${venueInfoBean.id}+')'">确认重置
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-<script type="text/javascript">
+<script th:inline="javascript">
     $(document).ready(function () {
         $("#addBtn").click(function () {
-            var _len = $("#table tr").length;
-            $("#table").append("<tr id=" + _len + ">"
+            var _len = $("#resetSeatTable tr").length;
+            $("#resetSeatTable").append("<tr id=" + _len + ">"
                 + "<td><input type='text' name='section" + _len + "' id='section" + _len + "' /></td>"
                 + "<td><input type='text' name='row" + _len + "' id='row" + _len + "' /></td>"
                 + "<td><input type='text' name='col" + _len + "' id='col" + _len + "' /></td>"
@@ -332,7 +317,7 @@
         })
     })
     var deltr = function (index) {
-        var _len = $("#table tr").length;
+        var _len = $("#resetSeatTable tr").length;
         $("tr[id='" + index + "']").remove();//删除当前行
         for (var i = index + 1, j = _len; i < j; i++) {
             var nextSectionVal = $("#section" + i).val();
@@ -347,6 +332,43 @@
                     + "</tr>");
         }
 
+    }
+
+
+    function submitSeats(venueId) {
+        var resetTable = document.getElementById("resetSeatTable");
+        var seatInfoList = new Array();
+
+        for (var i = 1; i < resetTable.rows.length; i++) {
+            var section = resetTable.rows[i].cells[0].getElementsByTagName("input")[0].value;
+            var row = resetTable.rows[i].cells[1].getElementsByTagName("input")[0].value;
+            var col = resetTable.rows[i].cells[2].getElementsByTagName("input")[0].value;
+
+            seatInfoList.push({venueId: venueId, section: section, row: row, col: col})
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/venue/modifySeats.action',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(seatInfoList),
+            success: function (data) {
+                if (data.resultCode === 'error') {
+                    toastr.warning(data.resultMessage)
+                } else {
+                    toastr.success(data.resultMessage)
+                    // for (var i = 0; i < seatInfoList.length; i++) {
+                    //     $("#showSeatsTable").append("<tr>"
+                    //         + "<td>" + seatInfoList[i].section + "</td>"
+                    //         + "<td>" + seatInfoList[i].row + "</td>"
+                    //         + "<td>" + seatInfoList[i].col + "</td>"
+                    //         + "</tr>");
+                    // }
+                    $("#resetSeatsModal").modal('hide')
+                }
+            }
+        })
     }
 </script>
 

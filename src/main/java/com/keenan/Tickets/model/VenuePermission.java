@@ -19,6 +19,8 @@ public class VenuePermission {
     @ManyToOne(fetch = FetchType.EAGER)
     private Venue venue;
 
+    private String modifyContent;
+
     private Timestamp createTime;
 
     @Enumerated(EnumType.STRING)
@@ -28,6 +30,14 @@ public class VenuePermission {
     private PermissionType type;
 
     public VenuePermission() {
+    }
+
+    public VenuePermission(Venue venue, String modifyContent, Timestamp createTime, PermissionStatus status, PermissionType type) {
+        this.venue = venue;
+        this.modifyContent = modifyContent;
+        this.createTime = createTime;
+        this.status = status;
+        this.type = type;
     }
 
     public VenuePermission(Venue venue, Timestamp createTime, PermissionStatus status, PermissionType type) {
@@ -75,5 +85,13 @@ public class VenuePermission {
 
     public void setType(PermissionType type) {
         this.type = type;
+    }
+
+    public String getModifyContent() {
+        return modifyContent;
+    }
+
+    public void setModifyContent(String modifyContent) {
+        this.modifyContent = modifyContent;
     }
 }

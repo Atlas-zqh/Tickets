@@ -32,6 +32,8 @@ public class TicketOrder {
 
     private Double orderPrice;
 
+    private String ticketNumber;
+
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
@@ -111,5 +113,13 @@ public class TicketOrder {
 
     public void setSeatArrangements(Set<SeatArrangement> seatArrangements) {
         this.seatArrangements = seatArrangements;
+    }
+
+    public String getTicketNumber() {
+        return ticketNumber;
+    }
+
+    public void setTicketNumber(String ticketNumber) {
+        this.ticketNumber = ticketNumber;
     }
 }

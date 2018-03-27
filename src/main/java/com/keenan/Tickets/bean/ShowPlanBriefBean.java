@@ -18,6 +18,8 @@ public class ShowPlanBriefBean {
 
     public String posterUrl;
 
+    public String status;
+
     public ShowPlanBriefBean() {
     }
 
@@ -39,5 +41,6 @@ public class ShowPlanBriefBean {
         String endTime = df.format(end).split("_")[1];
 
         this.time = date + " " + weekDay + " " + startTime + "-" + endTime;
+        this.status = showPlan.getShowPlanStatus().toString();
     }
 }

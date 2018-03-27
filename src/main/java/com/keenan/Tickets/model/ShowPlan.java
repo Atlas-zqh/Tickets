@@ -51,6 +51,18 @@ public class ShowPlan {
     public ShowPlan() {
     }
 
+    public ShowPlan(Venue venue, String showName, String posterUrl, Timestamp startTime, Timestamp endTime, ShowPlanType showPlanType, ShowPlanStatus showPlanStatus, String notice, String description) {
+        this.venue = venue;
+        this.showName = showName;
+        this.posterUrl = posterUrl;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.showPlanType = showPlanType;
+        this.showPlanStatus = showPlanStatus;
+        this.notice = notice;
+        this.description = description;
+    }
+
     public Long getId() {
         return id;
     }

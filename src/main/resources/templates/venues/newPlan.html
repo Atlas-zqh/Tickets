@@ -6,16 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>创建新计划</title>
 
-    <link href="../../static/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="../../static/css/fixed-footer.css" rel="stylesheet" type="text/css"/>
-    <link href="../../static/css/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css"/>
 
-    <script src="../../static/js/html5shiv.min.js"></script>
-    <script src="../../static/js/respond.min.js"></script>
-    <script src="../../static/js/jquery.js"></script>
-    <script src="../../static/js/bootstrap.min.js"></script>
-    <script src="../../static/js/bootstrap-datetimepicker.js"></script>
-    <script src="../../static/js/bootstrap-datetimepicker.zh-CN.js"></script>
+    <link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>
+    <link th:href="@{~/css/bootstrap-datetimepicker.css}" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{~/css/toastr.css}"/>
+
+    <script th:src="@{~/js/html5shiv.min.js}"></script>
+    <script th:src="@{~/js/respond.min.js}"></script>
+    <script th:src="@{~/js/jquery.js}"></script>
+    <script th:src="@{~/js/bootstrap.min.js}"></script>
+    <script th:src="@{~/js/bootstrap-datetimepicker.js}"></script>
+    <script th:src="@{~/js/bootstrap-datetimepicker.zh-CN.js}"></script>
+    <script th:src="@{~/js/toastr.min.js}"></script>
 </head>
 <body>
 <div th:replace="common/venueNav :: venueNav"></div>
@@ -35,50 +38,84 @@
         <h1>创建新活动</h1>
     </div>
 
-    <form role="form" class="form-horizontal">
+    <form id="newPlanForm" role="form" class="form-horizontal" enctype="multipart/form-data">
 
         <div class="form-group">
             <label for="inputEventName" class="col-sm-2 control-label">活动名称</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="inputEventName" placeholder="请输入活动名称"/>
+                <input type="text" class="form-control" id="inputEventName" placeholder="请输入活动名称" name="eventName"/>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="inputEventTime" class="col-sm-2 control-label">活动时间</label>
+            <label for="inputEventStartTime" class="col-sm-2 control-label">活动开始时间</label>
             <div class="col-sm-8">
-                <input class="form-control" id="inputEventTime" size="16" type="text" value="" readonly="readonly"
-                       placeholder="活动日期"
-                       style="background-color: white;"/>
+                <input class="form-control" id="inputEventStartTime" size="16" type="text" value="" readonly="readonly"
+                       placeholder="活动开始时间"
+                       style="background-color: white;" name="startTime"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inputEventEndTime" class="col-sm-2 control-label">活动结束时间</label>
+            <div class="col-sm-8">
+                <input class="form-control" id="inputEventEndTime" size="16" type="text" value="" readonly="readonly"
+                       placeholder="活动结束时间"
+                       style="background-color: white;" name="endTime"/>
             </div>
         </div>
 
         <div class="form-group">
             <label for="inputEventVenue" class="col-sm-2 control-label">活动场馆</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="inputEventVenue" placeholder="南京市太阳宫"
-                       disabled="disabled"/>
+                <input type="text" class="form-control" id="inputEventVenue" th:placeholder="${venueInfoBean.venueName}"
+                       disabled="disabled" name="venueName"/>
             </div>
         </div>
         <div class="form-group">
             <label for="inputEventAddress" class="col-sm-2 control-label">活动地点</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="inputEventAddress" placeholder="南京市鼓楼校区"
-                       disabled="disabled"/>
+                <input type="text" class="form-control" id="inputEventAddress"
+                       th:placeholder="${venueInfoBean.venueAddress}"
+                       disabled="disabled" name="location"/>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="inputEventType" class="col-sm-2 control-label">活动类型</label>
+            <label class="col-sm-2 control-label">活动类型</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="inputEventType" placeholder="请输入活动类型"/>
+                <!--<input type="text" class="form-control" id="inputEventType" placeholder="请输入活动类型"/>-->
+                <label class="radio-inline">
+                    <input type="radio" name="type" id="concertType"
+                           value="演唱会"/>演唱会
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="type" id="liveType"
+                           value="音乐现场"/>音乐现场
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="type" id="dramaType"
+                           value="戏剧"/>戏剧
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="type" id="musicalType"
+                           value="音乐会"/>音乐会
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="type" id="danceType"
+                           value="歌舞剧"/>歌舞剧
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="type" id="operaType"
+                           value="话剧"/>话剧
+                </label>
             </div>
         </div>
 
         <div class="form-group">
             <label for="inputEventPoster" class="col-sm-2 control-label">活动海报</label>
             <div class="col-sm-8">
-                <input id="inputEventPoster" name="inputEventPoster" type="file" accept="image/*"/>
+                <input id="inputEventPoster" name="poster" type="file" accept="image/*"/>
             </div>
         </div>
 
@@ -86,7 +123,7 @@
             <label for="inputEventInfo" class="col-sm-2 control-label">活动简介</label>
             <div class="col-sm-8">
                 <textarea id="inputEventInfo" class="form-control" placeholder="请输入活动简介"
-                          style="height: 200px"></textarea>
+                          style="height: 200px" name="description"></textarea>
             </div>
         </div>
 
@@ -94,63 +131,119 @@
             <label for="inputEventWarning" class="col-sm-2 control-label">活动须知</label>
             <div class="col-sm-8">
                 <textarea id="inputEventWarning" class="form-control" placeholder="请输入活动须知"
-                          style="height: 200px"></textarea>
+                          style="height: 200px" name="notice"></textarea>
             </div>
         </div>
 
         <div class="form-group">
             <label for="inputEventSeatPrice" class="col-sm-2 control-label">价位安排</label>
             <div class="col-sm-4" id="inputEventSeatPrice">
-                <div class="input-group" style="margin-top: 1%">
-                    <span class="input-group-addon">内场一区</span>
-                    <input type="text" class="form-control" placeholder="请输入价格"/>
-                    <span class="input-group-addon">元</span>
-                </div>
-
-                <div class="input-group" style="margin-top: 1%">
-                    <span class="input-group-addon">内场二区</span>
-                    <input type="text" class="form-control" placeholder="请输入价格"/>
-                    <span class="input-group-addon">元</span>
-                </div>
-                <div class="input-group" style="margin-top: 1%">
-                    <span class="input-group-addon">内场三区</span>
-                    <input type="text" class="form-control" placeholder="请输入价格"/>
-                    <span class="input-group-addon">元</span>
-                </div>
-                <div class="input-group" style="margin-top: 1%">
-                    <span class="input-group-addon">内场四区</span>
-                    <input type="text" class="form-control" placeholder="请输入价格"/>
-                    <span class="input-group-addon">元</span>
-                </div>
-                <div class="input-group" style="margin-top: 1%">
-                    <span class="input-group-addon">内场五区</span>
-                    <input type="text" class="form-control" placeholder="请输入价格"/>
-                    <span class="input-group-addon">元</span>
+                <div th:each="seatInfoBean:${seatInfoBeans}">
+                    <div class="input-group" style="margin-top: 1%">
+                        <span class="input-group-addon" th:id="sectionName+${seatInfoBeanStat.index}"
+                              th:text="${seatInfoBean.section}"></span>
+                        <input type="text" class="form-control" placeholder="请输入价格"
+                               th:id="sectionPrice+${seatInfoBeanStat.index}"/>
+                        <span class="input-group-addon">元</span>
+                    </div>
                 </div>
             </div>
         </div>
 
     </form>
     <div style="text-align: center; margin-top: 2%">
-        <button type="submit" class="btn btn-info" style="margin-right: 2%">确认创建</button>
-        <button type="button" class="btn btn-default">取消</button>
+        <button type="submit" class="btn btn-info" style="margin-right: 2%"
+                th:onclick="'javascript:postForm('+${#lists.size(seatInfoBeans)}+')'">确认创建
+        </button>
+        <button type="button" class="btn btn-default" onclick="returnToShowPlan()">取消
+        </button>
     </div>
 </div>
 
-<script type="text/javascript">
+<script th:inline="javascript">
+    toastr.options = {
+        closeButton: false,
+        debug: false,
+        progressBar: true,
+        positionClass: "toast-top-center",
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "3000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut"
+    };
+
     var newDate = new Date();
     var t = newDate.toJSON();
 
-    $('#inputEventTime').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii',
+    $('#inputEventStartTime').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii:00',
         language: 'zh-CN',
         weekStart: 1,
-        todayBtn: 1,
         autoclose: 1,
-        todayHighlight: 1,
         forceParse: 0,
         startDate: new Date(t)
+    }).on('click', function () {
+        $('#inputEventStartTime').datetimepicker('setEndDate', $('#inputEventEndTime').val())
     });
+    ;
+
+    $('#inputEventEndTime').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii:00',
+        language: 'zh-CN',
+        weekStart: 1,
+        autoclose: 1,
+        forceParse: 0
+    }).on('click', function () {
+        $('#inputEventEndTime').datetimepicker('setStartDate', $('#inputEventStartTime').val())
+    });
+
+    function postForm(sectionNum) {
+        console.log(sectionNum)
+        var form = $('#newPlanForm')[0];
+
+        var data = new FormData(form);
+
+        var prices = {}
+        for (var i = 0; i < sectionNum; i++) {
+            var name = "sectionName" + i
+            var price = "sectionPrice" + i
+            var sectionName = document.getElementById(name).innerText
+            var sectionPrice = document.getElementById(price).value
+            console.log(sectionName + " " + sectionPrice)
+            prices[sectionName] = sectionPrice
+        }
+
+        data.append("prices", JSON.stringify(prices))
+        data.append("venueName", $("#inputEventVenue").attr('placeholder'))
+        data.append("location", $("#inputEventAddress").attr('placeholder'))
+
+        $.ajax({
+            url: "/venue/createNewPlan.action",
+            type: "POST",
+            data: data,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (returnData) {
+                if (returnData.resultCode === 'error') {
+                    toastr.warning(returnData.resultMessage)
+                } else {
+                    toastr.success(returnData.resultMessage)
+                    window.location.href = '/venue/showPlan'
+                }
+            }
+        })
+    }
+
+    function returnToShowPlan() {
+        window.location.href = '/venue/showPlan'
+    }
 </script>
 
 
