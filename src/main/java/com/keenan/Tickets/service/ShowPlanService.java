@@ -1,5 +1,7 @@
 package com.keenan.Tickets.service;
 
+import com.keenan.Tickets.bean.ChooseSeatBean;
+import com.keenan.Tickets.bean.CreateOrderBean;
 import com.keenan.Tickets.bean.ShowPlanBriefBean;
 import com.keenan.Tickets.bean.ShowPlanDetailBean;
 import com.keenan.Tickets.model.ShowPlan;
@@ -15,9 +17,17 @@ import java.util.Map;
 public interface ShowPlanService {
     List<ShowPlanBriefBean> getAllShowPlanBriefBeansBeforeToday();
 
-    ShowPlanDetailBean getShowPlanByID(Long id);
+    ShowPlanDetailBean getDetailShowPlanByID(Long id);
+
+    ShowPlan getShowPlanByID(Long id);
+
+    ShowPlanBriefBean getBriefShowPlanByID(Long id);
 
     List<ShowPlanBriefBean> getAllShowPlansByVenueAfterToday(Venue venue);
 
-    ResultMessage createNewShowPlan(ShowPlan showPlan,Map<String, Double> priceMap);
+    ResultMessage createNewShowPlan(ShowPlan showPlan, Map<String, Double> priceMap);
+
+    ChooseSeatBean getSeatChart(ShowPlan showPlan);
+
+    ResultMessage createOfflineOrder(CreateOrderBean createOrderBean);
 }

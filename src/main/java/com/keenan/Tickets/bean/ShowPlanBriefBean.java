@@ -20,6 +20,10 @@ public class ShowPlanBriefBean {
 
     public String status;
 
+    public Long venueId;
+
+    public String venueName;
+
     public ShowPlanBriefBean() {
     }
 
@@ -42,5 +46,7 @@ public class ShowPlanBriefBean {
 
         this.time = date + " " + weekDay + " " + startTime + "-" + endTime;
         this.status = showPlan.getShowPlanStatus().toString();
+        this.venueId = showPlan.getVenue().getId();
+        this.venueName = showPlan.getVenue().getName();
     }
 }

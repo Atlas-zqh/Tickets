@@ -13,4 +13,7 @@ public interface SeatRepository extends JpaRepository<Seat, Long> {
     List<Seat> findAllByVenue(Venue venue);
 
     List<Seat> findAllByVenueAndIsValid(Venue venue, Boolean isValid);
+
+    Seat findFirstByVenueAndSeatColumnAndSeatRowAndIsValid(Venue venue, Integer seat_column, Integer seat_row, Boolean isValid);
+
 }

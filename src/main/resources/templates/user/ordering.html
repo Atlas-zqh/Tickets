@@ -198,12 +198,8 @@
                                 sc = $('#seat-map').seatCharts({
                                     map: [
                                         'aaaaaa__aaaaa',
-                                        'aaaaaa__aaaaa',
-                                        'aaaaaa__aaaaa',
-                                        'aaaaaa__aaaaa',
-                                        'aaaaaa__aaaaa',
-                                        'aaaaaa__aaaaa',
-                                        'aaaaaaaaaaaaa'
+                                        'aaaaaa__aaaca',
+                                        'aaaaaa__baaaa'
                                     ],
                                     naming: {
                                         top: true,
@@ -224,7 +220,7 @@
                                         ]
                                     },
                                     click: function () {
-                                        if (this.status() == 'available') {
+                                        if (this.status() === 'available') {
                                             console.log(chosenCount)
                                             if (chosenCount === 6) {
                                                 return this.style();
@@ -232,11 +228,11 @@
                                             //do some stuff, i.e. add to the cart
                                             chosenCount += 1
                                             return 'selected';
-                                        } else if (this.status() == 'selected') {
+                                        } else if (this.status() === 'selected') {
                                             chosenCount -= 1;
                                             //seat has been vacated
                                             return 'available';
-                                        } else if (this.status() == 'unavailable') {
+                                        } else if (this.status() === 'unavailable') {
                                             //seat has been already booked
                                             return 'unavailable';
                                         } else {
@@ -245,7 +241,7 @@
                                     }
 
                                 });
-
+                                sc.find('c').status('unavailable');
                             });
 
 

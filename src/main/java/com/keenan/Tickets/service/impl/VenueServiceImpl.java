@@ -202,11 +202,11 @@ public class VenueServiceImpl implements VenueService {
     @Override
     public List<SeatInfoBean> getSeatsInfo(Venue venue) {
         List<Seat> seats = seatRepository.findAllByVenueAndIsValid(venue, true);
-        Map<String, List<Seat>> sectionMap = seats.stream().collect(Collectors.groupingBy(Seat::getSeat_section));
+        Map<String, List<Seat>> sectionMap = seats.stream().collect(Collectors.groupingBy(Seat::getSeatSection));
 
         List<SeatInfoBean> seatInfoBeans = new ArrayList<>();
         for (Map.Entry<String, List<Seat>> entry : sectionMap.entrySet()) {
-            Map<Integer, Long> cnt = entry.getValue().stream().collect(Collectors.groupingBy(Seat::getSeat_row, Collectors.counting()));
+            Map<Integer, Long> cnt = entry.getValue().stream().collect(Collectors.groupingBy(Seat::getSeatRow, Collectors.counting()));
 
             seatInfoBeans.add(new SeatInfoBean(venue.getId(), entry.getKey(), cnt.keySet().size(), cnt.get(1).intValue()));
         }

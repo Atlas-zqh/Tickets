@@ -6,18 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>检票</title>
 
-    <!--<link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>-->
-    <!--<link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>-->
-    <link href="../../static/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="../../static/css/fixed-footer.css" rel="stylesheet" type="text/css"/>
-    <!--<script th:src="@{~/js/html5shiv.min.js}"></script>-->
-    <!--<script th:src="@{~/js/respond.min.js}"></script>-->
-    <!--<script th:src="@{~/js/jquery.js}"></script>-->
-    <!--<script th:src="@{~/js/bootstrap.min.js}"></script>-->
-    <script src="../../static/js/html5shiv.min.js"></script>
-    <script src="../../static/js/respond.min.js"></script>
-    <script src="../../static/js/jquery.js"></script>
-    <script src="../../static/js/bootstrap.min.js"></script>
+    <link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{~/css/toastr.css}"/>
+
+    <script th:src="@{~/js/html5shiv.min.js}"></script>
+    <script th:src="@{~/js/respond.min.js}"></script>
+    <script th:src="@{~/js/jquery.js}"></script>
+    <script th:src="@{~/js/bootstrap.min.js}"></script>
+    <script th:src="@{~/js/toastr.min.js}"></script>
 
 </head>
 <body>
@@ -32,15 +29,53 @@
         <div style="margin-left: 30%;margin-right: 30%;padding-top: 3%">
             <form>
                 <div class="form-group">
-                    <label for="inputTicketNumber">票号</label>
-                    <input type="text" class="form-control" id="inputTicketNumber" placeholder="请输入票号"/>
+                    <label for="inputTicketNumber">订单号</label>
+                    <input type="text" class="form-control" id="inputTicketNumber" placeholder="请输入订单号"/>
                 </div>
 
-                <button type="submit" class="btn btn-info" style="margin-top: 5%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;确认&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                <button type="button" class="btn btn-info" style="margin-top: 5%" onclick="checkTicket()">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;确认&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
             </form>
         </div>
     </div>
 </div>
+
+<script th:inline="javascript">
+    toastr.options = {
+        closeButton: false,
+        debug: false,
+        progressBar: true,
+        positionClass: "toast-top-center",
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "3000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut"
+    };
+
+    function checkTicket() {
+        $.ajax({
+            url: '/venue/check.action',
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: {ticketNumber: $('#inputTicketNumber').val()},
+            success: function (data) {
+                console.log(data)
+                if (data.resultCode === 'error') {
+                    console.log(data.resultMessage)
+                    toastr.warning(data.resultMessage)
+                } else {
+                    toastr.success(data.resultMessage)
+                    $('#inputTicketNumber').val('')
+                }
+            }
+        })
+    }
+</script>
 
 <footer class="panel-footer">
     <div class="container" style="text-align: center">

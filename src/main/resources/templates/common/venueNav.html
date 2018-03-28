@@ -36,10 +36,10 @@
                                         aria-haspopup="true"
                                         aria-expanded="false">现场购票 <span class="caret"></span> </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#" th:each="showPlanBriefBean:${showPlanBriefBeans}" th:text="${showPlanBriefBean.showName}"></a></li>
+                        <li><a th:each="showPlanBriefBean:${showPlanBriefBeans}" th:text="${showPlanBriefBean.showName}" th:href="@{'/venue/spotTickets?showId='+${showPlanBriefBean.id}}"></a></li>
                     </ul>
                 </li>
-                <li><a href="#">检票入口</a></li>
+                <li><a th:href="@{/venue/check}">检票入口</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">

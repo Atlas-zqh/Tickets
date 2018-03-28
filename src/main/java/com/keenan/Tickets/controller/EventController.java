@@ -29,7 +29,7 @@ public class EventController {
 
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String displayEventDetail(@RequestParam(value = "id", required = true) String id, Model model) {
-        model.addAttribute("eventDetail", showPlanService.getShowPlanByID(Long.valueOf(id)));
+        model.addAttribute("eventDetail", showPlanService.getDetailShowPlanByID(Long.valueOf(id)));
         return "user/eventDetail";
     }
 }

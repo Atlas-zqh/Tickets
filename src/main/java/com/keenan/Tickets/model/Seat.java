@@ -16,11 +16,11 @@ public class Seat {
     @ManyToOne
     private Venue venue;
 
-    private String seat_section;
+    private String seatSection;
 
-    private Integer seat_row;
+    private Integer seatRow;
 
-    private Integer seat_column;
+    private Integer seatColumn;
 
     private Boolean isValid;
 
@@ -30,11 +30,11 @@ public class Seat {
     public Seat() {
     }
 
-    public Seat(Venue venue, String seat_section, Integer seat_row, Integer seat_column, Boolean isValid) {
+    public Seat(Venue venue, String seatSection, Integer seatRow, Integer seatColumn, Boolean isValid) {
         this.venue = venue;
-        this.seat_section = seat_section;
-        this.seat_row = seat_row;
-        this.seat_column = seat_column;
+        this.seatSection = seatSection;
+        this.seatRow = seatRow;
+        this.seatColumn = seatColumn;
         this.isValid = isValid;
     }
 
@@ -54,28 +54,28 @@ public class Seat {
         this.venue = venue;
     }
 
-    public String getSeat_section() {
-        return seat_section;
+    public String getSeatSection() {
+        return seatSection;
     }
 
-    public void setSeat_section(String seat_section) {
-        this.seat_section = seat_section;
+    public void setSeatSection(String seatSection) {
+        this.seatSection = seatSection;
     }
 
-    public Integer getSeat_row() {
-        return seat_row;
+    public Integer getSeatRow() {
+        return seatRow;
     }
 
-    public void setSeat_row(Integer seat_row) {
-        this.seat_row = seat_row;
+    public void setSeatRow(Integer seatRow) {
+        this.seatRow = seatRow;
     }
 
-    public Integer getSeat_column() {
-        return seat_column;
+    public Integer getSeatColumn() {
+        return seatColumn;
     }
 
-    public void setSeat_column(Integer seat_column) {
-        this.seat_column = seat_column;
+    public void setSeatColumn(Integer seatColumn) {
+        this.seatColumn = seatColumn;
     }
 
     public List<SeatArrangement> getSeatArrangements() {

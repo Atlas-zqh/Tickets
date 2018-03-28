@@ -6,20 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>现场购票</title>
 
-    <!--<link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>-->
-    <!--<link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>-->
-    <link href="../../static/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="../../static/css/fixed-footer.css" rel="stylesheet" type="text/css"/>
-    <link href="../../static/css/jquery.seat-charts.css" rel="stylesheet" type="text/css"/>
-    <!--<script th:src="@{~/js/html5shiv.min.js}"></script>-->
-    <!--<script th:src="@{~/js/respond.min.js}"></script>-->
-    <!--<script th:src="@{~/js/jquery.js}"></script>-->
-    <!--<script th:src="@{~/js/bootstrap.min.js}"></script>-->
-    <script src="../../static/js/html5shiv.min.js"></script>
-    <script src="../../static/js/respond.min.js"></script>
-    <script src="../../static/js/jquery.js"></script>
-    <script src="../../static/js/bootstrap.min.js"></script>
-    <script src="../../static/js/jquery.seat-charts.min.js"></script>
+    <link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>
+    <link th:href="@{~/css/jquery.seat-charts.css}" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{~/css/toastr.css}"/>
+
+    <script th:src="@{~/js/html5shiv.min.js}"></script>
+    <script th:src="@{~/js/respond.min.js}"></script>
+    <script th:src="@{~/js/jquery.js}"></script>
+    <script th:src="@{~/js/bootstrap.min.js}"></script>
+    <script th:src="@{~/js/jquery.seat-charts.min.js}"></script>
+    <script th:src="@{~/js/toastr.min.js}"></script>
 </head>
 <body>
 <div th:replace="common/venueNav :: venueNav"></div>
@@ -33,9 +30,7 @@
         <div style="margin-left: 20%;margin-right: 20%;padding-top: 2%">
             <hr color="#5bc0de"/>
 
-            <h3 style="margin-top: 6%">2018咪咕音乐现场南京站徐佳莹心里学音乐会<br/>
-                <small>2018-03-17 南京太阳宫</small>
-            </h3>
+            <h3 style="margin-top: 6%" th:text="${curShowBrief.showName}"><br/></h3>
 
             <br/>
 
@@ -72,9 +67,7 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-                                            <!--<span aria-hidden="true">&times;</span></button>-->
-                                            <h4 class="modal-title" id="myModalLabel">座位表 - 票价288元</h4>
+                                            <h4 class="modal-title" id="myModalLabel"></h4>
                                         </div>
                                         <div class="modal-body">
                                             <div id="seat-map" style="margin-left: 120px;margin-top: 20px"></div>
@@ -95,30 +88,20 @@
                                 <br/>
 
                                 <div class="btn-group" data-toggle="buttons">
-                                    <label class="btn btn-default" data-toggle="modal" data-target="#seat-chart">
-                                        <input type="radio" name="chosenSeatsPrice" id="chosenSeatsPrice1"
-                                               autocomplete="off" value="188"/>188
-                                    </label>
-                                    <label class="btn btn-default" data-toggle="modal" data-target="#seat-chart">
-                                        <input type="radio" name="chosenSeatsPrice" id="chosenSeatsPrice2"
-                                               autocomplete="off" value="288"/>288
-                                    </label>
-                                    <label class="btn btn-default" data-toggle="modal"
-                                           data-target="#seat-chart">
-                                        <input type="radio" name="chosenSeatsPrice" id="chosenSeatsPrice3"
-                                               autocomplete="off" value="488"/>488
-                                    </label>
-                                    <label class="btn btn-default" data-toggle="modal" data-target="#seat-chart">
-                                        <input type="radio" name="chosenSeatsPrice" id="chosenSeatsPrice4"
-                                               autocomplete="off" value="888"/>888
-                                    </label>
-                                    <label class="btn btn-default" data-toggle="modal"
-                                           data-target="#seat-chart">
-                                        <input type="radio" name="chosenSeatsPrice" id="chosenSeatsPrice5"
-                                               autocomplete="off" value="1288"/>1288
-                                    </label>
-
-
+                                    <div class="btn btn-default"
+                                         th:each="chooseSeatBean : ${chooseSeatBean.sectionSeat}"
+                                         onclick="clickRadio(this);"
+                                         th:id="'outerId'+${chooseSeatBeanStat.index}">
+                                        <input type="radio" name="chosenSeatsPrice"
+                                               th:id="'seatPrice'+${chooseSeatBeanStat.index}"
+                                               autocomplete="off" th:value="${chooseSeatBean.key}"
+                                               th:text="${chooseSeatBean.key}"/>
+                                        <input th:id="'hidden'+${chooseSeatBeanStat.index}"
+                                               type="hidden"
+                                               th:value="${chooseSeatBean.value}"
+                                               name="chosenSeatsArrangment"
+                                        />
+                                    </div>
                                 </div>
                             </div>
 
@@ -136,92 +119,16 @@
 
                             <div class="form-group" style="">
                                 <label>会员邮箱: </label>
-                                <input type="email" class="form-control" placeholder="会员邮箱"/>
+                                <input id="memberEmail" type="email" class="form-control" placeholder="会员邮箱"/>
                             </div>
 
-                            <a role="button" class="btn btn-success" style="margin-top: 2%">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp确认选座&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
+                            <a role="button"
+                               class="btn btn-success"
+                               style="margin-top: 2%"
+                               th:onclick="'javascipt:submitSeats('+${curShowBrief.venueId}+','+${curShowBrief.id}+')'">
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp确认选座&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
                         </form>
 
-
-                        <script type="text/javascript">
-                            var chosenCount = 0;
-                            var sc;
-                            $(document).ready(function () {
-                                sc = $('#seat-map').seatCharts({
-                                    map: [
-                                        'aaaaaa__aaaaa',
-                                        'aaaaaa__aaaaa',
-                                        'aaaaaa__aaaaa',
-                                        'aaaaaa__aaaaa',
-                                        'aaaaaa__aaaaa',
-                                        'aaaaaa__aaaaa',
-                                        'aaaaaaaaaaaaa'
-                                    ],
-                                    naming: {
-                                        top: true,
-                                        left: true,
-                                        columns: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
-                                        rows: ['A', 'B', 'C', 'D', 'E', 'F', 'G']
-                                    },
-                                    seats: {
-                                        a: {},
-                                        b: {},
-                                        c: {}
-                                    },
-                                    legend: {
-                                        items: [
-                                            ['a', 'available', '可选'],
-                                            ['b', 'selected', '已选'],
-                                            ['c', 'unavailable', '不可选']
-                                        ]
-                                    },
-                                    click: function () {
-                                        if (this.status() == 'available') {
-                                            console.log(chosenCount)
-                                            if (chosenCount === 6) {
-                                                return this.style();
-                                            }
-                                            //do some stuff, i.e. add to the cart
-                                            chosenCount += 1
-                                            return 'selected';
-                                        } else if (this.status() == 'selected') {
-                                            chosenCount -= 1;
-                                            //seat has been vacated
-                                            return 'available';
-                                        } else if (this.status() == 'unavailable') {
-                                            //seat has been already booked
-                                            return 'unavailable';
-                                        } else {
-                                            return this.style();
-                                        }
-                                    }
-
-                                });
-
-                            });
-
-
-                            $('#confirmChosenButton').on('click', function () {
-                                seats = sc.find('selected').seatIds
-                                var output = ''
-                                for (j = 0, len = seats.length; j < len; j++) {
-                                    splited = seats[j].split('_')
-                                    output += (splited[0] + '排' + splited[1] + '座')
-                                    if (j != len - 1) {
-                                        output += ', '
-                                    }
-                                }
-                                document.getElementById('chosenSeats').innerText = output
-                                $('#seat-chart').modal('hide')
-
-                                var chosenPrice = parseInt($("input[name='chosenSeatsPrice']:checked").val())
-                                console.log(chosenPrice)
-                                var totalPrice = chosenPrice * seats.length
-                                console.log(totalPrice)
-                                $('#chosenTotal').text(totalPrice)
-                            });
-
-                        </script>
                     </div>
                 </div>
 
@@ -231,7 +138,120 @@
     </div>
 </div>
 
-<script type="text/javascript">
+<script th:inline="javascript">
+    $(document).on('hidden.bs.modal', function (e) {
+        $(e.target).removeData('bs.modal');
+    });
+
+    function setModalContent(price, content, columns, rows) {
+        console.log(content)
+        document.getElementById("myModalLabel").innerHTML = '座位表 - 票价' + price + '元'
+        $('#seat-chart').modal('show')
+        var chosenCount = 0;
+        var sc;
+
+        sc = $('#seat-map').seatCharts({
+            map: content,
+            naming: {
+                top: true,
+                left: true,
+                columns: columns,
+                rows: rows
+            },
+            seats: {
+                a: {},
+                b: {},
+                c: {}
+            },
+            legend: {
+                items: [
+                    ['a', 'available', '可选'],
+                    ['b', 'selected', '已选'],
+                    ['c', 'unavailable', '不可选']
+                ]
+            },
+            click: function () {
+                if (this.status() == 'available') {
+                    console.log(chosenCount)
+                    if (chosenCount === 6) {
+                        return this.style();
+                    }
+                    //do some stuff, i.e. add to the cart
+                    chosenCount += 1
+                    return 'selected';
+                } else if (this.status() == 'selected') {
+                    chosenCount -= 1;
+                    //seat has been vacated
+                    return 'available';
+                } else if (this.status() == 'unavailable') {
+                    //seat has been already booked
+                    return 'unavailable';
+                } else {
+                    return this.style();
+                }
+            }
+        })
+
+        sc.find('c').status('unavailable')
+
+        $('#confirmChosenButton').on('click', function () {
+            seats = sc.find('selected').seatIds
+            var output = ''
+            for (j = 0, len = seats.length; j < len; j++) {
+                splited = seats[j].split('_')
+                output += (splited[0] + '排' + splited[1] + '座')
+                if (j != len - 1) {
+                    output += ', '
+                }
+            }
+            document.getElementById('chosenSeats').innerText = output
+            $('#seat-chart').modal('hide')
+            $('.seatCharts-row').remove();
+            $('.seatCharts-legendItem').remove();
+            $('#seat-map,#seat-map *').unbind().removeData();
+
+            var chosenPrice = parseInt($("input[name='chosenSeatsPrice']:checked").val())
+            var totalPrice = chosenPrice * seats.length
+            $('#chosenTotal').text(totalPrice)
+        })
+    };
+
+    function clickRadio(obj) {
+        var price = $("#" + obj.id + " input[name='chosenSeatsPrice']").val()
+
+        var content = $("#" + obj.id + " input[name='chosenSeatsArrangment']").val()
+        var contentArray = content.substring(1, content.length - 1).replace(/\s+/g, "").split(',')
+        var rows = []
+        for (var j = 0; j < contentArray.length; j++) {
+            rows.push('' + (j + 1))
+        }
+
+        var cols = []
+        for (var j = 0; j < contentArray[0].length; j++) {
+            cols.push('' + (j + 1))
+        }
+
+        setModalContent(price, contentArray, cols, rows)
+    }
+</script>
+
+<script th:inline="javascript">
+    toastr.options = {
+        closeButton: false,
+        debug: false,
+        progressBar: true,
+        positionClass: "toast-top-center",
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "3000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut"
+    };
+
     $("input[name='seatsPrice']").click(function () {
         var seatsPrice = parseInt($(this).val())
         var seatsNum = parseInt($("#seatsNum").val())
@@ -243,14 +263,35 @@
         .spinner('delay', 200) //delay in ms
         .spinner('changing', function (e, newVal, oldVal) {
             var seatsPrice = parseInt($("input[name='seatsPrice']:checked").val())
-            console.log(seatsPrice)
             var seatsNum = newVal
-            console.log(seatsNum)
             var totalPrice = seatsPrice * seatsNum
-            console.log(totalPrice)
             $("#currentTotal").text(totalPrice)
 
         });
+
+    function submitSeats(venueId, showPlanId) {
+        $.ajax({
+            url: '/venue/offlineOrder.action',
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify({
+                showPlanId: showPlanId,
+                venueId: venueId,
+                totalPrice: $("#chosenTotal").text(),
+                chosenSeats: $("#chosenSeats").text(),
+                email: $("#memberEmail").val()
+            }),
+            success: function (data) {
+                if (data.resultCode === 'error') {
+                    toastr.warning(data.resultMessage)
+                } else {
+                    toastr.success(data.resultMessage)
+                    window.location.href = '/venue/spotTickets?showId=' + showPlanId
+                }
+            }
+        })
+    }
 </script>
 
 <footer class="panel-footer">

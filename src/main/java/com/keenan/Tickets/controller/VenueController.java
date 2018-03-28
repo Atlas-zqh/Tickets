@@ -6,6 +6,7 @@ import com.keenan.Tickets.model.ShowPlan;
 import com.keenan.Tickets.model.Venue;
 import com.keenan.Tickets.model.util.ShowPlanStatus;
 import com.keenan.Tickets.model.util.ShowPlanType;
+import com.keenan.Tickets.service.OrderService;
 import com.keenan.Tickets.service.ShowPlanService;
 import com.keenan.Tickets.service.VenueService;
 import com.keenan.Tickets.util.ResultMessage;
@@ -19,9 +20,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author keenan on 23/03/2018
@@ -34,15 +33,17 @@ public class VenueController {
     @Autowired
     private ShowPlanService showPlanService;
 
+    @Autowired
+    private OrderService orderService;
+
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public String displayVenueInfo(Model model) {
         Venue venue = venueService.getCurrentVenue();
         if (venue == null) {
-            return "500";
+            return "error/500";
         } else {
             String email = venueService.getVenueRegisterEmail(venue.getVenueId());
             VenueInfoBean venueInfoBean = new VenueInfoBean(venue, email);
-//            System.out.println("venueInfoBean = " + (venueInfoBean.venueAddress == null));
             model.addAttribute("venueInfoBean", venueInfoBean);
             // 位置表
             model.addAttribute("seatsInfo", venueService.getSeatsInfo(venue));
@@ -57,7 +58,7 @@ public class VenueController {
     public String displayShowPlan(Model model) {
         Venue venue = venueService.getCurrentVenue();
         if (venue == null) {
-            return "500";
+            return "error/500";
         } else {
             List<ShowPlanBriefBean> showPlanBriefBeans = showPlanService.getAllShowPlansByVenueAfterToday(venue);
             model.addAttribute("showPlanBriefBeans", showPlanBriefBeans);
@@ -69,7 +70,7 @@ public class VenueController {
     public String displayNewPlanForm(Model model) {
         Venue venue = venueService.getCurrentVenue();
         if (venue == null) {
-            return "500";
+            return "error/500";
         } else {
             // 初始化导航
             List<ShowPlanBriefBean> showPlanBriefBeans = showPlanService.getAllShowPlansByVenueAfterToday(venue);
@@ -83,6 +84,43 @@ public class VenueController {
         }
 
         return "venues/newPlan";
+    }
+
+    @RequestMapping(value = "/spotTickets", method = RequestMethod.GET)
+    public String displaySpotTickets(@RequestParam(value = "showId", required = true) String showId, Model model) {
+        Venue venue = venueService.getCurrentVenue();
+        if (venue == null) {
+            return "error/500";
+        } else {
+            // 初始化导航
+            List<ShowPlanBriefBean> showPlanBriefBeans = showPlanService.getAllShowPlansByVenueAfterToday(venue);
+            model.addAttribute("showPlanBriefBeans", showPlanBriefBeans);
+            // 获得活动的基本信息
+            ShowPlanBriefBean showPlanBriefBean = showPlanService.getBriefShowPlanByID(Long.valueOf(showId));
+            if (!showPlanBriefBean.venueId.equals(venue.getId())) {
+                return "error/403";
+            }
+            model.addAttribute("curShowBrief", showPlanBriefBean);
+            // 获得活动座位表
+            ShowPlan showPlan = showPlanService.getShowPlanByID(Long.valueOf(showId));
+            ChooseSeatBean chooseSeatBean = showPlanService.getSeatChart(showPlan);
+            model.addAttribute("chooseSeatBean", chooseSeatBean);
+            return "venues/spotTickets";
+        }
+    }
+
+    @RequestMapping(value = "/check", method = RequestMethod.GET)
+    public String displayCheckTickets(Model model) {
+        Venue venue = venueService.getCurrentVenue();
+        if (venue == null) {
+            return "error/500";
+        } else {
+            // 初始化导航
+            List<ShowPlanBriefBean> showPlanBriefBeans = showPlanService.getAllShowPlansByVenueAfterToday(venue);
+            model.addAttribute("showPlanBriefBeans", showPlanBriefBeans);
+        }
+
+        return "venues/checkTicket";
     }
 
     @RequestMapping(value = "/modifyAddress.action", method = RequestMethod.POST)
@@ -111,7 +149,7 @@ public class VenueController {
                                 @RequestParam("poster") MultipartFile file, @RequestParam("description") String description,
                                 @RequestParam("notice") String notice, @RequestParam("prices") String prices) {
         Venue venue = venueService.getCurrentVenue();
-        Map<String, Double> priceMap=new HashMap<>();
+        Map<String, Double> priceMap = new HashMap<>();
 
         // 检查输入内容
         try {
@@ -119,6 +157,11 @@ public class VenueController {
 
             for (Object obj : convertMap.keySet()) {
                 priceMap.put((String) obj, Double.valueOf((String) convertMap.get(obj)));
+            }
+
+            Set<Double> priceSet = new HashSet<>(priceMap.values());
+            if (priceSet.size() != priceMap.size()) {
+                return new ResultMessage(ResultMessage.ERROR, "各区域价格不可相同");
             }
         } catch (Exception e) {
             return new ResultMessage(ResultMessage.ERROR, "请检查价格输入");
@@ -152,4 +195,18 @@ public class VenueController {
     }
 
 
+    @RequestMapping(value = "/offlineOrder.action", method = RequestMethod.POST)
+    public @ResponseBody
+    ResultMessage createOfflineOrder(@RequestBody CreateOrderBean createOrderBean) {
+        return showPlanService.createOfflineOrder(createOrderBean);
+    }
+
+    @RequestMapping(value = "/check.action", method = RequestMethod.POST)
+    public @ResponseBody
+    ResultMessage checkTicket(@RequestBody String ticketNumber) {
+        System.out.println(ticketNumber);
+        ResultMessage r=orderService.checkTicket(ticketNumber);
+        System.out.println(r.getResultCode()+" "+r.getResultMessage());
+        return r;
+    }
 }

@@ -43,6 +43,17 @@ public class TicketOrder {
     public TicketOrder() {
     }
 
+    public TicketOrder(ShowPlan showPlan, User user, Timestamp orderTime, Timestamp payTime, TicketOrderType ticketOrderType, Double orderPrice, String ticketNumber, OrderStatus orderStatus) {
+        this.showPlan = showPlan;
+        this.user = user;
+        this.orderTime = orderTime;
+        this.payTime = payTime;
+        this.ticketOrderType = ticketOrderType;
+        this.orderPrice = orderPrice;
+        this.ticketNumber = ticketNumber;
+        this.orderStatus = orderStatus;
+    }
+
     public Long getId() {
         return id;
     }
