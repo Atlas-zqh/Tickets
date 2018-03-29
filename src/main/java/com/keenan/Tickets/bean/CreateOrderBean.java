@@ -14,6 +14,8 @@ public class CreateOrderBean {
 
     public String email;
 
+    public String section;
+
     public CreateOrderBean() {
     }
 

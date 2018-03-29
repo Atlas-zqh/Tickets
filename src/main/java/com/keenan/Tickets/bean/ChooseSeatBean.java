@@ -9,6 +9,8 @@ import java.util.Map;
 public class ChooseSeatBean {
     public Map<Double, List<String>> sectionSeat;
 
+    public List<String> priceSection;
+
     public ChooseSeatBean() {
     }
 }

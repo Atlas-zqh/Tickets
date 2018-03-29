@@ -23,37 +23,20 @@
             <small>完成支付</small>
         </h1>
 
-        <!--<div style="margin-left: 30%;margin-right: 30%;padding-top: 3%">-->
-        <!--<form>-->
-        <!--<div class="form-group">-->
-        <!--<label for="inputEmail">Email</label>-->
-        <!--<input type="email" class="form-control" id="inputEmail" placeholder="Email">-->
-        <!--</div>-->
-        <!--<div class="form-group">-->
-        <!--<label for="inputPassword">密码</label>-->
-        <!--<input type="password" class="form-control" id="inputPassword" placeholder="密码">-->
-        <!--</div>-->
-
-        <!--<div class="checkbox" style="padding-top: 2%">-->
-        <!--<label>-->
-        <!--<input type="checkbox">记住我-->
-        <!--</label>-->
-        <!--</div>-->
-        <!--<button type="submit" class="btn btn-info" style="margin-top: 5%">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp登录&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>-->
-        <!--</form>-->
-        <!--</div>-->
-
         <div style="margin-left: 20%;margin-right: 20%;padding-top: 2%">
             <hr color="#5bc0de"/>
 
-            <h3 style="margin-top: 6%">订单&nbsp;0203938040<br/><br/></h3>
+            <h3 style="margin-top: 6%" th:text="'订单&nbsp;'+${payingBean.orderNumber}"><br/><br/></h3>
 
-            <h4>您共需要支付&nbsp;<strong>¥ 3200</strong><br/>
+            <h4>您共需要支付&nbsp;<strong th:text="'¥ '+${payingBean.orderPrice}"></strong><br/>
                 <small>输入支付账号与密码来完成支付</small>
             </h4>
+
+            <br>
+            <h4 style="color: #ab4242" id="countDown"></h4>
             <br/>
 
-            <form style="margin-left: 25%;margin-right: 25%">
+            <form style="margin-left: 25%;margin-right: 25%" id="payForm">
                 <div class="form-group">
                     <label for="inputBankAccount">银行账户</label>
                     <input type="email" class="form-control" id="inputBankAccount" placeholder="银行账户"/>
@@ -62,12 +45,58 @@
                     <label for="inputBankPassword">支付密码</label>
                     <input type="password" class="form-control" id="inputBankPassword" placeholder="密码"/>
                 </div>
-                <a role="button" class="btn btn-success" style="margin-top: 2%">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp确认支付&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
+                <a role="button" class="btn btn-success" style="margin-top: 2%"
+                   th:onclick="'javascript:postPayAccount('+${payingBean.orderId}+')'">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp确认支付&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
             </form>
             <hr style="margin-top: 6%"/>
         </div>
     </div>
 </div>
+
+<script th:inline="javascript">
+    function refreshTime() {
+        var orderTime = [[${payingBean.orderTime}]]
+        var createTime = new Date(orderTime).getTime()
+        var stopTime = createTime + (15 * 60 * 1000)
+        var now = Date.now()
+
+        var seconds = (stopTime - now) / 1000
+        var minutes = parseInt(seconds / 60)
+        var leftSeconds = parseInt(seconds - (minutes * 60))
+        if (seconds <= 0 || (minutes === 0 && leftSeconds === 0)) {
+            $("#payForm").css('display', 'none')
+            $("#countDown").html("您的订单已失效，无法进行支付")
+        } else if (minutes === 0 && leftSeconds !== 0) {
+            $("#countDown").html(leftSeconds + '秒')
+        } else {
+            $("#countDown").html('您的订单将在 ' + minutes + '分' + leftSeconds + '秒 后失效')
+        }
+    }
+
+    setInterval("refreshTime()", 1000)
+
+    function postPayAccount(orderId) {
+        $.ajax({
+            url: '/user/pay.action',
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify({
+                bankAccount: $("#inputBankAccount").val(),
+                password: $("#inputBankPassword").val(),
+                orderId: orderId
+            }),
+            success: function (data) {
+                if (data.resultCode === 'error') {
+                    toastr.warning(data.resultMessage)
+                } else {
+                    window.location.href = '/user/orders'
+                }
+            }
+        })
+    }
+
+</script>
 
 
 <footer class="panel-footer">

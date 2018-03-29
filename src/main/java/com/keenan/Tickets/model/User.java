@@ -36,14 +36,18 @@ public class User implements UserDetails {
 
     private Double balance;
 
+    private String bankAccount;
+
+    private String bankPassword;
+
     // 邮箱验证码
     private String code;
 
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     private SysRole role;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Coupon> coupons;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private List<UserCoupon> coupons;
 
     @OneToOne(fetch = FetchType.EAGER)
     private LevelCoupon levelCoupon;
@@ -63,6 +67,21 @@ public class User implements UserDetails {
         this.points = points;
         this.level = level;
         this.balance = balance;
+        this.code = code;
+        this.role = role;
+    }
+
+    public User(String username, String password, String email, Boolean isValid, Boolean isConfirmed, Double points, Integer level, Double balance, String bankAccount, String bankPassword, String code, SysRole role) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.isValid = isValid;
+        this.isConfirmed = isConfirmed;
+        this.points = points;
+        this.level = level;
+        this.balance = balance;
+        this.bankAccount = bankAccount;
+        this.bankPassword = bankPassword;
         this.code = code;
         this.role = role;
     }
@@ -199,11 +218,11 @@ public class User implements UserDetails {
         this.code = code;
     }
 
-    public List<Coupon> getCoupons() {
+    public List<UserCoupon> getCoupons() {
         return coupons;
     }
 
-    public void setCoupons(List<Coupon> coupons) {
+    public void setCoupons(List<UserCoupon> coupons) {
         this.coupons = coupons;
     }
 
@@ -221,5 +240,21 @@ public class User implements UserDetails {
 
     public void setTicketOrders(List<TicketOrder> ticketOrders) {
         this.ticketOrders = ticketOrders;
+    }
+
+    public String getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(String bankAccount) {
+        this.bankAccount = bankAccount;
+    }
+
+    public String getBankPassword() {
+        return bankPassword;
+    }
+
+    public void setBankPassword(String bankPassword) {
+        this.bankPassword = bankPassword;
     }
 }

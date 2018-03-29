@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
         String code = UUID.randomUUID().toString().replace("-", "");
         SysRole role = sysRoleRepository.findSysRoleByName(registerBean.getUserType());
-        User user = new User(registerBean.getUsername(), registerBean.getPassword(), registerBean.getEmail(), true, false, 0.0, 1, 0.0, code, role);
+        User user = new User(registerBean.getUsername(), registerBean.getPassword(), registerBean.getEmail(), true, false, 0.0, 1, 100000.0, "12345678", "12345678", code, role);
 
         if (!mailUtil.sendRegisterMail(registerBean.getEmail(), code)) {
             return new ResultMessage(ResultMessage.ERROR, "发送验证邮件失败!");

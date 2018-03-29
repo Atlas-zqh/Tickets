@@ -205,8 +205,8 @@ public class VenueController {
     public @ResponseBody
     ResultMessage checkTicket(@RequestBody String ticketNumber) {
         System.out.println(ticketNumber);
-        ResultMessage r=orderService.checkTicket(ticketNumber);
-        System.out.println(r.getResultCode()+" "+r.getResultMessage());
+        ResultMessage r = orderService.checkTicket(ticketNumber.split("=")[1]);
+        System.out.println(r.getResultCode() + " " + r.getResultMessage());
         return r;
     }
 }

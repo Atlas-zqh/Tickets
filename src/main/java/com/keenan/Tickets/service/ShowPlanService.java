@@ -5,11 +5,13 @@ import com.keenan.Tickets.bean.CreateOrderBean;
 import com.keenan.Tickets.bean.ShowPlanBriefBean;
 import com.keenan.Tickets.bean.ShowPlanDetailBean;
 import com.keenan.Tickets.model.ShowPlan;
+import com.keenan.Tickets.model.User;
 import com.keenan.Tickets.model.Venue;
 import com.keenan.Tickets.util.ResultMessage;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author keenan on 21/03/2018
@@ -30,4 +32,13 @@ public interface ShowPlanService {
     ChooseSeatBean getSeatChart(ShowPlan showPlan);
 
     ResultMessage createOfflineOrder(CreateOrderBean createOrderBean);
+
+    List<ShowPlanBriefBean> getAllShowPlanBriefBeansAfterTodayByUser(User user);
+
+    /**
+     * 检查活动座位剩余情况，若不剩余，则将状态设为无票
+     *
+     * @param showPlanId
+     */
+    void checkShowPlanStatus(Long showPlanId);
 }

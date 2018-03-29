@@ -6,6 +6,7 @@ import com.keenan.Tickets.model.util.ShowPlanType;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author keenan on 19/03/2018
@@ -157,5 +158,20 @@ public class ShowPlan {
 
     public void setPosterUrl(String posterUrl) {
         this.posterUrl = posterUrl;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ShowPlan)) return false;
+        ShowPlan showPlan = (ShowPlan) o;
+        return Objects.equals(id, showPlan.id) &&
+                Objects.equals(showName, showPlan.showName);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, showName);
     }
 }

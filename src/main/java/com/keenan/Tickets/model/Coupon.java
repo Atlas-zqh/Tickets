@@ -23,8 +23,8 @@ public class Coupon {
 
     private Double discount;
 
-    @ManyToMany(mappedBy = "coupons", fetch = FetchType.EAGER)
-    private Set<User> users;
+    @OneToMany(mappedBy = "coupon", fetch = FetchType.EAGER)
+    private Set<UserCoupon> users;
 
     public Coupon() {
     }
@@ -69,11 +69,11 @@ public class Coupon {
         this.discount = discount;
     }
 
-    public Set<User> getUsers() {
+    public Set<UserCoupon> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<User> users) {
+    public void setUsers(Set<UserCoupon> users) {
         this.users = users;
     }
 }

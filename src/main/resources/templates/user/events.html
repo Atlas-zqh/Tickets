@@ -36,86 +36,86 @@
 <div class="container">
     <div class="jumbotron">
         <h1>Tickets </h1>
-        <p>您正在查看来自<strong>南京地区</strong>的<strong>全部</strong>类型活动信息</p>
+        <p>使用Tickets快速订票</p>
     </div>
 </div>
 
-<div class="container" style="margin-bottom: 2%">
-    <div class="row">
-        <div class="col-xs-4 col-sm-4">
-            <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="typeChooser" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="true">
-                    类型
-                    <span class="caret"></span>
-                </button>
-                <!--音乐会，小型现场，演唱会，话剧，音乐剧，舞剧，歌剧，戏曲，讲座，赛事，课程-->
-                <ul class="dropdown-menu" aria-labelledby="typeChooser">
-                    <li><a href="#">全部</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">音乐会</a></li>
-                    <li><a href="#">小型现场</a></li>
-                    <li><a href="#">演唱会</a></li>
-                    <li><a href="#">话剧</a></li>
-                    <li><a href="#">音乐剧</a></li>
-                    <li><a href="#">舞剧</a></li>
-                    <li><a href="#">歌剧</a></li>
-                    <li><a href="#">戏曲</a></li>
-                    <li><a href="#">讲座</a></li>
-                    <li><a href="#">赛事</a></li>
-                    <li><a href="#">课程</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">其他</a></li>
-                </ul>
-            </div>
-        </div>
+<!--<div class="container" style="margin-bottom: 2%">-->
+    <!--<div class="row">-->
+        <!--<div class="col-xs-4 col-sm-4">-->
+            <!--<div class="dropdown">-->
+                <!--<button class="btn btn-default dropdown-toggle" type="button" id="typeChooser" data-toggle="dropdown"-->
+                        <!--aria-haspopup="true" aria-expanded="true">-->
+                    <!--类型-->
+                    <!--<span class="caret"></span>-->
+                <!--</button>-->
+                <!--&lt;!&ndash;音乐会，小型现场，演唱会，话剧，音乐剧，舞剧，歌剧，戏曲，讲座，赛事，课程&ndash;&gt;-->
+                <!--<ul class="dropdown-menu" aria-labelledby="typeChooser">-->
+                    <!--<li><a href="#">全部</a></li>-->
+                    <!--<li role="separator" class="divider"></li>-->
+                    <!--<li><a href="#">音乐会</a></li>-->
+                    <!--<li><a href="#">小型现场</a></li>-->
+                    <!--<li><a href="#">演唱会</a></li>-->
+                    <!--<li><a href="#">话剧</a></li>-->
+                    <!--<li><a href="#">音乐剧</a></li>-->
+                    <!--<li><a href="#">舞剧</a></li>-->
+                    <!--<li><a href="#">歌剧</a></li>-->
+                    <!--<li><a href="#">戏曲</a></li>-->
+                    <!--<li><a href="#">讲座</a></li>-->
+                    <!--<li><a href="#">赛事</a></li>-->
+                    <!--<li><a href="#">课程</a></li>-->
+                    <!--<li role="separator" class="divider"></li>-->
+                    <!--<li><a href="#">其他</a></li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</div>-->
 
-        <div class="form-inline" style="float: right;margin-right: 2%">
-            <input class="form-control" id="start_date" size="16" type="text" value="" readonly="readonly"
-                   placeholder="开始日期"
-                   style="background-color: white;"/>
-            <span>&nbsp;~&nbsp;</span>
-            <input class="form-control" id="end_date" size="16" type="text" value="" readonly="readonly"
-                   placeholder="结束日期"
-                   style="background-color: white;"/>
-        </div>
-    </div>
-</div>
+        <!--<div class="form-inline" style="float: right;margin-right: 2%">-->
+            <!--<input class="form-control" id="start_date" size="16" type="text" value="" readonly="readonly"-->
+                   <!--placeholder="开始日期"-->
+                   <!--style="background-color: white;"/>-->
+            <!--<span>&nbsp;~&nbsp;</span>-->
+            <!--<input class="form-control" id="end_date" size="16" type="text" value="" readonly="readonly"-->
+                   <!--placeholder="结束日期"-->
+                   <!--style="background-color: white;"/>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
 
 
-<script type="text/javascript">
-    var newDate = new Date();
-    var t = newDate.toJSON();
+<!--<script type="text/javascript">-->
+    <!--var newDate = new Date();-->
+    <!--var t = newDate.toJSON();-->
 
-    $('#start_date').datetimepicker({
-        format: 'yyyy-mm-dd',
-        language: 'zh-CN',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0,
-        startDate: new Date(t)
-    }).on('click', function () {
-        $('#start_date').datetimepicker('setEndDate', $('#end_date').val())
-    });
+    <!--$('#start_date').datetimepicker({-->
+        <!--format: 'yyyy-mm-dd',-->
+        <!--language: 'zh-CN',-->
+        <!--weekStart: 1,-->
+        <!--todayBtn: 1,-->
+        <!--autoclose: 1,-->
+        <!--todayHighlight: 1,-->
+        <!--startView: 2,-->
+        <!--minView: 2,-->
+        <!--forceParse: 0,-->
+        <!--startDate: new Date(t)-->
+    <!--}).on('click', function () {-->
+        <!--$('#start_date').datetimepicker('setEndDate', $('#end_date').val())-->
+    <!--});-->
 
-    $('#end_date').datetimepicker({
-        format: 'yyyy-mm-dd',
-        language: 'zh-CN',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-    }).on('click', function () {
-        $('#end_date').datetimepicker('setStartDate', $('#start_date').val())
-    });
-</script>
+    <!--$('#end_date').datetimepicker({-->
+        <!--format: 'yyyy-mm-dd',-->
+        <!--language: 'zh-CN',-->
+        <!--weekStart: 1,-->
+        <!--todayBtn: 1,-->
+        <!--autoclose: 1,-->
+        <!--todayHighlight: 1,-->
+        <!--startView: 2,-->
+        <!--minView: 2,-->
+        <!--forceParse: 0-->
+    <!--}).on('click', function () {-->
+        <!--$('#end_date').datetimepicker('setStartDate', $('#start_date').val())-->
+    <!--});-->
+<!--</script>-->
 
 <div class="container">
     <div class="row">

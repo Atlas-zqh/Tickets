@@ -33,582 +33,265 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane fade in active" id="allOrders">
-            <div class="panel panel-warning" style="margin-top: 2%">
+            <div th:each="order: ${userOrdersBean.allOrders}" style="margin-top: 2%" th:class="'panel '+${order.styleStr}">
                 <div class="panel-heading">
-                    <h3 class="panel-title">订单号：010293840404&nbsp;&nbsp;&nbsp;状态：未支付</h3>
+                    <h3 class="panel-title"
+                        th:text="'订单号：'+${order.ticketNumber}+'&nbsp;&nbsp;&nbsp;状态：'+${order.orderStatus}"></h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-2">
-                            <img src="../../static/img/0204979cd6aee12.jpg" class="img-responsive img-rounded">
+                            <img th:src="${order.posterUrl}" class="img-responsive img-rounded">
                         </div>
                         <div class="col-sm-7" style="margin-left: 1%">
                             <form class="form-horizontal">
                                 <div class="form-group">
-                                    <h2 class="col-sm-12">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h2>
+                                    <h2 class="col-sm-12" th:text="${order.showName}"></h2>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2">开始时间</label>
                                     <div class="col-sm-10">
-                                        <p>03月17日 周六 19:30</p>
+                                        <p th:text="${order.startTime}"></p>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2">演出地点</label>
                                     <div class="col-sm-10">
-                                        <p>南京 南京太阳宫 江苏省南京市太平门阳光路3号</p>
+                                        <p th:text="${order.address}"></p>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" th:if="${order.showSeats}">
                                     <label class="col-sm-2">座位安排</label>
                                     <div class="col-sm-10">
-                                        <p>请先完成支付！</p>
+                                        <p th:text="${order.seats}"></p>
                                     </div>
                                 </div>
+                                <div class="form-group" th:unless="${order.showSeats}">
+                                    <label class="col-sm-2">失效原因</label>
+                                    <div class="col-sm-10">
+                                        <p th:text="${order.invalidReason}"></p>
+                                    </div>
+                                </div>
+
                             </form>
                         </div>
                         <div class="col-sm-2" style="margin-left: 5%">
                             <div style="text-align: center">
-                                <a class="btn btn-info" href="orderDetail.html" style="margin-top: 10%">查看订单详情</a>
-                                <a class="btn btn-info" href="eventDetail.html" style="margin-top: 10%">查看演出详情</a>
-                                <button class="btn btn-success" style="margin-top: 10%">前往支付</button>
-                                <button class="btn btn-warning" style="margin-top: 10%">取消预定</button>
+                                <a class="btn btn-info" th:href="@{'/user/orderDetail?orderId='+${order.orderId}}" style="margin-top: 45%">查看订单详情</a>
+                                <a class="btn btn-info" th:href="@{'/user/event/detail?id='+${order.showPlanId}}" style="margin-top: 15%">查看演出详情</a>
                             </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-success" style="margin-top: 2%">
-                <div class="panel-heading">
-                    <h3 class="panel-title">订单号：010293840404&nbsp;&nbsp;&nbsp;状态：已付款</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <img src="../../static/img/0204979cd6aee12.jpg" class="img-responsive img-rounded">
-                        </div>
-                        <div class="col-sm-7" style="margin-left: 1%">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <h2 class="col-sm-12">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h2>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">开始时间</label>
-                                    <div class="col-sm-10">
-                                        <p>03月17日 周六 19:30</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">演出地点</label>
-                                    <div class="col-sm-10">
-                                        <p>南京 南京太阳宫 江苏省南京市太平门阳光路3号</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">座位安排</label>
-                                    <div class="col-sm-10">
-                                        <p>6排7座；6排8座</p>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-sm-2" style="margin-left: 5%;margin-top: 6%">
-                            <div style="text-align: center">
-                                <button class="btn btn-info">查看演出详情</button>
-                                <button class="btn btn-warning" style="margin-top: 10%">申请退款</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-warning" style="margin-top: 2%">
-                <div class="panel-heading">
-                    <h3 class="panel-title">订单号：010293840404&nbsp;&nbsp;&nbsp;状态：未支付</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <img src="../../static/img/0204979cd6aee12.jpg" class="img-responsive img-rounded">
-                        </div>
-                        <div class="col-sm-7" style="margin-left: 1%">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <h2 class="col-sm-12">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h2>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">开始时间</label>
-                                    <div class="col-sm-10">
-                                        <p>03月17日 周六 19:30</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">演出地点</label>
-                                    <div class="col-sm-10">
-                                        <p>南京 南京太阳宫 江苏省南京市太平门阳光路3号</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">座位安排</label>
-                                    <div class="col-sm-10">
-                                        <p>请先完成支付！</p>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-sm-2" style="margin-left: 5%;margin-top: 4%">
-                            <div style="text-align: center">
-                                <button class="btn btn-info">查看演出详情</button>
-                                <button class="btn btn-success" style="margin-top: 10%">前往支付</button>
-                                <button class="btn btn-warning" style="margin-top: 10%">取消预定</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default" style="margin-top: 2%">
-                <div class="panel-heading">
-                    <h3 class="panel-title">订单号：010293840404&nbsp;&nbsp;&nbsp;状态：已完成</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <img src="../../static/img/0204979cd6aee12.jpg" class="img-responsive img-rounded">
-                        </div>
-                        <div class="col-sm-7" style="margin-left: 1%">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <h2 class="col-sm-12">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h2>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">开始时间</label>
-                                    <div class="col-sm-10">
-                                        <p>03月17日 周六 19:30</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">演出地点</label>
-                                    <div class="col-sm-10">
-                                        <p>南京 南京太阳宫 江苏省南京市太平门阳光路3号</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">座位安排</label>
-                                    <div class="col-sm-10">
-                                        <p>6排7座；6排8座</p>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-sm-2" style="margin-left: 5%;margin-top: 8%">
-                            <div style="text-align: center">
-                                <button class="btn btn-info">查看演出详情</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-danger" style="margin-top: 2%">
-                <div class="panel-heading">
-                    <h3 class="panel-title">订单号：010293840404&nbsp;&nbsp;&nbsp;状态：已失效</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <img src="../../static/img/0204979cd6aee12.jpg" class="img-responsive img-rounded">
-                        </div>
-                        <div class="col-sm-7" style="margin-left: 1%">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <h2 class="col-sm-12">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h2>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">开始时间</label>
-                                    <div class="col-sm-10">
-                                        <p>03月17日 周六 19:30</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">演出地点</label>
-                                    <div class="col-sm-10">
-                                        <p>南京 南京太阳宫 江苏省南京市太平门阳光路3号</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">失效原因</label>
-                                    <div class="col-sm-10">
-                                        <p>15分钟内未付款</p>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-sm-2" style="margin-left: 5%;margin-top: 8%">
-                            <div style="text-align: center">
-                                <button class="btn btn-info">查看演出详情</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-danger" style="margin-top: 2%">
-                <div class="panel-heading">
-                    <h3 class="panel-title">订单号：010293840404&nbsp;&nbsp;&nbsp;状态：已失效</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <img src="../../static/img/0204979cd6aee12.jpg" class="img-responsive img-rounded">
-                        </div>
-                        <div class="col-sm-7" style="margin-left: 1%">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <h2 class="col-sm-12">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h2>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">开始时间</label>
-                                    <div class="col-sm-10">
-                                        <p>03月17日 周六 19:30</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">演出地点</label>
-                                    <div class="col-sm-10">
-                                        <p>南京 南京太阳宫 江苏省南京市太平门阳光路3号</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">失效原因</label>
-                                    <div class="col-sm-10">
-                                        <p>15分钟内未付款</p>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-sm-2" style="margin-left: 5%;margin-top: 8%">
-                            <div style="text-align: center">
-                                <button class="btn btn-info">查看演出详情</button>
-                            </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div role="tabpanel" class="tab-pane fade" id="unpaid">
-            <div class="panel panel-warning" style="margin-top: 2%">
+            <div th:each="order: ${userOrdersBean.unpaidOrders}" style="margin-top: 2%" th:class="'panel '+${order.styleStr}">
                 <div class="panel-heading">
-                    <h3 class="panel-title">订单号：010293840404&nbsp;&nbsp;&nbsp;状态：未支付</h3>
+                    <h3 class="panel-title"
+                        th:text="'订单号：'+${order.ticketNumber}+'&nbsp;&nbsp;&nbsp;状态：'+${order.orderStatus}"></h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-2">
-                            <img src="../../static/img/0204979cd6aee12.jpg" class="img-responsive img-rounded">
+                            <img th:src="${order.posterUrl}" class="img-responsive img-rounded">
                         </div>
                         <div class="col-sm-7" style="margin-left: 1%">
                             <form class="form-horizontal">
                                 <div class="form-group">
-                                    <h2 class="col-sm-12">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h2>
+                                    <h2 class="col-sm-12" th:text="${order.showName}"></h2>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2">开始时间</label>
                                     <div class="col-sm-10">
-                                        <p>03月17日 周六 19:30</p>
+                                        <p th:text="${order.startTime}"></p>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2">演出地点</label>
                                     <div class="col-sm-10">
-                                        <p>南京 南京太阳宫 江苏省南京市太平门阳光路3号</p>
+                                        <p th:text="${order.address}"></p>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" th:if="${order.showSeats}">
                                     <label class="col-sm-2">座位安排</label>
                                     <div class="col-sm-10">
-                                        <p>请先完成支付！</p>
+                                        <p th:text="${order.seats}"></p>
                                     </div>
                                 </div>
+                                <div class="form-group" th:unless="${order.showSeats}">
+                                    <label class="col-sm-2">失效原因</label>
+                                    <div class="col-sm-10">
+                                        <p th:text="${order.invalidReason}"></p>
+                                    </div>
+                                </div>
+
                             </form>
                         </div>
-                        <div class="col-sm-2" style="margin-left: 5%;margin-top: 4%">
+                        <div class="col-sm-2" style="margin-left: 5%">
                             <div style="text-align: center">
-                                <button class="btn btn-info">查看演出详情</button>
-                                <button class="btn btn-success" style="margin-top: 10%">前往支付</button>
-                                <button class="btn btn-warning" style="margin-top: 10%">取消预定</button>
+                                <a class="btn btn-info" href="orderDetail.html" style="margin-top: 45%">查看订单详情</a>
+                                <a class="btn btn-info" href="eventDetail.html" style="margin-top: 15%">查看演出详情</a>
                             </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-warning" style="margin-top: 2%">
-                <div class="panel-heading">
-                    <h3 class="panel-title">订单号：010293840404&nbsp;&nbsp;&nbsp;状态：未支付</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <img src="../../static/img/0204979cd6aee12.jpg" class="img-responsive img-rounded">
-                        </div>
-                        <div class="col-sm-7" style="margin-left: 1%">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <h2 class="col-sm-12">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h2>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">开始时间</label>
-                                    <div class="col-sm-10">
-                                        <p>03月17日 周六 19:30</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">演出地点</label>
-                                    <div class="col-sm-10">
-                                        <p>南京 南京太阳宫 江苏省南京市太平门阳光路3号</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">座位安排</label>
-                                    <div class="col-sm-10">
-                                        <p>请先完成支付！</p>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-sm-2" style="margin-left: 5%;margin-top: 4%">
-                            <div style="text-align: center">
-                                <button class="btn btn-info">查看演出详情</button>
-                                <button class="btn btn-success" style="margin-top: 10%">前往支付</button>
-                                <button class="btn btn-warning" style="margin-top: 10%">取消预定</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-warning" style="margin-top: 2%">
-                <div class="panel-heading">
-                    <h3 class="panel-title">订单号：010293840404&nbsp;&nbsp;&nbsp;状态：未支付</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <img src="../../static/img/0204979cd6aee12.jpg" class="img-responsive img-rounded">
-                        </div>
-                        <div class="col-sm-7" style="margin-left: 1%">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <h2 class="col-sm-12">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h2>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">开始时间</label>
-                                    <div class="col-sm-10">
-                                        <p>03月17日 周六 19:30</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">演出地点</label>
-                                    <div class="col-sm-10">
-                                        <p>南京 南京太阳宫 江苏省南京市太平门阳光路3号</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">座位安排</label>
-                                    <div class="col-sm-10">
-                                        <p>请先完成支付！</p>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-sm-2" style="margin-left: 5%;margin-top: 4%">
-                            <div style="text-align: center">
-                                <button class="btn btn-info">查看演出详情</button>
-                                <button class="btn btn-success" style="margin-top: 10%">前往支付</button>
-                                <button class="btn btn-warning" style="margin-top: 10%">取消预定</button>
-                            </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div role="tabpanel" class="tab-pane fade" id="paid">
-            <div class="panel panel-success" style="margin-top: 2%">
+            <div th:each="order: ${userOrdersBean.paidOrders}" style="margin-top: 2%" th:class="'panel '+${order.styleStr}">
                 <div class="panel-heading">
-                    <h3 class="panel-title">订单号：010293840404&nbsp;&nbsp;&nbsp;状态：已付款</h3>
+                    <h3 class="panel-title"
+                        th:text="'订单号：'+${order.ticketNumber}+'&nbsp;&nbsp;&nbsp;状态：'+${order.orderStatus}"></h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-2">
-                            <img src="../../static/img/0204979cd6aee12.jpg" class="img-responsive img-rounded">
+                            <img th:src="${order.posterUrl}" class="img-responsive img-rounded">
                         </div>
                         <div class="col-sm-7" style="margin-left: 1%">
                             <form class="form-horizontal">
                                 <div class="form-group">
-                                    <h2 class="col-sm-12">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h2>
+                                    <h2 class="col-sm-12" th:text="${order.showName}"></h2>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2">开始时间</label>
                                     <div class="col-sm-10">
-                                        <p>03月17日 周六 19:30</p>
+                                        <p th:text="${order.startTime}"></p>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2">演出地点</label>
                                     <div class="col-sm-10">
-                                        <p>南京 南京太阳宫 江苏省南京市太平门阳光路3号</p>
+                                        <p th:text="${order.address}"></p>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" th:if="${order.showSeats}">
                                     <label class="col-sm-2">座位安排</label>
                                     <div class="col-sm-10">
-                                        <p>6排7座；6排8座</p>
+                                        <p th:text="${order.seats}"></p>
                                     </div>
                                 </div>
+                                <div class="form-group" th:unless="${order.showSeats}">
+                                    <label class="col-sm-2">失效原因</label>
+                                    <div class="col-sm-10">
+                                        <p th:text="${order.invalidReason}"></p>
+                                    </div>
+                                </div>
+
                             </form>
                         </div>
-                        <div class="col-sm-2" style="margin-left: 5%;margin-top: 6%">
+                        <div class="col-sm-2" style="margin-left: 5%">
                             <div style="text-align: center">
-                                <button class="btn btn-info">查看演出详情</button>
-                                <button class="btn btn-warning" style="margin-top: 10%">申请退款</button>
+                                <a class="btn btn-info" href="orderDetail.html" style="margin-top: 45%">查看订单详情</a>
+                                <a class="btn btn-info" href="eventDetail.html" style="margin-top: 15%">查看演出详情</a>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div role="tabpanel" class="tab-pane fade" id="invalid">
-            <div class="panel panel-danger" style="margin-top: 2%">
+            <div th:each="order: ${userOrdersBean.invalidOrders}" style="margin-top: 2%" th:class="'panel '+${order.styleStr}">
                 <div class="panel-heading">
-                    <h3 class="panel-title">订单号：010293840404&nbsp;&nbsp;&nbsp;状态：已失效</h3>
+                    <h3 class="panel-title"
+                        th:text="'订单号：'+${order.ticketNumber}+'&nbsp;&nbsp;&nbsp;状态：'+${order.orderStatus}"></h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-2">
-                            <img src="../../static/img/0204979cd6aee12.jpg" class="img-responsive img-rounded">
+                            <img th:src="${order.posterUrl}" class="img-responsive img-rounded">
                         </div>
                         <div class="col-sm-7" style="margin-left: 1%">
                             <form class="form-horizontal">
                                 <div class="form-group">
-                                    <h2 class="col-sm-12">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h2>
+                                    <h2 class="col-sm-12" th:text="${order.showName}"></h2>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2">开始时间</label>
                                     <div class="col-sm-10">
-                                        <p>03月17日 周六 19:30</p>
+                                        <p th:text="${order.startTime}"></p>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2">演出地点</label>
                                     <div class="col-sm-10">
-                                        <p>南京 南京太阳宫 江苏省南京市太平门阳光路3号</p>
+                                        <p th:text="${order.address}"></p>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" th:if="${order.showSeats}">
+                                    <label class="col-sm-2">座位安排</label>
+                                    <div class="col-sm-10">
+                                        <p th:text="${order.seats}"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group" th:unless="${order.showSeats}">
                                     <label class="col-sm-2">失效原因</label>
                                     <div class="col-sm-10">
-                                        <p>15分钟内未付款</p>
+                                        <p th:text="${order.invalidReason}"></p>
                                     </div>
                                 </div>
+
                             </form>
                         </div>
-                        <div class="col-sm-2" style="margin-left: 5%;margin-top: 8%">
+                        <div class="col-sm-2" style="margin-left: 5%">
                             <div style="text-align: center">
-                                <button class="btn btn-info">查看演出详情</button>
+                                <a class="btn btn-info" href="orderDetail.html" style="margin-top: 45%">查看订单详情</a>
+                                <a class="btn btn-info" href="eventDetail.html" style="margin-top: 15%">查看演出详情</a>
                             </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-danger" style="margin-top: 2%">
-                <div class="panel-heading">
-                    <h3 class="panel-title">订单号：010293840404&nbsp;&nbsp;&nbsp;状态：已失效</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <img src="../../static/img/0204979cd6aee12.jpg" class="img-responsive img-rounded">
-                        </div>
-                        <div class="col-sm-7" style="margin-left: 1%">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <h2 class="col-sm-12">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h2>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">开始时间</label>
-                                    <div class="col-sm-10">
-                                        <p>03月17日 周六 19:30</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">演出地点</label>
-                                    <div class="col-sm-10">
-                                        <p>南京 南京太阳宫 江苏省南京市太平门阳光路3号</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2">失效原因</label>
-                                    <div class="col-sm-10">
-                                        <p>15分钟内未付款</p>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-sm-2" style="margin-left: 5%;margin-top: 8%">
-                            <div style="text-align: center">
-                                <button class="btn btn-info">查看演出详情</button>
-                            </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div role="tabpanel" class="tab-pane fade" id="completed">
-            <div class="panel panel-default" style="margin-top: 2%">
+            <div th:each="order: ${userOrdersBean.completedOrders}" style="margin-top: 2%" th:class="'panel '+${order.styleStr}">
                 <div class="panel-heading">
-                    <h3 class="panel-title">订单号：010293840404&nbsp;&nbsp;&nbsp;状态：已完成</h3>
+                    <h3 class="panel-title"
+                        th:text="'订单号：'+${order.ticketNumber}+'&nbsp;&nbsp;&nbsp;状态：'+${order.orderStatus}"></h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-2">
-                            <img src="../../static/img/0204979cd6aee12.jpg" class="img-responsive img-rounded">
+                            <img th:src="${order.posterUrl}" class="img-responsive img-rounded">
                         </div>
                         <div class="col-sm-7" style="margin-left: 1%">
                             <form class="form-horizontal">
                                 <div class="form-group">
-                                    <h2 class="col-sm-12">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h2>
+                                    <h2 class="col-sm-12" th:text="${order.showName}"></h2>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2">开始时间</label>
                                     <div class="col-sm-10">
-                                        <p>03月17日 周六 19:30</p>
+                                        <p th:text="${order.startTime}"></p>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2">演出地点</label>
                                     <div class="col-sm-10">
-                                        <p>南京 南京太阳宫 江苏省南京市太平门阳光路3号</p>
+                                        <p th:text="${order.address}"></p>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" th:if="${order.showSeats}">
                                     <label class="col-sm-2">座位安排</label>
                                     <div class="col-sm-10">
-                                        <p>6排7座；6排8座</p>
+                                        <p th:text="${order.seats}"></p>
                                     </div>
                                 </div>
+                                <div class="form-group" th:unless="${order.showSeats}">
+                                    <label class="col-sm-2">失效原因</label>
+                                    <div class="col-sm-10">
+                                        <p th:text="${order.invalidReason}"></p>
+                                    </div>
+                                </div>
+
                             </form>
                         </div>
-                        <div class="col-sm-2" style="margin-left: 5%;margin-top: 8%">
+                        <div class="col-sm-2" style="margin-left: 5%">
                             <div style="text-align: center">
-                                <button class="btn btn-info">查看演出详情</button>
+                                <a class="btn btn-info" href="orderDetail.html" style="margin-top: 45%">查看订单详情</a>
+                                <a class="btn btn-info" href="eventDetail.html" style="margin-top: 15%">查看演出详情</a>
                             </div>
-
                         </div>
                     </div>
                 </div>

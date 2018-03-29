@@ -35,6 +35,7 @@ public class ShowPlanServiceImpl implements ShowPlanService {
     @Autowired
     private TicketOrderRepository ticketOrderRepository;
 
+
     @Override
     public List<ShowPlanBriefBean> getAllShowPlanBriefBeansBeforeToday() {
         Timestamp today = new Timestamp(System.currentTimeMillis());
@@ -98,9 +99,10 @@ public class ShowPlanServiceImpl implements ShowPlanService {
         List<SeatArrangement> seatArrangements = seatArrangementRepository.findSeatArrangementsByShowPlan(showPlan);
 
         Map<Double, List<String>> sectionSeat = new TreeMap<>();
+        List<String> priceSection = new ArrayList<>();
         // group by section/price
-        Map<Double, List<SeatArrangement>> seatsBySection = seatArrangements.stream()
-                .collect(Collectors.groupingBy(SeatArrangement::getSeatPrice));
+        TreeMap<Double, List<SeatArrangement>> seatsBySection = seatArrangements.stream()
+                .collect(Collectors.groupingBy(SeatArrangement::getSeatPrice, TreeMap::new, Collectors.toList()));
         for (Map.Entry<Double, List<SeatArrangement>> entry : seatsBySection.entrySet()) {
             Function<SeatArrangement, Seat> f1 = SeatArrangement::getSeat;
             Function<Seat, Integer> f2 = Seat::getSeatRow;
@@ -124,10 +126,12 @@ public class ShowPlanServiceImpl implements ShowPlanService {
             }
 
             sectionSeat.put(entry.getKey(), curSectionSeats);
+            priceSection.add(entry.getValue().get(0).getSeat().getSeatSection());
         }
 
         ChooseSeatBean chooseSeatBean = new ChooseSeatBean();
         chooseSeatBean.sectionSeat = sectionSeat;
+        chooseSeatBean.priceSection = priceSection;
 
         return chooseSeatBean;
     }
@@ -142,8 +146,8 @@ public class ShowPlanServiceImpl implements ShowPlanService {
             return new ResultMessage(ResultMessage.ERROR, "内容有误");
         }
 
-        Venue venue = venueRepository.findOne(createOrderBean.venueId);
         ShowPlan showPlan = showPlanRepository.findOne(createOrderBean.showPlanId);
+        Venue venue = showPlan.getVenue();
         TicketOrder ticketOrder = null;
         if (createOrderBean.email != null && !createOrderBean.email.equals("")) {
             User user = userRepository.findUserByEmail(createOrderBean.email);
@@ -158,8 +162,9 @@ public class ShowPlanServiceImpl implements ShowPlanService {
         // 将座位状态设置为已定
         List<BriefSeatBean> seatBeans = ParseSeatString.parseFormString(createOrderBean.chosenSeats);
         for (BriefSeatBean briefSeatBean : seatBeans) {
-            Seat seat = seatRepository.findFirstByVenueAndSeatColumnAndSeatRowAndIsValid(venue, briefSeatBean.col, briefSeatBean.row, true);
-            SeatArrangement arrangement = seatArrangementRepository.findSeatArrangementBySeatAndShowPlanAndSeatPrice(seat, showPlan, createOrderBean.totalPrice / seatBeans.size());
+            Seat seat = seatRepository.findFirstByVenueAndSeatColumnAndSeatRowAndSeatSectionAndIsValid(venue, briefSeatBean.col, briefSeatBean.row, createOrderBean.section, true);
+            SeatArrangement arrangement = seatArrangementRepository.findSeatArrangementBySeatAndShowPlan(seat, showPlan);
+
             if (arrangement == null || arrangement.getSeatStatus().equals(SeatStatus.BOOKED)) {
                 return new ResultMessage(ResultMessage.ERROR, "选座失败");
             } else {
@@ -169,7 +174,41 @@ public class ShowPlanServiceImpl implements ShowPlanService {
             }
         }
 
-
+        checkShowPlanStatus(createOrderBean.showPlanId);
         return new ResultMessage(ResultMessage.SUCCESS, "选座成功");
+    }
+
+    @Override
+    public List<ShowPlanBriefBean> getAllShowPlanBriefBeansAfterTodayByUser(User user) {
+        List<TicketOrder> ticketOrders = ticketOrderRepository.findTicketOrdersByUser(user);
+        Set<ShowPlan> showPlans = new HashSet<>();
+        Timestamp today = new Timestamp(System.currentTimeMillis());
+        ticketOrders.forEach(ticketOrder -> {
+            if(ticketOrder.getOrderStatus().equals(OrderStatus.SUCCESS_PAID)){
+                ShowPlan showPlan = ticketOrder.getShowPlan();
+                if (showPlan.getStartTime().after(today)) {
+                    showPlans.add(showPlan);
+                }
+            }
+
+        });
+
+
+        List<ShowPlanBriefBean> showPlanBriefBeans = new ArrayList<>();
+        showPlans.forEach(showPlan -> {
+            System.out.println(showPlan.getId());
+            showPlanBriefBeans.add(new ShowPlanBriefBean(showPlan));
+        });
+        return showPlanBriefBeans;
+    }
+
+    /**
+     * 检查活动座位剩余情况，若不剩余，则将状态设为无票
+     *
+     * @param showPlanId
+     */
+    @Override
+    public void checkShowPlanStatus(Long showPlanId) {
+        // TODO
     }
 }

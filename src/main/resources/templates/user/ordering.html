@@ -6,76 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>选座购买</title>
 
-    <!--<link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>-->
-    <!--<link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>-->
-    <link href="../../static/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="../../static/css/fixed-footer.css" rel="stylesheet" type="text/css"/>
-    <link href="../../static/css/jquery.seat-charts.css" rel="stylesheet" type="text/css"/>
-    <!--<script th:src="@{~/js/html5shiv.min.js}"></script>-->
-    <!--<script th:src="@{~/js/respond.min.js}"></script>-->
-    <!--<script th:src="@{~/js/jquery.js}"></script>-->
-    <!--<script th:src="@{~/js/bootstrap.min.js}"></script>-->
-    <script src="../../static/js/html5shiv.min.js"></script>
-    <script src="../../static/js/respond.min.js"></script>
-    <script src="../../static/js/jquery.js"></script>
-    <script src="../../static/js/bootstrap.min.js"></script>
-    <script src="../../static/js/jquery.spinner.min.js"></script>
-    <script src="../../static/js/jquery.seat-charts.min.js"></script>
+    <link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>
+    <link th:href="@{~/css/jquery.seat-charts.css}" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{~/css/toastr.css}"/>
+
+    <script th:src="@{~/js/html5shiv.min.js}"></script>
+    <script th:src="@{~/js/respond.min.js}"></script>
+    <script th:src="@{~/js/jquery.js}"></script>
+    <script th:src="@{~/js/bootstrap.min.js}"></script>
+    <script th:src="@{~/js/jquery.spinner.min.js}"></script>
+    <script th:src="@{~/js/jquery.seat-charts.min.js}"></script>
+    <script th:src="@{~/js/toastr.min.js}"></script>
 </head>
 
 <body>
 
-<!--<div th:replace="common/nav :: nav"></div>-->
-<nav th:fragment="nav" class="navbar navbar-default">
-    <div class="container-fluid container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand">Tickets</a>
-        </div>
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <!--<li><a href="#">首页</span></a></li>-->
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">地区<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a th:href="@{events.html}">全国</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a th:href="@{events.html}">南京</a></li>
-                        <li><a th:href="@{events.html}">杭州</a></li>
-                        <li><a th:href="@{events.html}">上海</a></li>
-                        <li><a th:href="@{events.html}">广州</a></li>
-                        <li><a th:href="@{events.html}">成都</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a th:href="@{events.html}">其他</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">我的 <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a th:href="@{events.html}">登录</a></li>
-                        <li><a th:href="@{events.html}">注册</a></li>
-                        <li><a th:href="@{events.html}">个人信息</a></li>
-                        <li><a th:href="@{events.html}">我的优惠</a></li>
-                        <li><a th:href="@{events.html}">我的订单</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">注销</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div th:replace="common/nav :: nav"></div>
 
 <div class="container" style="text-align: center">
     <div style="padding-top: 6%">
@@ -86,9 +33,7 @@
         <div style="margin-left: 20%;margin-right: 20%;padding-top: 2%">
             <hr color="#5bc0de"/>
 
-            <h3 style="margin-top: 6%">2018咪咕音乐现场南京站徐佳莹心里学音乐会<br/>
-                <small>2018-03-17 南京太阳宫</small>
-            </h3>
+            <h3 style="margin-top: 6%" th:text="${curShowBrief.showName}"><br/></h3>
 
             <br/>
 
@@ -127,7 +72,7 @@
                                         <div class="modal-header">
                                             <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
                                             <!--<span aria-hidden="true">&times;</span></button>-->
-                                            <h4 class="modal-title" id="myModalLabel">座位表 - 票价288元</h4>
+                                            <h4 class="modal-title" id="myModalLabel"></h4>
                                         </div>
                                         <div class="modal-body">
                                             <div id="seat-map" style="margin-left: 120px;margin-top: 20px"></div>
@@ -148,30 +93,20 @@
                                 <br/>
 
                                 <div class="btn-group" data-toggle="buttons">
-                                    <label class="btn btn-default" data-toggle="modal" data-target="#seat-chart">
-                                        <input type="radio" name="chosenSeatsPrice" id="chosenSeatsPrice1"
-                                               autocomplete="off" value="188"/>188
-                                    </label>
-                                    <label class="btn btn-default" data-toggle="modal" data-target="#seat-chart">
-                                        <input type="radio" name="chosenSeatsPrice" id="chosenSeatsPrice2"
-                                               autocomplete="off" value="288"/>288
-                                    </label>
-                                    <label class="btn btn-default" data-toggle="modal"
-                                           data-target="#seat-chart">
-                                        <input type="radio" name="chosenSeatsPrice" id="chosenSeatsPrice3"
-                                               autocomplete="off" value="488"/>488
-                                    </label>
-                                    <label class="btn btn-default" data-toggle="modal" data-target="#seat-chart">
-                                        <input type="radio" name="chosenSeatsPrice" id="chosenSeatsPrice4"
-                                               autocomplete="off" value="888"/>888
-                                    </label>
-                                    <label class="btn btn-default" data-toggle="modal"
-                                           data-target="#seat-chart">
-                                        <input type="radio" name="chosenSeatsPrice" id="chosenSeatsPrice5"
-                                               autocomplete="off" value="1288"/>1288
-                                    </label>
-
-
+                                    <div class="btn btn-default"
+                                         th:each="chooseSeatBean : ${chooseSeatBean.sectionSeat}"
+                                         th:onclick="'javascript:clickRadio(this,'+${chooseSeatBeanStat.index}+')'"
+                                         th:id="'outerId'+${chooseSeatBeanStat.index}">
+                                        <input type="radio" name="chosenSeatsPrice"
+                                               th:id="'seatPrice'+${chooseSeatBeanStat.index}"
+                                               autocomplete="off" th:value="${chooseSeatBean.key}"
+                                               th:text="${chooseSeatBean.key}"/>
+                                        <input th:id="'hidden'+${chooseSeatBeanStat.index}"
+                                               type="hidden"
+                                               th:value="${chooseSeatBean.value}"
+                                               name="chosenSeatsArrangment"
+                                        />
+                                    </div>
                                 </div>
                             </div>
 
@@ -179,7 +114,19 @@
 
                             <div class="form-group">
                                 <label>已选座位</label>
+                                <div id="chosenSection"></div>
                                 <div id="chosenSeats"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>可用优惠</label>
+                                <br>
+                                <label class="radio" th:each="couponBriefInfoBean:${couponBriefInfoBeans}">
+                                    <input type="radio" name="chooseDiscount"
+                                           th:id="'chooseDiscountId'+${couponBriefInfoBean.userCouponId}"
+                                           th:value="${couponBriefInfoBean.discount}"
+                                           th:text="${couponBriefInfoBean.couponName}"/>
+                                </label>
                             </div>
 
                             <div class="form-group" style="font-size: larger">
@@ -187,85 +134,10 @@
                                 ¥ <span id="chosenTotal">0</span>
                             </div>
 
-                            <a role="button" class="btn btn-success" style="margin-top: 2%">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp确认选座&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
+
+                            <a role="button" class="btn btn-success" style="margin-top: 2%"
+                               th:onclick="'javascript:submitSeats('+${curShowBrief.id}+')'">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp确认选座&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
                         </form>
-
-
-                        <script type="text/javascript">
-                            var chosenCount = 0;
-                            var sc;
-                            $(document).ready(function () {
-                                sc = $('#seat-map').seatCharts({
-                                    map: [
-                                        'aaaaaa__aaaaa',
-                                        'aaaaaa__aaaca',
-                                        'aaaaaa__baaaa'
-                                    ],
-                                    naming: {
-                                        top: true,
-                                        left: true,
-                                        columns: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
-                                        rows: ['A', 'B', 'C', 'D', 'E', 'F', 'G']
-                                    },
-                                    seats: {
-                                        a: {},
-                                        b: {},
-                                        c: {}
-                                    },
-                                    legend: {
-                                        items: [
-                                            ['a', 'available', '可选'],
-                                            ['b', 'selected', '已选'],
-                                            ['c', 'unavailable', '不可选']
-                                        ]
-                                    },
-                                    click: function () {
-                                        if (this.status() === 'available') {
-                                            console.log(chosenCount)
-                                            if (chosenCount === 6) {
-                                                return this.style();
-                                            }
-                                            //do some stuff, i.e. add to the cart
-                                            chosenCount += 1
-                                            return 'selected';
-                                        } else if (this.status() === 'selected') {
-                                            chosenCount -= 1;
-                                            //seat has been vacated
-                                            return 'available';
-                                        } else if (this.status() === 'unavailable') {
-                                            //seat has been already booked
-                                            return 'unavailable';
-                                        } else {
-                                            return this.style();
-                                        }
-                                    }
-
-                                });
-                                sc.find('c').status('unavailable');
-                            });
-
-
-                            $('#confirmChosenButton').on('click', function () {
-                                seats = sc.find('selected').seatIds
-                                var output = ''
-                                for (j = 0, len = seats.length; j < len; j++) {
-                                    splited = seats[j].split('_')
-                                    output += (splited[0] + '排' + splited[1] + '座')
-                                    if (j != len - 1) {
-                                        output += ', '
-                                    }
-                                }
-                                document.getElementById('chosenSeats').innerText = output
-                                $('#seat-chart').modal('hide')
-
-                                var chosenPrice = parseInt($("input[name='chosenSeatsPrice']:checked").val())
-                                console.log(chosenPrice)
-                                var totalPrice = chosenPrice * seats.length
-                                console.log(totalPrice)
-                                $('#chosenTotal').text(totalPrice)
-                            });
-
-                        </script>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="allocateSeats">
                         <form style="margin-left: 17%;margin-right: 17%;margin-top: 5%" class="form-horizontal">
@@ -278,24 +150,13 @@
                                 </div>
                             </div>
 
-
                             <div class="form-group">
                                 <label>座位价格</label>
                                 <br/>
-                                <label class="radio-inline">
-                                    <input type="radio" name="seatsPrice" id="price1" value="188"/>188
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="seatsPrice" id="price2" value="288"/>288
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="seatsPrice" id="price3" value="488"/>488
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="seatsPrice" id="price4" value="888"/>888
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="seatsPrice" id="price5" value="1288"/>1288
+                                <label class="radio-inline" th:each="chooseSeatBean : ${chooseSeatBean.sectionSeat}">
+                                    <input type="radio" name="immediateSeatPrice"
+                                           th:id="'immediateSeatPrice'+${chooseSeatBeanStat.index}"
+                                           th:value="${chooseSeatBean.key}" th:text="${chooseSeatBean.key}"/>
                                 </label>
                             </div>
                             <div class="form-group">
@@ -308,15 +169,29 @@
                                     <a data-spin="up" id="increaseSeatsNum">+</a>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label>已选区域</label>
+                                <div id="immediateChosenSection"></div>
+                            </div>
 
+                            <div class="form-group">
+                                <label>可用优惠</label>
+                                <br>
+                                <label class="radio" th:each="couponBriefInfoBean:${couponBriefInfoBeans}">
+                                    <input type="radio" name="immediateDiscount"
+                                           th:id="'immediateDiscountId'+${couponBriefInfoBean.userCouponId}"
+                                           th:value="${couponBriefInfoBean.discount}"
+                                           th:text="${couponBriefInfoBean.couponName}"/>
+                                </label>
+                            </div>
                             <br/>
-
                             <div class="form-group" style="font-size: larger">
                                 <label>当前总价: </label>
                                 ¥ <span id="currentTotal">0</span>
                             </div>
 
-                            <a role="button" class="btn btn-success" style="margin-top: 2%">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp确认选座&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
+
+                            <a role="button" class="btn btn-success" style="margin-top: 2%" th:onclick="'javascript:submitImmediateSeats('+${curShowBrief.id}+')'">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp确认选座&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
                         </form>
                     </div>
                 </div>
@@ -327,9 +202,133 @@
     </div>
 </div>
 
-<script type="text/javascript">
-    $("input[name='seatsPrice']").click(function () {
-        var seatsPrice = parseInt($(this).val())
+<script th:inline="javascript">
+    $(document).on('hidden.bs.modal', function (e) {
+        $(e.target).removeData('bs.modal');
+    });
+
+    var sc;
+
+    function setModalContent(price, content, columns, rows) {
+        document.getElementById("myModalLabel").innerHTML = '座位表 - 票价' + price + '元'
+        $('#seat-chart').modal('show')
+        var chosenCount = 0;
+
+
+        sc = $('#seat-map').seatCharts({
+            map: content,
+            naming: {
+                top: true,
+                left: true,
+                columns: columns,
+                rows: rows
+            },
+            seats: {
+                a: {},
+                b: {},
+                c: {}
+            },
+            legend: {
+                items: [
+                    ['a', 'available', '可选'],
+                    ['b', 'selected', '已选'],
+                    ['c', 'unavailable', '不可选']
+                ]
+            },
+            click: function () {
+                if (this.status() == 'available') {
+                    console.log(chosenCount)
+                    if (chosenCount === 6) {
+                        return this.style();
+                    }
+                    //do some stuff, i.e. add to the cart
+                    chosenCount += 1
+                    return 'selected';
+                } else if (this.status() == 'selected') {
+                    chosenCount -= 1;
+                    //seat has been vacated
+                    return 'available';
+                } else if (this.status() == 'unavailable') {
+                    //seat has been already booked
+                    return 'unavailable';
+                } else {
+                    return this.style();
+                }
+            }
+        })
+
+        sc.find('c').status('unavailable');
+
+        $('#confirmChosenButton').on('click', function () {
+            seats = sc.find('selected').seatIds
+            var output = ''
+            for (j = 0, len = seats.length; j < len; j++) {
+                splited = seats[j].split('_')
+                output += (splited[0] + '排' + splited[1] + '座')
+                if (j != len - 1) {
+                    output += ', '
+                }
+            }
+            document.getElementById('chosenSeats').innerText = output
+            $('#seat-chart').modal('hide');
+            $('.seatCharts-row').remove();
+            $('.seatCharts-legendItem').remove();
+            $('#seat-map,#seat-map *').unbind().removeData();
+
+            var chosenPrice = parseFloat($("input[name='chosenSeatsPrice']:checked").val())
+            var totalPrice = chosenPrice * seats.length
+            $('#chosenTotal').text(totalPrice)
+        });
+    }
+
+    $("input[name='chooseDiscount']").change(function () {
+        var chosenDiscount = $("input[name='chooseDiscount']:checked").val()
+        seats = sc.find('selected').seatIds
+        var chosenPrice = parseFloat($("input[name='chosenSeatsPrice']:checked").val())
+        console.log(chosenPrice)
+        var totalPrice = chosenPrice * seats.length
+        console.log(isNaN(chosenPrice))
+
+        if (isNaN(chosenPrice)) {
+            $('#chosenTotal').text(0)
+        } else {
+            if (chosenDiscount !== undefined) {
+                var discount = parseFloat(chosenDiscount)
+
+                totalPrice = discount * totalPrice;
+                $('#chosenTotal').text(totalPrice.toFixed(2))
+            }
+        }
+    });
+
+    function clickRadio(obj, index) {
+        var priceSection = [[${chooseSeatBean.priceSection}]]
+        $("#chosenSection").text(priceSection[index])
+
+        var price = $("#" + obj.id + " input[name='chosenSeatsPrice']").val()
+
+        var content = $("#" + obj.id + " input[name='chosenSeatsArrangment']").val()
+        var contentArray = content.substring(1, content.length - 1).replace(/\s+/g, "").split(',')
+        var rows = []
+        for (var j = 0; j < contentArray.length; j++) {
+            rows.push('' + (j + 1))
+        }
+
+        var cols = []
+        for (var j = 0; j < contentArray[0].length; j++) {
+            cols.push('' + (j + 1))
+        }
+
+        setModalContent(price, contentArray, cols, rows)
+    }
+</script>
+
+<script th:inline="javascript">
+    $("input[name='immediateSeatPrice']").click(function () {
+        var priceSection = [[${chooseSeatBean.priceSection}]]
+        $("#immediateChosenSection").text(priceSection[$(this).attr('id').split("immediateSeatPrice")[1]])
+
+        var seatsPrice = parseFloat($(this).val())
         var seatsNum = parseInt($("#seatsNum").val())
         var totalPrice = seatsPrice * seatsNum
         $("#currentTotal").text(totalPrice)
@@ -338,15 +337,108 @@
     $("#spinner")
         .spinner('delay', 200) //delay in ms
         .spinner('changing', function (e, newVal, oldVal) {
-            var seatsPrice = parseInt($("input[name='seatsPrice']:checked").val())
-            console.log(seatsPrice)
+            var chosenDiscount = $("input[name='immediateDiscount']:checked").val()
+            var seatsPrice = parseFloat($("input[name='immediateSeatPrice']:checked").val())
             var seatsNum = newVal
-            console.log(seatsNum)
             var totalPrice = seatsPrice * seatsNum
-            console.log(totalPrice)
+
+            if (chosenDiscount !== undefined) {
+                var discount = parseFloat(chosenDiscount)
+                totalPrice *= discount;
+                $('#currentTotal').text(Math.round(totalPrice * 100) / 100)
+            }
             $("#currentTotal").text(totalPrice)
 
         });
+
+    $("input[name='immediateDiscount']").change(function () {
+        var chosenDiscount = $("input[name='immediateDiscount']:checked").val()
+        var chosenPrice = parseFloat($("input[name='immediateSeatPrice']:checked").val())
+        var chosenNum = parseInt($("#seatsNum").val())
+        var totalPrice = chosenPrice * chosenNum
+        console.log(isNaN(chosenPrice))
+
+        if (isNaN(chosenPrice)) {
+            $('#currentTotal').text(0)
+        } else {
+            if (chosenDiscount !== undefined) {
+                var discount = parseFloat(chosenDiscount)
+
+                totalPrice = discount * totalPrice;
+                $('#currentTotal').text(Math.round(totalPrice * 100) / 100)
+            }
+        }
+    })
+</script>
+
+<script th:inline="javascript">
+    toastr.options = {
+        closeButton: false,
+        debug: false,
+        progressBar: true,
+        positionClass: "toast-top-center",
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "3000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut"
+    };
+
+    function submitSeats(showPlanId) {
+        $.ajax({
+            url: '/user/createOrder.action',
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify({
+                showPlanId: showPlanId,
+                totalPrice: $("#chosenTotal").text(),
+                seatNum: 0,
+                chosenSeats: $("#chosenSeats").text(),
+                ticketOrderType: '选座购买',
+                userCouponId: $("input[name='chooseDiscount']:checked").attr('id')===undefined?'':$("input[name='chooseDiscount']:checked").attr('id').split('chooseDiscountId')[1],
+                section: $("#chosenSection").text()
+            }),
+            success: function (data) {
+                if (data.resultCode === 'error') {
+                    toastr.warning(data.resultMessage)
+                } else {
+                    toastr.success('下单成功')
+                    window.location.href = '/user/paying?orderId=' + data.resultMessage
+                }
+            }
+        })
+    }
+
+    function submitImmediateSeats(showPlanId) {
+        $.ajax({
+            url: '/user/createOrder.action',
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify({
+                showPlanId: showPlanId,
+                totalPrice: $("#currentTotal").text(),
+                seatNum: $("#seatsNum").val(),
+                chosenSeats: '',
+                ticketOrderType: '立即购买',
+                userCouponId: $("input[name='immediateDiscount']:checked").attr('id')===undefined?'':$("input[name='immediateDiscount']:checked").attr('id').split('immediateDiscountId')[1],
+                section: $("#immediateChosenSection").text()
+            }),
+            success: function (data) {
+                if (data.resultCode === 'error') {
+                    toastr.warning(data.resultMessage)
+                } else {
+                    toastr.success('下单成功')
+                    window.location.href = '/user/paying?orderId=' + data.resultMessage
+                }
+            }
+        })
+    }
 </script>
 
 <footer class="panel-footer">

@@ -34,6 +34,8 @@ public class TicketOrder {
 
     private String ticketNumber;
 
+    private Integer seatNum;
+
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
@@ -51,6 +53,18 @@ public class TicketOrder {
         this.ticketOrderType = ticketOrderType;
         this.orderPrice = orderPrice;
         this.ticketNumber = ticketNumber;
+        this.orderStatus = orderStatus;
+    }
+
+    public TicketOrder(ShowPlan showPlan, User user, Timestamp orderTime, Timestamp payTime, TicketOrderType ticketOrderType, Double orderPrice, String ticketNumber, Integer seatNum, OrderStatus orderStatus) {
+        this.showPlan = showPlan;
+        this.user = user;
+        this.orderTime = orderTime;
+        this.payTime = payTime;
+        this.ticketOrderType = ticketOrderType;
+        this.orderPrice = orderPrice;
+        this.ticketNumber = ticketNumber;
+        this.seatNum = seatNum;
         this.orderStatus = orderStatus;
     }
 
@@ -132,5 +146,13 @@ public class TicketOrder {
 
     public void setTicketNumber(String ticketNumber) {
         this.ticketNumber = ticketNumber;
+    }
+
+    public Integer getSeatNum() {
+        return seatNum;
+    }
+
+    public void setSeatNum(Integer seatNum) {
+        this.seatNum = seatNum;
     }
 }

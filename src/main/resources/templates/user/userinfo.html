@@ -211,66 +211,17 @@
         <span class="active" style="color: #349dbd">我的近期活动</span>
     </div>
 
-    <div class="alert alert-info fade in" style="margin-top: 1%">
-        <a href="#" class="close" data-dismiss="alert">
-            &times;
-        </a>
-        <h4>今日活动提醒</h4>
-        您预定的活动&nbsp;<strong>周杰伦演唱会</strong>&nbsp;将于今日&nbsp;<strong>19:30</strong>&nbsp开始，不要忘了哦！
+    <div style="text-align: center;font-size: larger" th:if="${#lists.size(showPlanBriefBeans)==0}">
+        近期无活动
     </div>
 
-    <div class="owl-carousel" style="margin-top: 1%">
-        <div>
-            <a href="eventDetail.html" class="thumbnail">
-                <img src="../../static/img/5e452a62c87cf9d.jpg">
+    <div th:if="${#lists.size(showPlanBriefBeans)!=0}" class="owl-carousel" style="margin-top: 1%">
+        <div th:each="showPlanBriefBean :${showPlanBriefBeans}">
+            <a th:href="@{'/user/event/detail?id='+${showPlanBriefBean.id}}" href="eventDetail.html" class="thumbnail">
+                <img th:src="${showPlanBriefBean.posterUrl}">
                 <div class="caption">
-                    <h5 class="text-hidden" title="邱比Chiu Pi 上下一方 巡回演唱会 南京站">邱比Chiu Pi 上下一方 巡回演唱会 南京站</h5>
-                    <p style="font-size: x-small">03月23日 周五 20:30-20:30</p>
-                </div>
-            </a>
-        </div>
-        <div>
-            <a href="eventDetail.html" class="thumbnail">
-                <img src="../../static/img/0204979cd6aee12.jpg">
-                <div class="caption">
-                    <h5 class="text-hidden" title="2018咪咕音乐现场南京站徐佳莹心里学音乐会">2018咪咕音乐现场南京站徐佳莹心里学音乐会</h5>
-                    <p style="font-size: x-small">03月17日 周六 19:30-19:30</p>
-                </div>
-            </a>
-        </div>
-        <div>
-            <a href="eventDetail.html" class="thumbnail">
-                <img src="../../static/img/f2f20ad195dc812.jpg">
-                <div class="caption">
-                    <h5 class="text-hidden" title="2018好妹妹“自在如风”全国巡回演唱会南京站">2018好妹妹“自在如风”全国巡回演唱会南京站</h5>
-                    <p style="font-size: x-small">05月01日 周二 19:30-21:30</p>
-                </div>
-            </a>
-        </div>
-        <div>
-            <a href="eventDetail.html" class="thumbnail">
-                <img src="../../static/img/c2f702e70f7afd9.jpg">
-                <div class="caption">
-                    <h5 class="text-hidden" title="何炅主演-话剧《水中之书》">何炅主演-话剧《水中之书》</h5>
-                    <p style="font-size: x-small">05月18日 周五 19:30-19:30</p>
-                </div>
-            </a>
-        </div>
-        <div>
-            <a href="eventDetail.html" class="thumbnail">
-                <img src="../../static/img/f2ed2921705262c.jpg">
-                <div class="caption">
-                    <h5 class="text-hidden" title="喜剧《蒋公的面子》 江苏省演艺集团2018春季演出季">喜剧《蒋公的面子》 江苏省演艺集团2018春季演出季</h5>
-                    <p style="font-size: x-small">03月23日 周五 19:30-21:30</p>
-                </div>
-            </a>
-        </div>
-        <div>
-            <a href="eventDetail.html" class="thumbnail">
-                <img src="../../static/img/f2ed2921705262c.jpg">
-                <div class="caption">
-                    <h5 class="text-hidden" title="喜剧《蒋公的面子》 江苏省演艺集团2018春季演出季">喜剧《蒋公的面子》 江苏省演艺集团2018春季演出季</h5>
-                    <p style="font-size: x-small">03月23日 周五 19:30-21:30</p>
+                    <h5 class="text-hidden" th:title="${showPlanBriefBean.showName}" th:text="${showPlanBriefBean.showName}">邱比Chiu Pi 上下一方 巡回演唱会 南京站</h5>
+                    <p style="font-size: x-small" th:text="${showPlanBriefBean.time}"></p>
                 </div>
             </a>
         </div>
@@ -282,7 +233,7 @@
     $(document).ready(function () {
         $(".owl-carousel").owlCarousel(
             {
-                loop: true,
+                loop: false,
                 margin: 10,
                 responsiveClass: true,
                 responsive: {

@@ -90,7 +90,7 @@
                                 <div class="btn-group" data-toggle="buttons">
                                     <div class="btn btn-default"
                                          th:each="chooseSeatBean : ${chooseSeatBean.sectionSeat}"
-                                         onclick="clickRadio(this);"
+                                         th:onclick="'javascript:clickRadio(this,'+${chooseSeatBeanStat.index}+')'"
                                          th:id="'outerId'+${chooseSeatBeanStat.index}">
                                         <input type="radio" name="chosenSeatsPrice"
                                                th:id="'seatPrice'+${chooseSeatBeanStat.index}"
@@ -109,6 +109,7 @@
 
                             <div class="form-group">
                                 <label>已选座位</label>
+                                <div id="chosenSection"></div>
                                 <div id="chosenSeats"></div>
                             </div>
 
@@ -125,7 +126,7 @@
                             <a role="button"
                                class="btn btn-success"
                                style="margin-top: 2%"
-                               th:onclick="'javascipt:submitSeats('+${curShowBrief.venueId}+','+${curShowBrief.id}+')'">
+                               th:onclick="'javascript:submitSeats('+${curShowBrief.venueId}+','+${curShowBrief.id}+')'">
                                 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp确认选座&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
                         </form>
 
@@ -195,10 +196,10 @@
         sc.find('c').status('unavailable')
 
         $('#confirmChosenButton').on('click', function () {
-            seats = sc.find('selected').seatIds
+            var seats = sc.find('selected').seatIds
             var output = ''
             for (j = 0, len = seats.length; j < len; j++) {
-                splited = seats[j].split('_')
+                var splited = seats[j].split('_')
                 output += (splited[0] + '排' + splited[1] + '座')
                 if (j != len - 1) {
                     output += ', '
@@ -216,11 +217,15 @@
         })
     };
 
-    function clickRadio(obj) {
+    function clickRadio(obj, index) {
+        var priceSection = [[${chooseSeatBean.priceSection}]]
+        $("#chosenSection").text(priceSection[index])
+
         var price = $("#" + obj.id + " input[name='chosenSeatsPrice']").val()
 
         var content = $("#" + obj.id + " input[name='chosenSeatsArrangment']").val()
         var contentArray = content.substring(1, content.length - 1).replace(/\s+/g, "").split(',')
+
         var rows = []
         for (var j = 0; j < contentArray.length; j++) {
             rows.push('' + (j + 1))
@@ -280,7 +285,8 @@
                 venueId: venueId,
                 totalPrice: $("#chosenTotal").text(),
                 chosenSeats: $("#chosenSeats").text(),
-                email: $("#memberEmail").val()
+                email: $("#memberEmail").val(),
+                section: $("#chosenSection").text()
             }),
             success: function (data) {
                 if (data.resultCode === 'error') {
