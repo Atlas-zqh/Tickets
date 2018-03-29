@@ -8,11 +8,13 @@
 
     <link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{~/css/toastr.css}"/>
 
     <script th:src="@{~/js/html5shiv.min.js}"></script>
     <script th:src="@{~/js/respond.min.js}"></script>
     <script th:src="@{~/js/jquery.js}"></script>
     <script th:src="@{~/js/bootstrap.min.js}"></script>
+    <script th:src="@{~/js/toastr.min.js}"></script>
 
 </head>
 <body>
@@ -25,63 +27,15 @@
     </div>
 
     <div class="row" style="padding-top: 1%">
-        <div class="col-sm-3 col-xs-3">
-            <div class="panel panel-primary">
+        <div th:each="myCoupon :${myCoupons}" class="col-sm-3 col-xs-3">
+            <div th:class="${myCoupon.userCouponId==0}?'panel panel-primary':'panel panel-info'">
                 <div class="panel-heading">
-                    <h3 class="panel-title">会员等级优惠（LV1）</h3>
+                    <h3 class="panel-title" th:text="${myCoupon.couponName}"></h3>
                 </div>
                 <div class="panel-body">
-                    <label>优惠额度：</label>9.5折
+                    <label>优惠额度：</label><span th:text="${myCoupon.discount*10}"></span>折
                     <br>
-                    <label>有效期至：</label>永久有效
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3 col-xs-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">新用户限时优惠</h3>
-                </div>
-                <div class="panel-body">
-                    <label>优惠额度：</label>7折
-                    <br>
-                    <label>有效期至：</label>2018-04-01
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3 col-xs-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">普通满减优惠</h3>
-                </div>
-                <div class="panel-body">
-                    <label>优惠额度：</label>满300减99
-                    <br>
-                    <label>有效期至：</label>2018-04-01
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3 col-xs-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">第二张半价优惠</h3>
-                </div>
-                <div class="panel-body">
-                    <label>优惠额度：</label>第二张半价
-                    <br>
-                    <label>有效期至：</label>2018-03-02
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3 col-xs-3">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">积分兑换满减优惠</h3>
-                </div>
-                <div class="panel-body">
-                    <label>优惠额度：</label>满200减100
-                    <br>
-                    <label>有效期至：</label>2018-04-01
+                    <label>有效期至：</label><span th:text="${myCoupon.expireDate}"></span>
                 </div>
             </div>
         </div>
@@ -92,115 +46,68 @@
     <div style="font-size: larger;padding-top: 1%">
         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true" style="color: #116e8a"></span>
         <span class="active" style="color: #349dbd">优惠券商城</span>
-        <span class="active" style="color: #349dbd;float: right">剩余积分：5000</span>
+        <span class="active" style="color: #349dbd;float: right" th:text="'剩余积分：'+${remainPoints}"></span>
 
     </div>
 
     <div class="row" style="padding-top: 1%">
-        <div class="col-sm-3 col-xs-3">
+        <div class="col-sm-3 col-xs-3" th:each="coupon:${couponMarket}">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">会员等级优惠（LV1）<button class="btn btn-info btn-xs" style="float: right;">兑换</button></h3>
+                    <h3 class="panel-title"><span th:text="${coupon.couponName}"></span>
+                        <button class="btn btn-info btn-xs" style="float: right;" th:onclick="'javascript:changeCoupon('+${coupon.userCouponId}+')'">兑换</button>
+                    </h3>
                 </div>
                 <div class="panel-body">
-                    <label>优惠额度：</label>9.5折
+                    <label>优惠额度：</label><span th:text="${coupon.discount*10}"></span>折
                     <br>
-                    <label>有效期至：</label>永久有效
+                    <label>有效期至：</label><span th:text="${coupon.expireDate}"></span>
                     <br>
-                    <label>所需积分：</label>2000
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3 col-xs-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">会员等级优惠（LV1）<button class="btn btn-info btn-xs" style="float: right;">兑换</button></h3>
-                </div>
-                <div class="panel-body">
-                    <label>优惠额度：</label>9.5折
-                    <br>
-                    <label>有效期至：</label>永久有效
-                    <br>
-                    <label>所需积分：</label>2000
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3 col-xs-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">会员等级优惠（LV1）<button class="btn btn-info btn-xs" style="float: right;">兑换</button></h3>
-                </div>
-                <div class="panel-body">
-                    <label>优惠额度：</label>9.5折
-                    <br>
-                    <label>有效期至：</label>永久有效
-                    <br>
-                    <label>所需积分：</label>2000
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3 col-xs-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">会员等级优惠（LV1）<button class="btn btn-info btn-xs" style="float: right;">兑换</button></h3>
-                </div>
-                <div class="panel-body">
-                    <label>优惠额度：</label>9.5折
-                    <br>
-                    <label>有效期至：</label>永久有效
-                    <br>
-                    <label>所需积分：</label>2000
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3 col-xs-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">会员等级优惠（LV1）<button class="btn btn-info btn-xs" style="float: right;">兑换</button></h3>
-                </div>
-                <div class="panel-body">
-                    <label>优惠额度：</label>9.5折
-                    <br>
-                    <label>有效期至：</label>永久有效
-                    <br>
-                    <label>所需积分：</label>2000
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3 col-xs-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">会员等级优惠（LV1）<button class="btn btn-info btn-xs" style="float: right;">兑换</button></h3>
-                </div>
-                <div class="panel-body">
-                    <label>优惠额度：</label>9.5折
-                    <br>
-                    <label>有效期至：</label>永久有效
-                    <br>
-                    <label>所需积分：</label>2000
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-3 col-xs-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">会员等级优惠（LV1）<button class="btn btn-info btn-xs" style="float: right;">兑换</button></h3>
-                </div>
-                <div class="panel-body">
-                    <label>优惠额度：</label>9.5折
-                    <br>
-                    <label>有效期至：</label>永久有效
-                    <br>
-                    <label>所需积分：</label>2000
+                    <label>所需积分：</label><span th:text="${coupon.requirePoints}"></span>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<script th:inline="javascript">
+    toastr.options = {
+        closeButton: false,
+        debug: false,
+        progressBar: true,
+        positionClass: "toast-top-center",
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "3000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut"
+    };
+
+    function changeCoupon(couponId) {
+        $.ajax({
+            type: 'POST',
+            url: '/user/changeCoupon.action',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: {couponId: couponId},
+            success: function (data) {
+                if (data.resultCode === 'error') {
+                    toastr.warning(data.resultMessage)
+                } else {
+                    window.location.href = '/user/coupons'
+                }
+            }
+        })
+    }
+</script>
 <footer class="panel-footer">
     <div class="container" style="text-align: center">
-        © 2018 | Created by <a href="https://atlas-zqh.github.io/">Keenan</a>. All rights reserved. | Content by <a href="http://www.douban.com/location/">豆瓣同城</a>
+        © 2018 | Created by <a href="https://atlas-zqh.github.io/">Keenan</a>. All rights reserved. | Content by <a
+            href="http://www.douban.com/location/">豆瓣同城</a>
     </div>
 </footer>
 

@@ -2,10 +2,7 @@ package com.keenan.Tickets.controller;
 
 import com.keenan.Tickets.bean.*;
 import com.keenan.Tickets.model.*;
-import com.keenan.Tickets.service.OrderService;
-import com.keenan.Tickets.service.ShowPlanService;
-import com.keenan.Tickets.service.UserService;
-import com.keenan.Tickets.service.VenueService;
+import com.keenan.Tickets.service.*;
 import com.keenan.Tickets.util.ResultMessage;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,13 +24,14 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
-
     @Autowired
     private VenueService venueService;
     @Autowired
     private ShowPlanService showPlanService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private CouponService couponService;
 
     @RequestMapping(value = "/signUp", method = RequestMethod.GET)
     public String displaySignUp(Model model) {
@@ -118,6 +117,36 @@ public class UserController {
         return "user/orderDetail";
     }
 
+    @RequestMapping(value = "/coupons", method = RequestMethod.GET)
+    public String displayCoupons(Model model) {
+        User user = userService.getCurrentUser();
+        List<CouponBriefInfoBean> couponBriefInfoBeans = new ArrayList<>();
+        List<UserCoupon> userCoupons = user.getCoupons();
+        LevelCoupon levelCoupon = user.getLevelCoupon();
+        // 加入登记优惠
+        CouponBriefInfoBean levelBriefBean = new CouponBriefInfoBean(0L, levelCoupon.getCouponName(), levelCoupon.getDiscount(), "永久有效", 0.0);
+        couponBriefInfoBeans.add(levelBriefBean);
+        Timestamp today = new Timestamp(System.currentTimeMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        userCoupons.forEach(userCoupon -> {
+            if (userCoupon.getCoupon().getExpireTime().after(today) && !userCoupon.getUsed()) {
+                couponBriefInfoBeans.add(new CouponBriefInfoBean(userCoupon.getId(), userCoupon.getCoupon().getCouponName(), userCoupon.getCoupon().getDiscount(), dateFormat.format(userCoupon.getCoupon().getExpireTime()), userCoupon.getCoupon().getNeedPoints()));
+            }
+        });
+
+        model.addAttribute("myCoupons", couponBriefInfoBeans);
+
+        List<CouponBriefInfoBean> couponMarket = new ArrayList<>();
+        List<Coupon> coupons = couponService.getAllCouponsNotExpired();
+        coupons.forEach(coupon -> {
+            couponMarket.add(new CouponBriefInfoBean(coupon.getId(), coupon.getCouponName(), coupon.getDiscount(), dateFormat.format(coupon.getExpireTime()), coupon.getNeedPoints()));
+        });
+
+        model.addAttribute("couponMarket", couponMarket);
+        model.addAttribute("remainPoints", user.getPoints());
+        return "user/coupons";
+    }
+
     /**
      * POST
      */
@@ -187,6 +216,12 @@ public class UserController {
     public @ResponseBody
     ResultMessage cancelOrder(@RequestBody String orderId) {
         return orderService.cancelOrder(Long.valueOf(orderId.split("=")[1]));
+    }
+
+    @RequestMapping(value = "/changeCoupon.action", method = RequestMethod.POST)
+    public @ResponseBody
+    ResultMessage changeCoupon(@RequestBody String couponId) {
+        return couponService.changeCoupon(userService.getCurrentUser().getId(), Long.valueOf(couponId.split("=")[1]));
     }
 
 

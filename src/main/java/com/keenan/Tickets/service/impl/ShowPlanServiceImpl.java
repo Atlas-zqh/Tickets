@@ -4,6 +4,7 @@ import com.keenan.Tickets.bean.*;
 import com.keenan.Tickets.model.*;
 import com.keenan.Tickets.model.util.OrderStatus;
 import com.keenan.Tickets.model.util.SeatStatus;
+import com.keenan.Tickets.model.util.ShowPlanStatus;
 import com.keenan.Tickets.model.util.TicketOrderType;
 import com.keenan.Tickets.repository.*;
 import com.keenan.Tickets.service.ShowPlanService;
@@ -184,7 +185,7 @@ public class ShowPlanServiceImpl implements ShowPlanService {
         Set<ShowPlan> showPlans = new HashSet<>();
         Timestamp today = new Timestamp(System.currentTimeMillis());
         ticketOrders.forEach(ticketOrder -> {
-            if(ticketOrder.getOrderStatus().equals(OrderStatus.SUCCESS_PAID)){
+            if (ticketOrder.getOrderStatus().equals(OrderStatus.SUCCESS_PAID)) {
                 ShowPlan showPlan = ticketOrder.getShowPlan();
                 if (showPlan.getStartTime().after(today)) {
                     showPlans.add(showPlan);
@@ -209,6 +210,19 @@ public class ShowPlanServiceImpl implements ShowPlanService {
      */
     @Override
     public void checkShowPlanStatus(Long showPlanId) {
-        // TODO
+        ShowPlan showPlan = showPlanRepository.findOne(showPlanId);
+        List<SeatArrangement> seatArrangements = seatArrangementRepository.findSeatArrangementsByShowPlan(showPlan);
+        boolean noLeft = true;
+        for (SeatArrangement arrangement : seatArrangements) {
+            if (arrangement.getSeatStatus().equals(SeatStatus.AVAILABLE)) {
+                noLeft = false;
+                break;
+            }
+        }
+
+        if (noLeft) {
+            showPlan.setShowPlanStatus(ShowPlanStatus.FULL);
+            showPlanRepository.save(showPlan);
+        }
     }
 }

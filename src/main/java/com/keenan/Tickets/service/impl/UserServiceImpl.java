@@ -78,7 +78,8 @@ public class UserServiceImpl implements UserService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth != null) {
-            return (User) auth.getPrincipal();
+            User user=(User)auth.getPrincipal();
+            return userRepository.findOne(user.getId());
         } else {
             return null;
         }

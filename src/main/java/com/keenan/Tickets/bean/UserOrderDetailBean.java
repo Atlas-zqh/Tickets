@@ -3,7 +3,6 @@ package com.keenan.Tickets.bean;
 import com.keenan.Tickets.model.SeatArrangement;
 import com.keenan.Tickets.model.TicketOrder;
 import com.keenan.Tickets.model.util.OrderStatus;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;

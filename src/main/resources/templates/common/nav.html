@@ -48,7 +48,7 @@
                         <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">登录</a></li>
                         <li sec:authorize="!isAuthenticated()"><a th:href="@{/user/signUp}">注册</a></li>
                         <li sec:authorize="isAuthenticated()"><a th:href="@{/user/info}">个人信息</a></li>
-                        <li sec:authorize="isAuthenticated()"><a th:href="@{events.html}">我的优惠</a></li>
+                        <li sec:authorize="isAuthenticated()"><a th:href="@{/user/coupons}">我的优惠</a></li>
                         <li sec:authorize="isAuthenticated()"><a th:href="@{/user/orders}">我的订单</a></li>
                         <li sec:authorize="!isAuthenticated()" role="separator" class="divider"></li>
                         <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">注销</a></li>

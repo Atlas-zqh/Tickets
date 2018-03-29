@@ -4,6 +4,7 @@ import com.keenan.Tickets.bean.*;
 import com.keenan.Tickets.model.*;
 import com.keenan.Tickets.model.util.OrderStatus;
 import com.keenan.Tickets.model.util.SeatStatus;
+import com.keenan.Tickets.model.util.ShowPlanStatus;
 import com.keenan.Tickets.model.util.TicketOrderType;
 import com.keenan.Tickets.repository.*;
 import com.keenan.Tickets.service.OrderService;
@@ -217,6 +218,10 @@ public class OrderServiceImpl implements OrderService {
                 seatArrangementRepository.save(arrangement);
             }
 
+            ShowPlan showPlan = ticketOrder.getShowPlan();
+            showPlan.setShowPlanStatus(ShowPlanStatus.ABUNDANCE);
+            showPlanRepository.save(showPlan);
+
             // 还钱
             User user = ticketOrder.getUser();
             user.setBalance(user.getBalance() + ticketOrder.getOrderPrice());
@@ -241,6 +246,10 @@ public class OrderServiceImpl implements OrderService {
                 arrangement.setSeatStatus(SeatStatus.AVAILABLE);
                 seatArrangementRepository.save(arrangement);
             }
+
+            ShowPlan showPlan = ticketOrder.getShowPlan();
+            showPlan.setShowPlanStatus(ShowPlanStatus.ABUNDANCE);
+            showPlanRepository.save(showPlan);
 
             return new ResultMessage(ResultMessage.SUCCESS, "取消成功");
         } catch (Exception e) {

@@ -1,10 +1,13 @@
 package com.keenan.Tickets.scheduler;
 
 import com.keenan.Tickets.model.SeatArrangement;
+import com.keenan.Tickets.model.ShowPlan;
 import com.keenan.Tickets.model.TicketOrder;
 import com.keenan.Tickets.model.util.OrderStatus;
 import com.keenan.Tickets.model.util.SeatStatus;
+import com.keenan.Tickets.model.util.ShowPlanStatus;
 import com.keenan.Tickets.repository.SeatArrangementRepository;
+import com.keenan.Tickets.repository.ShowPlanRepository;
 import com.keenan.Tickets.repository.TicketOrderRepository;
 import com.sun.tools.corba.se.idl.constExpr.Times;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,8 @@ public class CheckExpireOrderScheduler {
     private SeatArrangementRepository seatArrangementRepository;
     @Autowired
     private TicketOrderRepository ticketOrderRepository;
+    @Autowired
+    private ShowPlanRepository showPlanRepository;
 
     @Scheduled(fixedRate = 1000)
     public void checkExpireOrder() throws InterruptedException {
@@ -43,6 +48,10 @@ public class CheckExpireOrderScheduler {
 
                 ticketOrder.setOrderStatus(OrderStatus.INVALID_EXPIRED);
                 ticketOrderRepository.save(ticketOrder);
+
+                ShowPlan showPlan = ticketOrder.getShowPlan();
+                showPlan.setShowPlanStatus(ShowPlanStatus.ABUNDANCE);
+                showPlanRepository.save(showPlan);
             }
         }
     }
