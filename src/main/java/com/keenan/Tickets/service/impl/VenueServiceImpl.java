@@ -89,6 +89,7 @@ public class VenueServiceImpl implements VenueService {
         userRepository.save(user);
         // 在场馆表中加入
         Venue venue = new Venue(loginCode, registerBean.getPassword(), registerBean.getUsername());
+        venue.setEditPermit(true);
         venueRepository.save(venue);
         // 加入审核表
         VenuePermission venuePermission = new VenuePermission(venue, new Timestamp(System.currentTimeMillis()), PermissionStatus.WAIT_LIST, PermissionType.VENUE_REGISTER);
@@ -121,7 +122,8 @@ public class VenueServiceImpl implements VenueService {
     @Override
     public ResultMessage modifyAddress(AddressBean addressBean) {
         try {
-            Venue venue = venueRepository.findOne(addressBean.id);
+            System.out.println("addressBean = " + addressBean.id + ' ' + addressBean.newAddress);
+            Venue venue = venueRepository.findFirstById(addressBean.id);
             if (!venue.getEditPermit()) {
                 return new ResultMessage(ResultMessage.ERROR, "尚未通过信息审核，无法进行新的修改");
             }
@@ -133,6 +135,7 @@ public class VenueServiceImpl implements VenueService {
             venuePermissionRepository.save(venuePermission);
             return new ResultMessage(ResultMessage.SUCCESS, "已提交修改请求，等待管理员审核");
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResultMessage(ResultMessage.ERROR, "修改失败");
         }
     }
@@ -169,7 +172,7 @@ public class VenueServiceImpl implements VenueService {
         }
 
         // 判断当前场馆有没有活动
-        Venue venue = venueRepository.findOne(seatInfoBeans.get(0).venueId);
+        Venue venue = venueRepository.findFirstById(seatInfoBeans.get(0).venueId);
         Timestamp cur = new Timestamp(System.currentTimeMillis());
         List<ShowPlan> showPlans = showPlanRepository.findShowPlansByVenueAndStartTimeAfterAndEndTimeAfter(venue, cur, cur);
 

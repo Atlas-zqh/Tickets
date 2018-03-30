@@ -206,6 +206,8 @@
     };
 
     function modifyAddress(id, ori_content) {
+        console.log(id)
+        console.log(ori_content)
         $.ajax({
             type: 'POST',
             url: '/venue/modifyAddress.action',

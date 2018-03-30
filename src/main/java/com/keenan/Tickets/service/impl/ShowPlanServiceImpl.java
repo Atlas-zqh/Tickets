@@ -50,18 +50,18 @@ public class ShowPlanServiceImpl implements ShowPlanService {
 
     @Override
     public ShowPlanDetailBean getDetailShowPlanByID(Long id) {
-        ShowPlan showPlan = showPlanRepository.findOne(id);
+        ShowPlan showPlan = showPlanRepository.findFirstById(id);
         return new ShowPlanDetailBean(showPlan);
     }
 
     @Override
     public ShowPlan getShowPlanByID(Long id) {
-        return showPlanRepository.findOne(id);
+        return showPlanRepository.findFirstById(id);
     }
 
     @Override
     public ShowPlanBriefBean getBriefShowPlanByID(Long id) {
-        ShowPlan showPlan = showPlanRepository.findOne(id);
+        ShowPlan showPlan = showPlanRepository.findFirstById(id);
         return new ShowPlanBriefBean(showPlan);
     }
 
@@ -147,7 +147,7 @@ public class ShowPlanServiceImpl implements ShowPlanService {
             return new ResultMessage(ResultMessage.ERROR, "内容有误");
         }
 
-        ShowPlan showPlan = showPlanRepository.findOne(createOrderBean.showPlanId);
+        ShowPlan showPlan = showPlanRepository.findFirstById(createOrderBean.showPlanId);
         Venue venue = showPlan.getVenue();
         TicketOrder ticketOrder = null;
         if (createOrderBean.email != null && !createOrderBean.email.equals("")) {
@@ -210,7 +210,7 @@ public class ShowPlanServiceImpl implements ShowPlanService {
      */
     @Override
     public void checkShowPlanStatus(Long showPlanId) {
-        ShowPlan showPlan = showPlanRepository.findOne(showPlanId);
+        ShowPlan showPlan = showPlanRepository.findFirstById(showPlanId);
         List<SeatArrangement> seatArrangements = seatArrangementRepository.findSeatArrangementsByShowPlan(showPlan);
         boolean noLeft = true;
         for (SeatArrangement arrangement : seatArrangements) {

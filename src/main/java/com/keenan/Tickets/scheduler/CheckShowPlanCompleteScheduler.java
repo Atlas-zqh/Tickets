@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 /**
+ * 检查演出是否已经结束
  * @author keenan on 30/03/2018
  */
 @Component

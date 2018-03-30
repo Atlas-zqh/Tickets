@@ -38,7 +38,7 @@ public class AllocateSeatsScheduler {
 
         for (ShowPlan showPlan : showPlans) {
             if (showPlan.getStartTime().before(twoWeekLater)) {
-                List<SeatArrangement> seatArrangements = seatArrangementRepository.findSeatArrangementsByShowPlanAndAndSeatStatus(showPlan, SeatStatus.AVAILABLE);
+                List<SeatArrangement> seatArrangements = seatArrangementRepository.findSeatArrangementsByShowPlanAndSeatStatus(showPlan, SeatStatus.AVAILABLE);
                 int availableCnt = seatArrangements.size();
                 int allocateIndex = 0;
 

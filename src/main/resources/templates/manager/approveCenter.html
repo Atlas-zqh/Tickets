@@ -6,41 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>场馆审批</title>
 
-    <!--<link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>-->
-    <!--<link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>-->
-    <link href="../../static/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="../../static/css/fixed-footer.css" rel="stylesheet" type="text/css"/>
-    <!--<script th:src="@{~/js/html5shiv.min.js}"></script>-->
-    <!--<script th:src="@{~/js/respond.min.js}"></script>-->
-    <!--<script th:src="@{~/js/jquery.js}"></script>-->
-    <!--<script th:src="@{~/js/bootstrap.min.js}"></script>-->
-    <script src="../../static/js/html5shiv.min.js"></script>
-    <script src="../../static/js/respond.min.js"></script>
-    <script src="../../static/js/jquery.js"></script>
-    <script src="../../static/js/bootstrap.min.js"></script>
+    <link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{~/css/toastr.css}"/>
+
+    <script th:src="@{~/js/html5shiv.min.js}"></script>
+    <script th:src="@{~/js/respond.min.js}"></script>
+    <script th:src="@{~/js/jquery.js}"></script>
+    <script th:src="@{~/js/bootstrap.min.js}"></script>
+    <script th:src="@{~/js/toastr.min.js}"></script>
 </head>
 <body>
-<nav th:fragment="managerNav" class="navbar navbar-default">
-    <div class="container-fluid container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand">Tickets</a>
-        </div>
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="#">场馆审批</a></li>
-                <li><a href="#">收入结算</a></li>
-                <li><a href="#">平台统计</a></li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div>
-</nav>
+<div th:replace="common/adminNav :: adminNav"></div>
 
 <div class="container">
     <div style="font-size: larger;padding-top: 2%;padding-bottom: 1%">
@@ -48,12 +25,12 @@
         <span class="active" style="color: #349dbd">注册审批</span>
     </div>
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-        <div class="panel panel-default">
+        <div th:if="${#lists.size(approveBean.registers)==0}">暂无注册审批</div>
+        <div class="panel panel-default" th:each="item:${approveBean.registers}">
             <div class="panel-heading" role="tab" id="headingOne">
                 <h4 class="panel-title">
                     <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                       aria-expanded="true" aria-controls="collapseOne">
-                        南京太阳宫
+                       aria-expanded="true" aria-controls="collapseOne" th:text="${item.venueName}">
                     </a>
                 </h4>
             </div>
@@ -65,7 +42,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label">登录码</label>
                                     <div class="col-sm-8">
-                                        <p class="form-control-static">1234567</p>
+                                        <p class="form-control-static" th:text="${item.loginCode}"></p>
                                     </div>
                                 </div>
                             </form>
@@ -76,7 +53,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label">注册邮箱</label>
                                     <div class="col-sm-8">
-                                        <p class="form-control-static">admin@tyg.com</p>
+                                        <p class="form-control-static" th:text="${item.email}">admin@tyg.com</p>
                                     </div>
                                 </div>
                             </form>
@@ -86,124 +63,25 @@
                                 <div class="form-group">
                                     <label class="col-sm-4 control-label">场馆地址</label>
                                     <div class="col-sm-8">
-                                        <p class="form-control-static">南京市汉口路22号</p>
+                                        <p class="form-control-static" th:text="${item.address}">南京市汉口路22号</p>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
                     <div style="text-align: center">
-                        <div>
-                            <button type="submit" class="btn btn-info">通过</button>
-                            <button type="submit" class="btn btn-default">拒绝</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingTwo">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
-                       href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        欧拉艺术中心
-                    </a>
-                </h4>
-            </div>
-            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                <div class="panel-body">
-                    <div class="row" style="padding-top: 1%">
-                        <div class="col-sm-4">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="col-sm-4 control-label">登录码</label>
-                                    <div class="col-sm-8">
-                                        <p class="form-control-static">1234567</p>
-                                    </div>
-                                </div>
-                            </form>
+                        <div th:id="'registerButtonGroup'+${item.permissionId}">
+                            <button type="button" class="btn btn-info"
+                                    th:onclick="'javascript:processPermission(\'registerButtonGroup\',\'registerMsg\',true,'+${item.permissionId}+')'">
+                                通过
+                            </button>
+                            <button type="button" class="btn btn-default"
+                                    th:onclick="'javascript:processPermission(\'registerButtonGroup\',\'registerMsg\',false,'+${item.permissionId}+')'">
+                                拒绝
+                            </button>
                         </div>
 
-                        <div class="col-sm-4">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="col-sm-4 control-label">注册邮箱</label>
-                                    <div class="col-sm-8">
-                                        <p class="form-control-static">admin@tyg.com</p>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-sm-4">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="col-sm-4 control-label">场馆地址</label>
-                                    <div class="col-sm-8">
-                                        <p class="form-control-static">南京市汉口路22号</p>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div style="text-align: center">
-                        <div>
-                            <button type="submit" class="btn btn-info">通过</button>
-                            <button type="submit" class="btn btn-default">拒绝</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading" role="tab" id="headingThree">
-                <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
-                       href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        梅赛德斯奔驰文化中心
-                    </a>
-                </h4>
-            </div>
-            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                <div class="panel-body">
-                    <div class="row" style="padding-top: 1%">
-                        <div class="col-sm-4">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="col-sm-4 control-label">登录码</label>
-                                    <div class="col-sm-8">
-                                        <p class="form-control-static">1234567</p>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="col-sm-4">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="col-sm-4 control-label">注册邮箱</label>
-                                    <div class="col-sm-8">
-                                        <p class="form-control-static">admin@tyg.com</p>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-sm-4">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="col-sm-4 control-label">场馆地址</label>
-                                    <div class="col-sm-8">
-                                        <p class="form-control-static">南京市汉口路22号</p>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div style="text-align: center">
-                        <div>
-                            <button type="submit" class="btn btn-info">通过</button>
-                            <button type="submit" class="btn btn-default">拒绝</button>
-                        </div>
+                        <div th:id="'registerMsg'+${item.permissionId}" style="margin-left: 50%;margin-right: 50%"></div>
                     </div>
                 </div>
             </div>
@@ -217,12 +95,13 @@
         <span class="active" style="color: #349dbd">修改审批</span>
     </div>
     <div class="panel-group" id="seatsSection" role="tablist" aria-multiselectable="true">
-        <div class="panel panel-default">
+        <div th:if="${#lists.size(approveBean.modifications)==0}">暂无修改审批</div>
+        <div class="panel panel-default" th:each="modifyItem: ${approveBean.modifications}">
             <div class="panel-heading" role="tab" id="seatsHeadingOne">
                 <h4 class="panel-title">
                     <a role="button" data-toggle="collapse" data-parent="#seatsSection" href="#seatsCollapseOne"
-                       aria-expanded="true" aria-controls="collapseOne">
-                        南京太阳宫
+                       aria-expanded="true" aria-controls="collapseOne" th:text="${modifyItem.venueName}">
+
                     </a>
                 </h4>
             </div>
@@ -230,84 +109,86 @@
                  aria-labelledby="seatsHeadingOne">
                 <div class="panel-body">
                     <div class="row" style="padding-top: 1%">
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <form class="form-horizontal">
                                 <div class="form-group">
-                                    <label class="col-sm-4 control-label">登录码</label>
+                                    <label class="col-sm-4 control-label">原地址</label>
                                     <div class="col-sm-8">
-                                        <p class="form-control-static">1234567</p>
+                                        <p class="form-control-static" th:text="${modifyItem.oldAddress}"></p>
                                     </div>
                                 </div>
                             </form>
                         </div>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <form class="form-horizontal">
                                 <div class="form-group">
-                                    <label class="col-sm-4 control-label">注册邮箱</label>
+                                    <label class="col-sm-4 control-label">新地址</label>
                                     <div class="col-sm-8">
-                                        <p class="form-control-static">admin@tyg.com</p>
+                                        <p class="form-control-static" th:text="${modifyItem.newAddress}"></p>
                                     </div>
                                 </div>
                             </form>
                         </div>
-                        <div class="col-sm-4">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="col-sm-4 control-label">场馆地址</label>
-                                    <div class="col-sm-8">
-                                        <p class="form-control-static">南京市汉口路22号</p>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="panel panel-default" style="margin-left:3%;margin-right: 3%;margin-bottom: 2%">
-                        <table class="table">
-                            <tr>
-                                <th>区号</th>
-                                <th>排数</th>
-                                <th>列数</th>
-                            </tr>
-                            <tr>
-                                <td>内场一区</td>
-                                <td>10</td>
-                                <td>20</td>
-                            </tr>
-                            <tr>
-                                <td>内场二区</td>
-                                <td>15</td>
-                                <td>30</td>
-                            </tr>
-                            <tr>
-                                <td>内场三区</td>
-                                <td>15</td>
-                                <td>30</td>
-                            </tr>
-                            <tr>
-                                <td>内场四区</td>
-                                <td>15</td>
-                                <td>30</td>
-                            </tr>
-                            <tr>
-                                <td>内场五区</td>
-                                <td>10</td>
-                                <td>20</td>
-                            </tr>
-                        </table>
                     </div>
                     <div style="text-align: center">
-                        <div>
-                            <button type="submit" class="btn btn-info">通过</button>
-                            <button type="submit" class="btn btn-default">拒绝</button>
+                        <div th:id="'modifyButtonGroup'+${modifyItem.permissionId}">
+                            <button type="button" class="btn btn-info"
+                                    th:onclick="'javascript:processPermission(\'modifyButtonGroup\',\'modifyMsg\',true,'+${modifyItem.permissionId}+')'">
+                                通过
+                            </button>
+                            <button type="button" class="btn btn-default"
+                                    th:onclick="'javascript:processPermission(\'modifyButtonGroup\',\'modifyMsg\',false,'+${modifyItem.permissionId}+')'">
+                                拒绝
+                            </button>
                         </div>
                     </div>
+                    <span th:id="'modifyMsg'+${modifyItem.permissionId}" style="margin-left: 50%;margin-right: 50%"></span>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
+
+<script th:inline="javascript">
+    toastr.options = {
+        closeButton: false,
+        debug: false,
+        progressBar: true,
+        positionClass: "toast-top-center",
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "3000",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut"
+    };
+
+    function processPermission(buttonGroupName, msgName, isApprove, permissionId) {
+        $.ajax({
+            type: 'POST',
+            url: '/admin/approve.action',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify({
+                permissionId: permissionId,
+                isApprove: isApprove
+            }),
+            success: function (data) {
+                if (data.resultCode === 'error') {
+                    toastr.warning(data.resultMessage)
+                } else {
+                    $('#' + buttonGroupName + permissionId).css('display', 'none')
+                    $('#' + msgName + permissionId).html(data.resultMessage)
+                    toastr.success(data.resultMessage)
+                }
+            }
+        })
+    }
+</script>
 
 <footer class="panel-footer">
     <div class="container" style="text-align: center">

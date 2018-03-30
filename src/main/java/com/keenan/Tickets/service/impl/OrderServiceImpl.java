@@ -73,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
             return new ResultMessage(ResultMessage.ERROR, "内容有误");
         }
 
-        ShowPlan showPlan = showPlanRepository.findOne(createOrderBean.showPlanId);
+        ShowPlan showPlan = showPlanRepository.findFirstById(createOrderBean.showPlanId);
         Venue venue = showPlan.getVenue();
         TicketOrderType ticketOrderType = TicketOrderType.fromString(createOrderBean.ticketOrderType);
         // 创建订单
@@ -101,7 +101,7 @@ public class OrderServiceImpl implements OrderService {
 
         // 优惠券失效
         if (createOrderBean.userCouponId != null && createOrderBean.userCouponId != 0L) {
-            UserCoupon userCoupon = userCouponRepository.findOne(createOrderBean.userCouponId);
+            UserCoupon userCoupon = userCouponRepository.findFirstById(createOrderBean.userCouponId);
             userCoupon.setUsed(true);
             userCouponRepository.save(userCoupon);
         }
@@ -110,7 +110,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public TicketOrderPayingBean getTicketOrderPaying(Long orderId) {
-        TicketOrder ticketOrder = ticketOrderRepository.findOne(orderId);
+        TicketOrder ticketOrder = ticketOrderRepository.findFirstById(orderId);
         TicketOrderPayingBean payingBean = new TicketOrderPayingBean();
         payingBean.orderId = ticketOrder.getId();
         payingBean.orderNumber = ticketOrder.getTicketNumber();
@@ -123,7 +123,7 @@ public class OrderServiceImpl implements OrderService {
     public ResultMessage payOrder(User user, PayInfoBean payInfoBean) {
         // pay
         if (user.getBankAccount().equals(payInfoBean.bankAccount) && user.getBankPassword().equals(payInfoBean.password)) {
-            TicketOrder ticketOrder = ticketOrderRepository.findOne(payInfoBean.orderId);
+            TicketOrder ticketOrder = ticketOrderRepository.findFirstById(payInfoBean.orderId);
 
             if (ticketOrder.getOrderStatus().equals(OrderStatus.INVALID_EXPIRED)) {
                 return new ResultMessage(ResultMessage.ERROR, "该订单已失效");
@@ -199,7 +199,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public UserOrderDetailBean getUserOrderDetail(Long orderId) {
-        TicketOrder ticketOrder = ticketOrderRepository.findOne(orderId);
+        TicketOrder ticketOrder = ticketOrderRepository.findFirstById(orderId);
         return new UserOrderDetailBean(ticketOrder);
     }
 
@@ -207,7 +207,7 @@ public class OrderServiceImpl implements OrderService {
     public ResultMessage refundOrder(Long orderId) {
         try {
             // 改订单状态
-            TicketOrder ticketOrder = ticketOrderRepository.findOne(orderId);
+            TicketOrder ticketOrder = ticketOrderRepository.findFirstById(orderId);
             ticketOrder.setOrderStatus(OrderStatus.INVALID_REFUND);
             ticketOrderRepository.save(ticketOrder);
             // 还位置
@@ -236,7 +236,7 @@ public class OrderServiceImpl implements OrderService {
     public ResultMessage cancelOrder(Long orderId) {
         try {
             // 改订单状态
-            TicketOrder ticketOrder = ticketOrderRepository.findOne(orderId);
+            TicketOrder ticketOrder = ticketOrderRepository.findFirstById(orderId);
             ticketOrder.setOrderStatus(OrderStatus.INVALID_CANCELED);
             ticketOrderRepository.save(ticketOrder);
             // 还位置

@@ -12,6 +12,8 @@ import java.util.List;
  * @author keenan on 27/03/2018
  */
 public interface TicketOrderRepository extends JpaRepository<TicketOrder, Long> {
+    TicketOrder findFirstById(Long id);
+
     TicketOrder findFirstByTicketNumber(String ticketNumber);
 
     List<TicketOrder> findTicketOrdersByUser(User user);
@@ -19,4 +21,6 @@ public interface TicketOrderRepository extends JpaRepository<TicketOrder, Long> 
     List<TicketOrder> findTicketOrdersByOrderStatus(OrderStatus orderStatus);
 
     List<TicketOrder> findTicketOrdersByShowPlan(ShowPlan showPlan);
+
+    List<TicketOrder> findTicketOrdersByShowPlanAndOrderStatus(ShowPlan showPlan, OrderStatus status);
 }

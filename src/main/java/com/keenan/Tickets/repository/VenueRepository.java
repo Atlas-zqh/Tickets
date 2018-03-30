@@ -7,5 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author keenan on 23/03/2018
  */
 public interface VenueRepository extends JpaRepository<Venue, Long> {
+    Venue findFirstById(Long id);
+
     Venue findFirstByVenueId(String venueId);
 }

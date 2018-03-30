@@ -60,7 +60,7 @@ public class LoginAuthenticationSuccessHandler implements AuthenticationSuccessH
         if (isUser) {
             return "/user/event/events";
         } else if (isAdmin) {
-            return "/admin";
+            return "/admin/statistics";
         } else if (isVenue) {
             return "/venue/info";
         } else {

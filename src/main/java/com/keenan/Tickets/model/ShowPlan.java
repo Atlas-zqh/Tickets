@@ -43,6 +43,11 @@ public class ShowPlan {
     @Column
     private String description;
 
+    /**
+     * 结算
+     */
+    private Boolean settled;
+
     @OneToMany(mappedBy = "showPlan", fetch = FetchType.LAZY)
     private List<TicketOrder> ticketOrders;
 
@@ -62,6 +67,7 @@ public class ShowPlan {
         this.showPlanStatus = showPlanStatus;
         this.notice = notice;
         this.description = description;
+        this.settled = false;
     }
 
     public Long getId() {
@@ -158,6 +164,14 @@ public class ShowPlan {
 
     public void setPosterUrl(String posterUrl) {
         this.posterUrl = posterUrl;
+    }
+
+    public Boolean getSettled() {
+        return settled;
+    }
+
+    public void setSettled(Boolean settled) {
+        this.settled = settled;
     }
 
     @Override

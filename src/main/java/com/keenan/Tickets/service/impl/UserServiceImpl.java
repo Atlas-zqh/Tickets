@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
 
         if (auth != null) {
             User user=(User)auth.getPrincipal();
-            return userRepository.findOne(user.getId());
+            return userRepository.findFirstById(user.getId());
         } else {
             return null;
         }

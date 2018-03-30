@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>平台统计</title>
+
+    <link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{~/css/fixed-footer.css}" type="text/css" rel="stylesheet"/>
+
+    <script th:src="@{~/js/html5shiv.min.js}"></script>
+    <script th:src="@{~/js/respond.min.js}"></script>
+    <script th:src="@{~/js/jquery.js}"></script>
+    <script th:src="@{~/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:replace="common/adminNav :: adminNav"></div>
+
+<div class="container">
+    <div style="font-size: larger;padding-top: 2%;padding-bottom: 1%">
+        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true" style="color: #116e8a"></span>
+        <span class="active" style="color: #349dbd">平台统计</span>
+    </div>
+
+
+</div>
+
+
+<footer class="panel-footer">
+    <div class="container" style="text-align: center">
+        © 2018 | Created by <a href="https://atlas-zqh.github.io/">Keenan</a>. All rights reserved. | Content by <a
+            href="http://www.douban.com/location/">豆瓣同城</a>
+    </div>
+</footer>
+
+</body>
+</html>

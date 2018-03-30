@@ -44,8 +44,8 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public ResultMessage changeCoupon(Long userId, Long couponId) {
-        User user = userRepository.findOne(userId);
-        Coupon coupon = couponRepository.findOne(couponId);
+        User user = userRepository.findFirstById(userId);
+        Coupon coupon = couponRepository.findFirstById(couponId);
 
         if (user.getPoints() < coupon.getNeedPoints()) {
             return new ResultMessage(ResultMessage.ERROR, "剩余积分不足，不能兑换");

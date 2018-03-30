@@ -10,6 +10,8 @@ import java.util.List;
  * @author keenan on 26/03/2018
  */
 public interface SeatRepository extends JpaRepository<Seat, Long> {
+    Seat findFirstById(Long id);
+
     List<Seat> findAllByVenue(Venue venue);
 
     List<Seat> findAllByVenueAndIsValid(Venue venue, Boolean isValid);
