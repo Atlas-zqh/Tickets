@@ -17,6 +17,11 @@
     <script th:src="@{~/js/bootstrap.min.js}"></script>
     <script th:src="@{~/js/toastr.min.js}"></script>
 
+    <!-- echarts -->
+    <script th:src="@{~/js/echarts.min.js}"></script>
+    <script th:src="@{~/js/macarons.js}"></script>
+
+
 </head>
 <body>
 <div th:replace="common/venueNav :: venueNav"></div>
@@ -372,6 +377,71 @@
             }
         })
     }
+</script>
+
+<div class="container">
+    <div style="font-size: larger;padding-top: 2%">
+        <span class="glyphicon glyphicon-triangle-right" aria-hidden="true" style="color: #116e8a"></span>
+        <span class="active" style="color: #349dbd">场馆统计信息</span>
+    </div>
+
+    <div style="padding-top: 10px">
+        <div class="row">
+            <div id="order-chart" style="height: 500px;width: 600px;margin-left: auto;margin-right: auto"></div>
+            <div id="line-chart" style="height: 500px;width: 600px;margin-left: auto;margin-right: auto"></div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+
+    var orderChart = echarts.init(document.getElementById('order-chart'), 'macarons')
+    var orderChartOption = {
+        title: {
+            text: '每日已付款及已完成订单数',
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        xAxis: {
+            type: 'category',
+            data: [[${orderXLegend}]]
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: [[${orderYLegend}]],
+            type: 'line',
+            smooth: true
+        }]
+    }
+    orderChart.setOption(orderChartOption)
+
+    var lineChart = echarts.init(document.getElementById('line-chart'), 'macarons')
+    var lineChartOption = {
+        title: {
+            text: '日场馆净收入折线图',
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        xAxis: {
+            type: 'category',
+            data: [[${moneyXLegend}]]
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: [[${moneyYLegend}]],
+            type: 'line',
+            smooth: true
+        }]
+    }
+    lineChart.setOption(lineChartOption)
 </script>
 
 

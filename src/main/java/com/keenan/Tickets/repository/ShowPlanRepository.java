@@ -19,4 +19,6 @@ public interface ShowPlanRepository extends JpaRepository<ShowPlan, Long> {
     List<ShowPlan> findShowPlansByVenueAndStartTimeAfterAndEndTimeAfter(Venue venue, Timestamp timestamp, Timestamp timestamp2);
 
     List<ShowPlan> findShowPlansByShowPlanStatus(ShowPlanStatus showPlanStatus);
+
+    List<ShowPlan> findShowPlansByVenue(Venue venue);
 }

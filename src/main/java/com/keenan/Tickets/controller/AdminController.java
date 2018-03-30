@@ -1,10 +1,8 @@
 package com.keenan.Tickets.controller;
 
-import com.keenan.Tickets.bean.AdminPermissionPostBean;
-import com.keenan.Tickets.bean.AdminUserBriefBean;
-import com.keenan.Tickets.bean.AdminVenueApproveBean;
-import com.keenan.Tickets.bean.SettlementInfoBean;
+import com.keenan.Tickets.bean.*;
 import com.keenan.Tickets.service.AdminService;
+import com.keenan.Tickets.service.ChartService;
 import com.keenan.Tickets.util.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author keenan on 30/03/2018
@@ -25,6 +24,8 @@ import java.util.List;
 public class AdminController {
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private ChartService chartService;
 
     @RequestMapping(value = "/approve", method = RequestMethod.GET)
     public String displayApprove(Model model) {
@@ -49,6 +50,26 @@ public class AdminController {
 
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
     public String displayStatistics(Model model) {
+        List<LineChartItemBean> venueRevenueRank = chartService.getVenueRevenueRank();
+        List<String> venueRevenueRankXLegend = venueRevenueRank.stream().map(LineChartItemBean::getxAxis).collect(Collectors.toList());
+        List<Double> venueRevenueRankYLegend = venueRevenueRank.stream().map(LineChartItemBean::getyAxis).collect(Collectors.toList());
+        model.addAttribute("venueRevenueRankXLegend", venueRevenueRankXLegend);
+        model.addAttribute("venueRevenueRankYLegend", venueRevenueRankYLegend);
+
+        List<PieChartItemBean> showPlanTypePie = chartService.getShowPlanTypePie();
+        model.addAttribute("showPlanTypePie", showPlanTypePie);
+
+        List<LineChartItemBean> userOrderNumRank = chartService.getUserOrderNumRank();
+        List<String> userOrderNumRankXLegend = userOrderNumRank.stream().map(LineChartItemBean::getxAxis).collect(Collectors.toList());
+        List<Double> userOrderNumRankYLegend = userOrderNumRank.stream().map(LineChartItemBean::getyAxis).collect(Collectors.toList());
+        model.addAttribute("userOrderNumRankXLegend", userOrderNumRankXLegend);
+        model.addAttribute("userOrderNumRankYLegend", userOrderNumRankYLegend);
+
+        List<PieChartItemBean> ticketOrderTypePercentPie = chartService.getTicketOrderTypePercentPie();
+        model.addAttribute("ticketOrderTypePercentPie", ticketOrderTypePercentPie);
+
+        model.addAttribute("statisticList", chartService.getStatisticsTable());
+
         return "manager/statistics";
     }
 

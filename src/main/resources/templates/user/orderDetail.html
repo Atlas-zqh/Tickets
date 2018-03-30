@@ -183,10 +183,10 @@
 </div>
 
 <div class="container" style="text-align: center;margin-top: 5%">
-    <a class="btn btn-default" href="eventDetail.html">活动详情</a>
+    <a class="btn btn-default" th:href="@{'/user/event/detail?id='+${detailBean.showPlanId}}">活动详情</a>
     <a class="btn btn-default" th:href="@{'/user/paying?orderId='+${detailBean.orderId}}" th:if="${detailBean.showPay}">前往支付</a>
-    <a class="btn btn-default" href="#" th:if="${detailBean.showReturn}" data-toggle="modal" data-target="#refundModal">申请退款</a>
-    <a class="btn btn-default" href="#" th:if="${detailBean.showCancel}" data-toggle="modal" data-target="#cancelModal">取消订单</a>
+    <a class="btn btn-default" th:if="${detailBean.showReturn}" data-toggle="modal" data-target="#refundModal">申请退款</a>
+    <a class="btn btn-default" th:if="${detailBean.showCancel}" data-toggle="modal" data-target="#cancelModal">取消订单</a>
 </div>
 
 <script th:inline="javascript">

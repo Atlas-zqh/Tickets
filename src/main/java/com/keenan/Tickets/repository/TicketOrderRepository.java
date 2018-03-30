@@ -23,4 +23,5 @@ public interface TicketOrderRepository extends JpaRepository<TicketOrder, Long> 
     List<TicketOrder> findTicketOrdersByShowPlan(ShowPlan showPlan);
 
     List<TicketOrder> findTicketOrdersByShowPlanAndOrderStatus(ShowPlan showPlan, OrderStatus status);
+
 }

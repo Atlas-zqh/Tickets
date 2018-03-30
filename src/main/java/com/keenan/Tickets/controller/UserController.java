@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author keenan on 10/02/2018
@@ -32,6 +33,8 @@ public class UserController {
     private OrderService orderService;
     @Autowired
     private CouponService couponService;
+    @Autowired
+    private ChartService chartService;
 
     @RequestMapping(value = "/signUp", method = RequestMethod.GET)
     public String displaySignUp(Model model) {
@@ -60,6 +63,16 @@ public class UserController {
 
         List<ShowPlanBriefBean> showPlanBriefBeans = showPlanService.getAllShowPlanBriefBeansAfterTodayByUser(user);
         model.addAttribute("showPlanBriefBeans", showPlanBriefBeans);
+
+        List<PieChartItemBean> orderChart = chartService.getOrderPercentagePie(user.getId());
+        model.addAttribute("orderChart", orderChart);
+
+        List<LineChartItemBean> lineChart = chartService.getUserPayLineChart(user.getId());
+        List<String> moneyXLegend = lineChart.stream().map(LineChartItemBean::getxAxis).collect(Collectors.toList());
+        List<Double> moneyYLegend = lineChart.stream().map(LineChartItemBean::getyAxis).collect(Collectors.toList());
+
+        model.addAttribute("moneyXLegend", moneyXLegend);
+        model.addAttribute("moneyYLegend", moneyYLegend);
         return "user/userinfo";
     }
 

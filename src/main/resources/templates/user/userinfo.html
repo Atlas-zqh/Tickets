@@ -218,7 +218,8 @@
             <a th:href="@{'/user/event/detail?id='+${showPlanBriefBean.id}}" href="eventDetail.html" class="thumbnail">
                 <img th:src="${showPlanBriefBean.posterUrl}">
                 <div class="caption">
-                    <h5 class="text-hidden" th:title="${showPlanBriefBean.showName}" th:text="${showPlanBriefBean.showName}">邱比Chiu Pi 上下一方 巡回演唱会 南京站</h5>
+                    <h5 class="text-hidden" th:title="${showPlanBriefBean.showName}"
+                        th:text="${showPlanBriefBean.showName}">邱比Chiu Pi 上下一方 巡回演唱会 南京站</h5>
                     <p style="font-size: x-small" th:text="${showPlanBriefBean.time}"></p>
                 </div>
             </a>
@@ -258,9 +259,72 @@
 <div class="container">
     <div style="font-size: larger;padding-top: 2%">
         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true" style="color: #116e8a"></span>
-        <span class="active" style="color: #349dbd">我的财务信息</span>
+        <span class="active" style="color: #349dbd">我的统计信息</span>
+    </div>
+
+    <div style="padding-top: 10px">
+        <div class="row">
+            <div id="order-chart" style="height: 500px;width: 600px;margin-left: auto;margin-right: auto"></div>
+            <div id="line-chart" style="height: 500px;width: 600px;margin-left: auto;margin-right: auto"></div>
+        </div>
     </div>
 </div>
+
+<script th:inline="javascript">
+
+    var orderChart = echarts.init(document.getElementById('order-chart'), 'macarons')
+    var orderChartOption = {
+        title: {
+            text: '订单类型占比统计',
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        series: [
+            {
+                name: '订单类型',
+                type: 'pie',
+                radius: '55%',
+                center: ['40%', '50%'],
+                data: [[${orderChart}]],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    }
+    orderChart.setOption(orderChartOption)
+
+    var lineChart = echarts.init(document.getElementById('line-chart'), 'macarons')
+    var lineChartOption = {
+        title: {
+            text: '日消费折线图',
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        xAxis: {
+            type: 'category',
+            data: [[${moneyXLegend}]]
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: [[${moneyYLegend}]],
+            type: 'line',
+            smooth: true
+        }]
+    }
+    lineChart.setOption(lineChartOption)
+</script>
 
 <footer class="panel-footer">
     <div class="container" style="text-align: center">

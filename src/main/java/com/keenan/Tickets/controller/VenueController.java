@@ -6,6 +6,7 @@ import com.keenan.Tickets.model.ShowPlan;
 import com.keenan.Tickets.model.Venue;
 import com.keenan.Tickets.model.util.ShowPlanStatus;
 import com.keenan.Tickets.model.util.ShowPlanType;
+import com.keenan.Tickets.service.ChartService;
 import com.keenan.Tickets.service.OrderService;
 import com.keenan.Tickets.service.ShowPlanService;
 import com.keenan.Tickets.service.VenueService;
@@ -21,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author keenan on 23/03/2018
@@ -32,9 +34,10 @@ public class VenueController {
     private VenueService venueService;
     @Autowired
     private ShowPlanService showPlanService;
-
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private ChartService chartService;
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public String displayVenueInfo(Model model) {
@@ -50,6 +53,21 @@ public class VenueController {
             // 导航使用
             List<ShowPlanBriefBean> showPlanBriefBeans = showPlanService.getAllShowPlansByVenueAfterToday(venue);
             model.addAttribute("showPlanBriefBeans", showPlanBriefBeans);
+
+
+            // 统计
+            List<LineChartItemBean> lineChart = chartService.getVenueOrdersLineChart(venue.getId());
+            List<String> orderXLegend = lineChart.stream().map(LineChartItemBean::getxAxis).collect(Collectors.toList());
+            List<Double> orderYLegend = lineChart.stream().map(LineChartItemBean::getyAxis).collect(Collectors.toList());
+
+            model.addAttribute("orderXLegend", orderXLegend);
+            model.addAttribute("orderYLegend", orderYLegend);
+
+            List<LineChartItemBean> moneyLineChart = chartService.getVenueRevenue(venue.getId());
+            List<String> moneyXLegend = moneyLineChart.stream().map(LineChartItemBean::getxAxis).collect(Collectors.toList());
+            List<Double> moneyYLegend = moneyLineChart.stream().map(lineChartItemBean -> lineChartItemBean.yAxis * 0.8).collect(Collectors.toList());
+            model.addAttribute("moneyXLegend", moneyXLegend);
+            model.addAttribute("moneyYLegend", moneyYLegend);
         }
         return "venues/venueInfo";
     }
