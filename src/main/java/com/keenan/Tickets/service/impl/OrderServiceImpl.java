@@ -14,6 +14,7 @@ import com.keenan.Tickets.util.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,6 +40,8 @@ public class OrderServiceImpl implements OrderService {
     private UserCouponRepository userCouponRepository;
     @Autowired
     private ShowPlanService showPlanService;
+    @Autowired
+    private LevelCouponRepository levelCouponRepository;
 
     @Override
     public ResultMessage checkTicket(String ticketNumber) {
@@ -58,7 +61,31 @@ public class OrderServiceImpl implements OrderService {
             ticketOrderRepository.save(ticketOrder);
 
             User user = ticketOrder.getUser();
-            user.setPoints(user.getPoints() + ticketOrder.getOrderPrice());
+            // 加积分后，要更改会员等级和所拥有的等级优惠
+            Double newPoints = user.getPoints() + ticketOrder.getOrderPrice();
+            if (newPoints < 1500.0) {
+                user.setLevel(1);
+                LevelCoupon leve1 = levelCouponRepository.findFirstById(1L);
+                user.setLevelCoupon(leve1);
+            } else if (newPoints < 5000.0) {
+                user.setLevel(2);
+                LevelCoupon leve2 = levelCouponRepository.findFirstById(2L);
+                user.setLevelCoupon(leve2);
+            } else if (newPoints < 15000.0) {
+                user.setLevel(3);
+                LevelCoupon leve3 = levelCouponRepository.findFirstById(3L);
+                user.setLevelCoupon(leve3);
+            } else if (newPoints < 30000.0) {
+                user.setLevel(4);
+                LevelCoupon leve4 = levelCouponRepository.findFirstById(4L);
+                user.setLevelCoupon(leve4);
+            } else {
+                user.setLevel(5);
+                LevelCoupon leve5 = levelCouponRepository.findFirstById(5L);
+                user.setLevelCoupon(leve5);
+            }
+            user.setPoints(newPoints);
+
             userRepository.save(user);
 
             return new ResultMessage(ResultMessage.SUCCESS, "验票成功");
@@ -224,7 +251,29 @@ public class OrderServiceImpl implements OrderService {
 
             // 还钱
             User user = ticketOrder.getUser();
-            user.setBalance(user.getBalance() + ticketOrder.getOrderPrice());
+
+            //<li>演出开始前90天退票，将全额退还</li>
+            //<li>演出开始前60天退票，将退还付款金额的80%</li>
+            //<li>演出开始前40天退票，将退还付款金额的70%</li>
+            //<li>演出开始前20天退票，将退还付款金额的50%</li>
+            //<li>演出开始20天内退票，将不退还</li>
+
+            Timestamp showTime = showPlan.getStartTime();
+            Timestamp today = new Timestamp(System.currentTimeMillis());
+
+            int discrepantDays = (int) (showTime.getTime() - today.getTime()) / 1000 / 60 / 60 / 24;
+
+            if (discrepantDays >= 90) {
+                user.setBalance(user.getBalance() + ticketOrder.getOrderPrice());
+            } else if (discrepantDays >= 60) {
+                user.setBalance(user.getBalance() + ticketOrder.getOrderPrice() * 0.8);
+            } else if (discrepantDays >= 40) {
+                user.setBalance(user.getBalance() + ticketOrder.getOrderPrice() * 0.7);
+            } else if (discrepantDays >= 20) {
+                user.setBalance(user.getBalance() + ticketOrder.getOrderPrice() * 0.5);
+            }
+
+            userRepository.save(user);
             return new ResultMessage(ResultMessage.SUCCESS, "退款成功");
 
         } catch (Exception e) {

@@ -152,11 +152,16 @@ public class ShowPlanServiceImpl implements ShowPlanService {
         TicketOrder ticketOrder = null;
         if (createOrderBean.email != null && !createOrderBean.email.equals("")) {
             User user = userRepository.findUserByEmail(createOrderBean.email);
+            if (user == null) {
+                return new ResultMessage(ResultMessage.ERROR, "不存在该会员");
+            }
             // 为会员加积分
             user.setPoints(user.getPoints() + createOrderBean.totalPrice);
             userRepository.save(user);
+
+            double discount = user.getLevelCoupon().getDiscount();
             // 为会员创建订单
-            ticketOrder = new TicketOrder(showPlan, user, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), TicketOrderType.SPOT_TICKETS, createOrderBean.totalPrice, String.valueOf(System.currentTimeMillis()), OrderStatus.COMPLETED);
+            ticketOrder = new TicketOrder(showPlan, user, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), TicketOrderType.SPOT_TICKETS, createOrderBean.totalPrice * discount, String.valueOf(System.currentTimeMillis()), OrderStatus.COMPLETED);
             ticketOrderRepository.save(ticketOrder);
         }
 

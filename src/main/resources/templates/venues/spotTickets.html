@@ -123,6 +123,14 @@
                                 <input id="memberEmail" type="email" class="form-control" placeholder="会员邮箱"/>
                             </div>
 
+                            <div>* 现场购票，Tickets会员将享受对应会员
+                                <a tabindex="0" id="levelPopover" type="button" role="button"
+                                   data-toggle="popover">
+                                    等级优惠
+                                </a>
+                            </div>
+
+
                             <a role="button"
                                class="btn btn-success"
                                style="margin-top: 2%"
@@ -140,6 +148,40 @@
 </div>
 
 <script th:inline="javascript">
+    $("#levelPopover").popover({
+        placement: 'right',
+        title: '会员等级优惠',
+        trigger: 'focus',
+        html: true,
+        container: 'body',
+        content: '<table class="table">\n' +
+        '    <tr>\n' +
+        '        <th>会员等级</th>\n' +
+        '        <th>享受折扣</th>\n' +
+        '    </tr>\n' +
+        '    <tr>\n' +
+        '        <td>会员一级</td>\n' +
+        '        <td>0.95</td>\n' +
+        '    </tr>\n' +
+        '    <tr>\n' +
+        '        <td>会员二级</td>\n' +
+        '        <td>0.9</td>\n' +
+        '    </tr>\n' +
+        '    <tr>\n' +
+        '        <td>会员三级</td>\n' +
+        '        <td>0.85</td>\n' +
+        '    </tr>\n' +
+        '    <tr>\n' +
+        '        <td>会员四级</td>\n' +
+        '        <td>0.8</td>\n' +
+        '    </tr>\n' +
+        '    <tr>\n' +
+        '        <td>会员五级</td>\n' +
+        '        <td>0.75</td>\n' +
+        '    </tr>\n' +
+        '</table>'
+    })
+
     $(document).on('hidden.bs.modal', function (e) {
         $(e.target).removeData('bs.modal');
     });

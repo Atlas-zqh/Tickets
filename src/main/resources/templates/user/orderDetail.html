@@ -160,6 +160,15 @@
             <div class="modal-header">
                 <h4 class="modal-title">确定要申请退款吗？</h4>
             </div>
+            <div class="modal-body">
+                <ul>
+                    <li>演出开始前90天退票，将全额退还</li>
+                    <li>演出开始前60天退票，将退还付款金额的80%</li>
+                    <li>演出开始前40天退票，将退还付款金额的70%</li>
+                    <li>演出开始前20天退票，将退还付款金额的50%</li>
+                    <li>演出开始20天内退票，将不退还</li>
+                </ul>
+            </div>
             <div class="modal-footer">
                 <a class="btn btn-default" th:onclick="'javascript:refund('+${detailBean.orderId}+')'">确定</a>
                 <a class="btn btn-primary" data-dismiss="modal">取消</a>
