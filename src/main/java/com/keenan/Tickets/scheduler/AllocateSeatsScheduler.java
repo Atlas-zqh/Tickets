@@ -29,8 +29,9 @@ public class AllocateSeatsScheduler {
     @Autowired
     private SeatArrangementRepository seatArrangementRepository;
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0 0 * * ? ")
     public void allocateSeats() {
+        System.out.println("Start Allocating seats");
         // 获得需要分配座位的活动
         Timestamp today = new Timestamp(System.currentTimeMillis());
         Timestamp twoWeekLater = new Timestamp(System.currentTimeMillis() + (long) (14 * 24 * 60 * 60 * 1000));
@@ -38,6 +39,7 @@ public class AllocateSeatsScheduler {
 
         for (ShowPlan showPlan : showPlans) {
             if (showPlan.getStartTime().before(twoWeekLater)) {
+                System.out.println(showPlan.getShowName());
                 List<SeatArrangement> seatArrangements = seatArrangementRepository.findSeatArrangementsByShowPlanAndSeatStatus(showPlan, SeatStatus.AVAILABLE);
                 int availableCnt = seatArrangements.size();
                 int allocateIndex = 0;
@@ -45,7 +47,9 @@ public class AllocateSeatsScheduler {
                 List<TicketOrder> ticketOrders = ticketOrderRepository.findTicketOrdersByShowPlan(showPlan);
 
                 for (TicketOrder ticketOrder : ticketOrders) {
-                    if (ticketOrder.getTicketOrderType().equals(TicketOrderType.IMMEDIATE)) {
+                    // 是立即选座的，并且还没有配过票
+                    List<SeatArrangement> orderArrangement = seatArrangementRepository.findSeatArrangementsByTicketOrder(ticketOrder);
+                    if (ticketOrder.getTicketOrderType().equals(TicketOrderType.IMMEDIATE) && orderArrangement.size() == 0) {
                         // 有余票
                         if (availableCnt >= ticketOrder.getSeatNum()) {
                             // 配票
@@ -65,5 +69,7 @@ public class AllocateSeatsScheduler {
                 }
             }
         }
+
+        System.out.println("End Allocating seats");
     }
 }

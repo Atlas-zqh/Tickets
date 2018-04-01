@@ -94,7 +94,7 @@ public class AdminServiceImpl implements AdminService {
                 venuePermissionRepository.save(venuePermission);
 
                 User user = userRepository.findUserByUsername(venuePermission.getVenue().getVenueId());
-                user.setConfirmed(false);
+                user.setConfirmed(true);
                 userRepository.save(user);
 
                 return new ResultMessage(ResultMessage.SUCCESS, "已通过");

@@ -18,7 +18,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userRepository.findUserByUsername(s);
 
-        if (user == null || !user.getConfirmed()) {
+        if (user == null || !user.getConfirmed()||!user.getValid()) {
             throw new UsernameNotFoundException("");
         }
         return user;
