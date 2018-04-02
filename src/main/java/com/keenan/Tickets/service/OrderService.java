@@ -8,7 +8,7 @@ import com.keenan.Tickets.util.ResultMessage;
  * @author keenan on 28/03/2018
  */
 public interface OrderService {
-    ResultMessage checkTicket(String ticketNumber);
+    ResultMessage checkTicket(String ticketNumber, Long venueId);
 
     ResultMessage createOrder(User user, UserCreateOrderBean createOrderBean);
 

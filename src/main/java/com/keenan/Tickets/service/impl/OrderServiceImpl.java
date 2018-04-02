@@ -44,11 +44,14 @@ public class OrderServiceImpl implements OrderService {
     private LevelCouponRepository levelCouponRepository;
 
     @Override
-    public ResultMessage checkTicket(String ticketNumber) {
+    public ResultMessage checkTicket(String ticketNumber, Long venueId) {
         if (ticketNumber == null || ticketNumber.equals("")) {
             return new ResultMessage(ResultMessage.ERROR, "请输入订单号");
         }
         TicketOrder ticketOrder = ticketOrderRepository.findFirstByTicketNumber(ticketNumber);
+        if (!ticketOrder.getShowPlan().getVenue().getId().equals(venueId)) {
+            return new ResultMessage(ResultMessage.ERROR, "该订单与当前场馆不对应");
+        }
         if (ticketOrder == null) {
             return new ResultMessage(ResultMessage.ERROR, "未找到对应订单");
         }
